@@ -6,23 +6,23 @@
         public string ShelfPlacement { get; set; }
         public string ShelfArrangement { get; set; }
         public double ShelfPrice { get; set; }
-        public string Status { get; set; }
+        public bool IsRented { get; set; }
 
-        public Shelf(int shelfId, string shelfPlacement, string shelfArrangement, double shelfPrice, string status)
+        public Shelf(int shelfId, string shelfPlacement, string shelfArrangement, double shelfPrice, bool isRented)
         {
             ShelfId = shelfId;
             ShelfPlacement = shelfPlacement;
             ShelfArrangement = shelfArrangement;
             ShelfPrice = shelfPrice;
-            Status = status;
+            IsRented = isRented;
         }
 
-        public Shelf(string shelfPlacement, string shelfArrangement, double shelfPrice, string status)
+        public Shelf(string shelfPlacement, string shelfArrangement, double shelfPrice, bool isRented)
         {
             ShelfPlacement = shelfPlacement;
             ShelfArrangement = shelfArrangement;
             ShelfPrice = shelfPrice;
-            Status = status;
+            IsRented = isRented;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (string)reader["ShelfPlacement"],
                             (string)reader["ShelfArrangement"],
                             (double)reader["ShelfPrice"],
-                            (string)reader["Status"]
+                            (bool)reader["IsRented"]
                         ));
                     }
                 }
@@ -61,7 +61,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (string)reader["ShelfPlacement"],
                             (string)reader["ShelfArrangement"],
                             (double)reader["ShelfPrice"],
-                            (string)reader["Status"]
+                            (bool)reader["IsRented"]
                         );
                     }
                 }
@@ -71,7 +71,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Shelf entity)
         {
-            string query = "INSERT INTO Shelf (ShelfPlacement, ShelfArrangement, ShelfPrice, Status) VALUES (@ShelfPlacement, @ShelfArrangement, @ShelfPrice, @Status)";
+            string query = "INSERT INTO Shelf (ShelfPlacement, ShelfArrangement, ShelfPrice, IsRented) VALUES (@ShelfPlacement, @ShelfArrangement, @ShelfPrice, @IsRented)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -79,7 +79,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@ShelfPlacement", entity.ShelfPlacement);
                 command.Parameters.AddWithValue("@ShelfArrangement", entity.ShelfArrangement);
                 command.Parameters.AddWithValue("@ShelfPrice", entity.ShelfPrice);
-                command.Parameters.AddWithValue("@Status", entity.Status);
+                command.Parameters.AddWithValue("@IsRented", entity.IsRented);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -87,7 +87,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Shelf entity)
         {
-            string query = "UPDATE Shelf SET ShelfPlacement = @ShelfPlacement, ShelfArrangement = @ShelfArrangement, ShelfPrice = @ShelfPrice, Status = @Status WHERE ShelfId = @ShelfId";
+            string query = "UPDATE Shelf SET ShelfPlacement = @ShelfPlacement, ShelfArrangement = @ShelfArrangement, ShelfPrice = @ShelfPrice, IsRented = @IsRented WHERE ShelfId = @ShelfId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -95,7 +95,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@ShelfPlacement", entity.ShelfPlacement);
                 command.Parameters.AddWithValue("@ShelfArrangement", entity.ShelfArrangement);
                 command.Parameters.AddWithValue("@ShelfPrice", entity.ShelfPrice);
-                command.Parameters.AddWithValue("@Status", entity.Status);
+                command.Parameters.AddWithValue("@IsRented", entity.IsRented);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

@@ -7,25 +7,25 @@
         public DateTime EndDate { get; set; }
         public DateTime CancelDate { get; set; }
         public double Total {  get; set; }
-        public bool IsActive { get; set; }
+        public string Status { get; set; }
 
-        public RentalAgreement(int rentalAgreementId, DateTime startDate, DateTime endDate, DateTime cancelDate, double total, bool isActive)
+        public RentalAgreement(int rentalAgreementId, DateTime startDate, DateTime endDate, DateTime cancelDate, double total, string status)
         {
             RentalAgreementId = rentalAgreementId;
             StartDate = startDate;
             EndDate = endDate;
             CancelDate = cancelDate;
             Total = total;
-            IsActive = isActive;
+            Status = status;
         }
 
-        public RentalAgreement(DateTime startDate, DateTime endDate, DateTime cancelDate, double total, bool isActive)
+        public RentalAgreement(DateTime startDate, DateTime endDate, DateTime cancelDate, double total, string status)
         {
             StartDate = startDate;
             EndDate = endDate;
             CancelDate = cancelDate;
             Total = total;
-            IsActive = isActive;
+            Status = status;
         }
     }
 }
