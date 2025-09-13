@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Reolmarked.MVVM.Model.Classes
 {
-    internal abstract class User
+    public abstract class User
     {
         public int UserId { get; set; }
         public string FirstName { get; set; }
