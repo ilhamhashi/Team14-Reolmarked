@@ -19,7 +19,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public IEnumerable<Discount> GetAll()
         {
-            var Discount = new List<Discount>();
+            var Discounts = new List<Discount>();
             string query = "SELECT * FROM Discount";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
