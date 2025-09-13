@@ -2,7 +2,7 @@
 {
     public class RentalAgreement
     {
-        public int RentalAgreementId { get; set; }
+        public int AgreementId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime CancelDate { get; set; }
@@ -14,7 +14,7 @@
 
         public RentalAgreement(int agreementId, DateTime startDate, DateTime endDate, DateTime cancelDate, double total, string status, int renterId, int discountId, int employeeId)
         {
-            RentalAgreementId = rentalAgreementId;
+            AgreementId = agreementId;
             StartDate = startDate;
             EndDate = endDate;
             CancelDate = cancelDate;

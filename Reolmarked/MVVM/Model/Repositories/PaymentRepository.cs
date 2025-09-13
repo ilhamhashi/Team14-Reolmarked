@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
 
 namespace Reolmarked.MVVM.Model.Repositories
@@ -60,7 +55,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     if (reader.Read())
                     {
-                        Discount = new Discount
+                        Payment = new Payment
                         (
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
@@ -120,8 +115,5 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.ExecuteNonQuery();
             }
         }
-    }
-}
-
     }
 }
