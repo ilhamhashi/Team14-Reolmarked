@@ -144,8 +144,11 @@ namespace Reolmarked.MVVM.ViewModel
                 Shelf_Rentals.Add(shelfRental);
                 // Opret payment-objekt til lejeaftalen
                 Payment payment = new Payment(DateTime.Now, PaymentAmount, SelectedPaymentMethod.PaymentMethodId, rental.AgreementId);
+                paymentRepository.Add(payment);
+                Payments.Add(payment);
+
                 //vis bekræftelse
-                MessageBox.Show($"Lejeaftalen {rental.AgreementId} oprettet!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Betaling lykkedes! Lejeaftalenr.: {rental.AgreementId} er oprettet!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
