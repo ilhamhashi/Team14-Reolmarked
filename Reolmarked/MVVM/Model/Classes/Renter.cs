@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Reolmarked.MVVM.Model.Classes
 {
-    internal class Renter : User
+    public class Renter : User
     {
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

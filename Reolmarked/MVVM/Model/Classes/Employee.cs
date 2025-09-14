@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Reolmarked.MVVM.Model.Classes
 {
-    internal class Employee : User
+    public class Employee : User
     {
         //public string UserName { get; set; }
         //public string Password { get; set; }
