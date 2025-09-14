@@ -3,7 +3,7 @@ using Reolmarked.MVVM.Model.Classes;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    public class PaymentRepository
+    public class PaymentRepository : IRepository<Payment>
     {
     private readonly string _connectionString;
 

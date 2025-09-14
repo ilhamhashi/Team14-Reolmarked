@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    public class PaymentMethodRepository
+    public class PaymentMethodRepository : IRepository<PaymentMethod>
     {
 
         private readonly string _connectionString;

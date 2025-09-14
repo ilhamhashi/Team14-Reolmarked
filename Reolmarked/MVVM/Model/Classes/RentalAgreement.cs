@@ -37,5 +37,14 @@
             EmployeeId = employeeId;
         }
 
+        public RentalAgreement(DateTime startDate, double total, string status, int renterId, int discountId, int employeeId)
+        {
+            StartDate = startDate;
+            Total = total;
+            Status = status;
+            RenterId = renterId;
+            DiscountId = discountId;
+            EmployeeId = employeeId;
+        }
     }
 }
