@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    public class DiscountRepository
+    public class DiscountRepository : IRepository<Discount>
     {
         private readonly string _connectionString;
 
