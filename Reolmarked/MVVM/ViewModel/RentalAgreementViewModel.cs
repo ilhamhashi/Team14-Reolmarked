@@ -92,11 +92,14 @@ namespace Reolmarked.MVVM.ViewModel
         }
 
         public ICommand AddRentalCommand { get; }
+        public ICommand TerminateRentalCommand { get; }
         private bool CanAddRental() => true;
+        private bool CanTerminateRental() => AgreementId != null; 
 
         public RentalAgreementViewModel()
         {
             AddRentalCommand = new RelayCommand(_ => AddRental(), _ => CanAddRental());
+            TerminateRentalCommand = new RelayCommand(_ => TerminateRental(), _ => CanTerminateRental());
         }
 
         private void AddRental()
@@ -132,5 +135,50 @@ namespace Reolmarked.MVVM.ViewModel
             Status = string.Empty;
         }
 
+        private void TerminateRental()
+        {
+            MessageBoxResult result = MessageBox.Show($"Bekræft opsigelse af lejeaftale {AgreementId}", "Er du enig?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                //find lejeaftale i database
+                var rental = rentalRepository.GetById(AgreementId);
+                if (rental != null)
+                {
+                    //opdater status og opsigelsesdato
+                    rental.Status = "Opsagt";
+                    rental.CancelDate = DateTime.Now;
+                    //opdater i database via repository
+                    rentalRepository.Update(rental);
+                    //opdater i observablecollection til UI-view
+                    var rentalInList = Rentals.FirstOrDefault(r => r.AgreementId == AgreementId);
+                    if (rentalInList != null)
+                    {
+                        int index = Rentals.IndexOf(rentalInList);
+                        Rentals[index] = rental;
+                    }
+                    //find tilknyttede reoler i Shelf_Rental og sæt IsActive til false
+                    var shelfrentals = shelfrentalRepository.GetAll().Where(sr => sr.AgreementId == AgreementId && sr.IsActive);
+                    foreach (var sr in shelfrentals)
+                    {
+                        sr.IsActive = false;
+                        shelfrentalRepository.Update(sr);
+                    }
+                    //vis bekræftelse
+                    MessageBox.Show($"Lejeaftalen {AgreementId} er opsagt!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Lejeaftale {AgreementId} ikke fundet!", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show($"Opsigelse af lejeaftalen er annulleret!", "Annulleret", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            //nulstil felter
+            AgreementId = 0;
+        }
     }
 }
