@@ -60,8 +60,8 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
                             (double)reader["Amount"],
-                            (int)reader["PaymentMethodId"],
-                            (int)reader["AgreementId"]
+                            (int)reader["PaymentMethodId"]
+                            //new RentalAgreement (int)reader["AgreementId"])
                         );
                     }
                 }
@@ -80,7 +80,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@PaymentDate", entity.PaymentDate);
                 command.Parameters.AddWithValue("@Amount", entity.Amount);
                 command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
-                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@AgreementId", entity.Rental.AgreementId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -97,7 +97,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@PaymentDate", entity.PaymentDate);
                 command.Parameters.AddWithValue("@Amount", entity.Amount);
                 command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
-                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@AgreementId", entity.Rental.AgreementId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
