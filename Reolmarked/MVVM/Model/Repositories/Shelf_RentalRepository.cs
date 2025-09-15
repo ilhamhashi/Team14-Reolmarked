@@ -99,8 +99,8 @@ namespace Reolmarked.MVVM.Model.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
-                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@ShelfId", entity.Shelf.ShelfId);
+                command.Parameters.AddWithValue("@AgreementId", entity.Rental.AgreementId);
                 command.Parameters.AddWithValue("@IsActive", entity.IsActive);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -114,8 +114,8 @@ namespace Reolmarked.MVVM.Model.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
-                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@ShelfId", entity.Shelf.ShelfId);
+                command.Parameters.AddWithValue("@AgreementId", entity.Rental.AgreementId);
                 command.Parameters.AddWithValue("@IsActive", entity.IsActive);
                 connection.Open();
                 command.ExecuteNonQuery();

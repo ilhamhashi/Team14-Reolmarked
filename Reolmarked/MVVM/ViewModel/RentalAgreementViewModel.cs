@@ -177,7 +177,19 @@ namespace Reolmarked.MVVM.ViewModel
         }
 
         public ICommand AddRentalCommand { get; }
-        private bool CanAddRental() => true;
+        public ICommand AddRenterCommand { get; }
+        public ICommand UpdateRenterCommand { get; }
+
+        private bool CanAddRental() => SelectedShelf != null;
+        private bool CanAddRenter() => !string.IsNullOrWhiteSpace(FirstName)
+                                    && !string.IsNullOrWhiteSpace(LastName)
+                                    && !string.IsNullOrWhiteSpace(Phone)
+                                    && !string.IsNullOrWhiteSpace(Email)
+                                    && !string.IsNullOrWhiteSpace(StreetName)
+                                    && !string.IsNullOrWhiteSpace(StreetNumber)
+                                    && !string.IsNullOrWhiteSpace(ZipCode)
+                                    && !string.IsNullOrWhiteSpace(City);
+        private bool CanUpdateRenter() => SelectedRenter != null;
 
         public RentalAgreementViewModel()
         {
@@ -190,6 +202,8 @@ namespace Reolmarked.MVVM.ViewModel
             RentalsCollectionView = CollectionViewSource.GetDefaultView(Rentals);
 
             AddRentalCommand = new RelayCommand(_ => AddRental(), _ => CanAddRental());
+
+
         }
 
         private void AddRental()
@@ -205,11 +219,12 @@ namespace Reolmarked.MVVM.ViewModel
                 // Tilføj til observablecollection til UI-view
                 Rentals.Add(rental);
                 // Tilføj reolid og agreementid til Shelf_Rental
-                Shelf_Rental shelfRental = new Shelf_Rental(SelectedShelf.ShelfId, rental.AgreementId, true);
+                // While-loop så man kan tilføje flere reoler
+                Shelf_Rental shelfRental = new Shelf_Rental(SelectedShelf, rental, true);
                 shelfrentalRepository.Add(shelfRental);
                 Shelf_Rentals.Add(shelfRental);
                 // Opret payment-objekt til lejeaftalen
-                Payment payment = new Payment(DateTime.Now, PaymentAmount, SelectedPaymentMethod.PaymentMethodId, rental.AgreementId);
+                Payment payment = new Payment(DateTime.Now, PaymentAmount, SelectedPaymentMethod.PaymentMethodId, rental);
                 paymentRepository.Add(payment);
                 Payments.Add(payment);
 
