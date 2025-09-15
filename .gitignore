@@ -416,3 +416,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# JSON Configuration file with connectionstring to database
+appsettings.json
+appsettings.Development.json

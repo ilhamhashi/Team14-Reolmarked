@@ -1,0 +1,14 @@
+﻿sequenceDiagram
+participant Employee
+participant UI
+participant RentalAgreementViewModel
+participant RentalAgreement
+participant RentalAgreementRepository
+
+    Employee->>UI: Select (renter)
+    Employee->>UI: Select (shelf, shelfArrangement)
+    Employee->>UI: Click [Add RentalAgreement]
+    UI ->> RentalAgreementViewModel: AddRentalCommand
+    RentalAgreementViewModel ->> RentalAgreement: AddRental(agreementId, startDate, total, status, renterId, discountId, employeeId)
+    RentalAgreementViewModel ->> RentalAgreementRepository: Add(RentalAgreement)
+    RentalAgreementRepository -->> UI: "RentalAgreement: agreementId has been created"

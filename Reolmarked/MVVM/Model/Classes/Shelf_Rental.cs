@@ -2,14 +2,14 @@
 {
     public class Shelf_Rental
     {
-        public int ShelfId { get; set; }
-        public int AgreementId { get; set; }
+        public Shelf Shelf { get; set; }
+        public RentalAgreement Rental {  get; set; }
         public bool IsActive { get; set; }
 
-        public Shelf_Rental(int shelfId, int agreementId, bool isActive)
+        public Shelf_Rental(Shelf shelf, RentalAgreement rental, bool isActive)
         {
-            ShelfId = shelfId;
-            AgreementId = agreementId;
+            Shelf = shelf;
+            Rental = rental;
             IsActive = isActive;
         }
     }

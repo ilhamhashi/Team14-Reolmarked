@@ -4,9 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reolmarked"
+        xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" 
+        Height="500" Width="350"        
+        Background="Beige">
 
+    <Window.DataContext>
+        <vm:RentalAgreementViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <!-- ItemsPanelTemplate -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <!-- ItemContainerStyle -->
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column"
+                            Value="{Binding ColumnIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <Setter Property="Grid.Row"
+                            Value="{Binding RowIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <!-- ItemTemplate -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding ShelfId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>
