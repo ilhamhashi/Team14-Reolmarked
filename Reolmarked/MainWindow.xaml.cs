@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Reolmarked.MVVM.ViewModel;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace Reolmarked
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }
