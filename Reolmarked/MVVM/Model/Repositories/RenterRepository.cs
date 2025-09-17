@@ -41,7 +41,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (string)reader["StreetNumber"],
                             (string)reader["ZipCode"],
                             (string)reader["City"],
-                            (string)reader["PhoneNumber"],
+                            (string)reader["Phone"],
                             (string)reader["Email"]
                          ));
                     }
@@ -86,13 +86,12 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Renter entity)
         {
-            string query = "INSERT INTO Renter (RenterId, FirstName, LastName, CreationDate, StreetName, StreetNumber, ZipCode, City, PhoneNumber, Email) " +
-                           "VALUES (@RenterId, @FirstName, @LastName, @CreationDate, @StreetName, @StreetNumber, @ZipCode, @City, @PhoneNumber, @Email)";
+            string query = "INSERT INTO Renter (FirstName, LastName, CreationDate, StreetName, StreetNumber, ZipCode, City, Phone, Email) " +
+                           "VALUES (@FirstName, @LastName, @CreationDate, @StreetName, @StreetNumber, @ZipCode, @City, @Phone, @Email)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@RenterId", entity.UserId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
@@ -100,7 +99,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@StreetNumber", entity.StreetNumber);
                 command.Parameters.AddWithValue("@ZipCode", entity.ZipCode);
                 command.Parameters.AddWithValue("@City", entity.City);
-                command.Parameters.AddWithValue("@PhoneNumber", entity.PhoneNumber);
+                command.Parameters.AddWithValue("@Phone", entity.Phone);
                 command.Parameters.AddWithValue("@Email", entity.Email);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -109,8 +108,8 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Renter entity)
         {
-            string query = "UPDATE Renter SET RenterId = @RenterId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, StreetName = @StreetName, StreetNumber = @StrretNumber," +
-                "ZipCode = @Zipcode, City = @City, PhoneNumber = @PhoneNumber, Email = @Email WHERE RenterId = @RenterId";
+            string query = "UPDATE Renter SET FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, StreetName = @StreetName, StreetNumber = @StrretNumber," +
+                "ZipCode = @Zipcode, City = @City, Phone = @Phone, Email = @Email WHERE RenterId = @RenterId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -123,7 +122,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@StreetNumber", entity.StreetNumber);
                 command.Parameters.AddWithValue("@ZipCode", entity.ZipCode);
                 command.Parameters.AddWithValue("@City", entity.City);
-                command.Parameters.AddWithValue("@PhoneNumber", entity.PhoneNumber);
+                command.Parameters.AddWithValue("@Phone", entity.Phone);
                 command.Parameters.AddWithValue("@Email", entity.Email);
                 connection.Open();
                 command.ExecuteNonQuery();
