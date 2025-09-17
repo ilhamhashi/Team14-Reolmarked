@@ -14,7 +14,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public IEnumerable<Discount> GetAll()
         {
-            var Discounts = new List<Discount>();
+            var discounts = new List<Discount>();
             string query = "SELECT * FROM Discount";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -26,21 +26,21 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        Discounts.Add(new Discount
+                        discounts.Add(new Discount
                         (
                             (int)reader["DiscountId"],
-                            (string)reader["Type"],
+                            (string)reader["Description"],
                             (double)reader["Rate"]
                         ));
                     }
                 }
             }
-            return Discounts;
+            return discounts;
         }
 
         public Discount GetById(int id)
         {
-            Discount Discount = null;
+            Discount discount = null;
             string query = "SELECT * FROM Discount WHERE DiscountId = @DiscountId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -53,27 +53,26 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     if (reader.Read())
                     {
-                        Discount = new Discount
+                        discount = new Discount
                         (
                             (int)reader["DiscountId"],
-                            (string)reader["Type"],
+                            (string)reader["Description"],
                             (double)reader["Rate"]
                         );
                     }
                 }
             }
-            return Discount;
+            return discount;
         }
 
         public void Add(Discount entity)
         {
-            string query = "INSERT INTO Discount (DiscountId, Type, Rate) VALUES (@DiscountId, @Type, @Rate";
+            string query = "INSERT INTO Discount (Description, Rate) VALUES (@Description, @Rate)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@DiscountId", entity.DiscountId);
-                command.Parameters.AddWithValue("@Type", entity.Type);
+                command.Parameters.AddWithValue("@Description", entity.Description);
                 command.Parameters.AddWithValue("@Rate", entity.Rate);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -82,13 +81,13 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Discount entity)
         {
-            string query = "UPDATE Discount SET DiscountId = @DiscountId, Type = @Type, Rate= @Rate";
+            string query = "UPDATE Discount SET DiscountId = @DiscountId, Description = @Description, Rate = @Rate";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@DiscountId", entity.DiscountId);
-                command.Parameters.AddWithValue("@Type", entity.Type);
+                command.Parameters.AddWithValue("@Description", entity.Description);
                 command.Parameters.AddWithValue("@Rate", entity.Rate);
                 connection.Open();
                 command.ExecuteNonQuery();

@@ -5,9 +5,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 {
     public class PaymentMethodRepository : IRepository<PaymentMethod>
     {
-
         private readonly string _connectionString;
-
         public PaymentMethodRepository(string connectionString)
         {
             _connectionString = connectionString;
@@ -31,7 +29,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["PaymentMethodId"],
                             (string)reader["Name"],
-                            (double)reader["Fee"]
+                            (double?)reader["Fee"]
                         ));
                     }
                 }
@@ -58,7 +56,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["PaymentMethodId"],
                             (string)reader["Name"],
-                            (double)reader["Fee"]
+                            (double?)reader["Fee"]
                         );
                     }
                 }
@@ -68,12 +66,11 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(PaymentMethod entity)
         {
-            string query = "INSERT INTO PaymentMethod (PaymentMethodId, Name, Fee) VALUES (@PaymentMethodId, @Name, @Fee";
+            string query = "INSERT INTO PaymentMethod (Name, Fee) VALUES (@Name, @Fee)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
                 command.Parameters.AddWithValue("@Name", entity.Name);
                 command.Parameters.AddWithValue("@Fee", entity.Fee);
                 connection.Open();

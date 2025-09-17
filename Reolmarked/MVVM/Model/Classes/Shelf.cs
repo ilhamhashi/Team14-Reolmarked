@@ -1,22 +1,40 @@
-﻿namespace Reolmarked.MVVM.Model.Classes
+﻿using System.ComponentModel;
+
+namespace Reolmarked.MVVM.Model.Classes
 {
+    public enum ShelfArrangement 
+    {
+        [Description("Med bøjlestang")]
+        WithHangingRail,
+        [Description("Uden bøjlestang")]
+        ShelvesOnly
+    }
+
+    public enum ShelfStatus
+    {
+        [Description("Udlejet")]
+        Unavailable,
+        [Description("Ledig")]
+        Available
+    }
+
     public class Shelf
     {
         public int ShelfId { get; set; }
         public int ColumnIndex { get; set; }
         public int RowIndex { get; set; }
-        public string ShelfArrangement { get; set; }
-        public double ShelfPrice { get; set; }
-        public bool IsRented { get; set; }
+        public ShelfArrangement Arrangement { get; set; }
+        public ShelfStatus Status { get; set; }
+        public double Price { get; set; }
 
-        public Shelf(int shelfId, int columnIndex, int rowIndex, string shelfArrangement, double shelfPrice, bool isRented)
+        public Shelf(int shelfId, int columnIndex, int rowIndex, ShelfArrangement shelfArrangement, ShelfStatus status, double price)
         {
             ShelfId = shelfId;
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
-            ShelfArrangement = shelfArrangement;
-            ShelfPrice = shelfPrice;
-            IsRented = isRented;
+            Arrangement = shelfArrangement;
+            Status = status;
+            Price = price;
         }
 
     }
