@@ -6,11 +6,73 @@
         xmlns:local="clr-namespace:Reolmarked"
         xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="500" Width="350"        
-        Background="Beige">
+        Height="600" Width="910"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
 
     <Grid>
-        
+        <Border Background="#272537"
+        CornerRadius="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="DAT-linien.dk"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Foreground="White"
+               FontSize="22"
+               Margin="20,0,0,0"/>
+
+                <StackPanel Grid.Row="1">
+
+                    <RadioButton Content="Oversigt"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"
+                         IsChecked="True"
+                         Command="{Binding CreateRentalViewCommand}"/>
+
+                    <RadioButton Content="Udlej reol"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding CreateRentalViewCommand}"/>
+
+                    <RadioButton Content="Administrer udlejning"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"/>
+
+                    <RadioButton Content="Administrer lejere"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"/>
+                    
+                </StackPanel>
+
+
+                <ContentControl Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}"/>
+
+            </Grid>
+        </Border>
     </Grid>
 </Window>
