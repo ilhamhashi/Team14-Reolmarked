@@ -10,10 +10,6 @@
         Height="500" Width="350"        
         Background="Beige">
 
-    <Window.DataContext>
-        <vm:RentalAgreementViewModel/>
-    </Window.DataContext>
-
     <Grid>
         <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">

@@ -8,9 +8,9 @@
         mc:Ignorable="d"
         Title="View" Height="500" Width="350">
     
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:RentalAgreementViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>   DataContext i View.Xaml.cs -->
     
     <Grid>
         <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
