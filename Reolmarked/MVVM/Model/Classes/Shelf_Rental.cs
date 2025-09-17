@@ -2,14 +2,24 @@
 {
     public class Shelf_Rental
     {
-        public Shelf Shelf { get; set; }
-        public RentalAgreement Rental {  get; set; }
+        public int ShelfId { get; set; }
+        public int AgreementId {  get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool IsActive { get; set; }
 
-        public Shelf_Rental(Shelf shelf, RentalAgreement rental, bool isActive)
+        public Shelf_Rental(int shelfId, int agreementId, DateTime startDate, DateTime? endDate, bool isActive)
         {
-            Shelf = shelf;
-            Rental = rental;
+            ShelfId = shelfId;
+            AgreementId = agreementId;
+            StartDate = startDate;
+            IsActive = isActive;
+        }
+        public Shelf_Rental(int shelfId, int agreementId, DateTime startDate, bool isActive)
+        {
+            ShelfId = shelfId;
+            AgreementId = agreementId;
+            StartDate = startDate;
             IsActive = isActive;
         }
     }

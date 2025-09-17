@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
@@ -37,7 +32,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
-                            (string)reader["Role"]
+                            (Role)reader["Role"]
                          ));
                     }
                 }
@@ -66,7 +61,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
-                            (string)reader["Role"]
+                            (Role)reader["Role"]
                         );
                     }
                 }
@@ -76,12 +71,11 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Employee entity)
         {
-            string query = "INSERT INTO Employee (EmployeeId, FirstName, LastName, CreationDate, Role) VALUES (@EmployeeId, @FirstName, @LastName, @CreationDate, @Role)";
+            string query = "INSERT INTO Employee (FirstName, LastName, CreationDate, Role) VALUES (@FirstName, @LastName, @CreationDate, @Role)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@EmployeeId", entity.UserId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);

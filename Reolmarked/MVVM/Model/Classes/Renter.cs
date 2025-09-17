@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Reolmarked.MVVM.Model.Classes
+﻿namespace Reolmarked.MVVM.Model.Classes
 {
     public class Renter : User
     {
-        public string PhoneNumber { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
         public string StreetName { get; set; }
         public string StreetNumber { get; set; }
@@ -16,11 +10,11 @@ namespace Reolmarked.MVVM.Model.Classes
         public string City { get; set; }
 
         public Renter(int userId, string firstName, string lastName, DateTime creationDate,
-                      string phoneNumber, string email, string streetName,
+                      string phone, string email, string streetName,
                       string streetNumber, string zipCode, string city)
             : base(userId, firstName, lastName, creationDate)
         {
-            PhoneNumber = phoneNumber;
+            Phone = phone;
             Email = email;
             StreetName = streetName;
             StreetNumber = streetNumber;
@@ -28,5 +22,17 @@ namespace Reolmarked.MVVM.Model.Classes
             City = city;
         }
 
+        public Renter(string firstName, string lastName, DateTime creationDate,
+              string phone, string email, string streetName,
+              string streetNumber, string zipCode, string city)
+    : base(firstName, lastName, creationDate)
+        {
+            Phone = phone;
+            Email = email;
+            StreetName = streetName;
+            StreetNumber = streetNumber;
+            ZipCode = zipCode;
+            City = city;
+        }
     }
 }
