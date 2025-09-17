@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reolmarked.MVVM.Model.Classes;
 using Reolmarked.MVVM.Model.Repositories;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -172,11 +174,31 @@ namespace Reolmarked.MVVM.ViewModel
             get { return city; }
             set { city = value; OnPropertyChanged(); }
         }
+        private DateTime selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return selectedDate; }
+            set { selectedDate = value; OnPropertyChanged(); }
+        }
+
+        private string layout;
+        public string Layout
+        {
+            get { return layout; }
+            set { layout = value; OnPropertyChanged(); }
+        }
 
         public ICommand AddRentalCommand { get; }
+        public ICommand TerminateRentalCommand { get; }
         public ICommand AddRenterCommand { get; }
         public ICommand UpdateRenterCommand { get; }
+        public ICommand LoadShelvesCommand { get; }
+        public ICommand AddShelvesCommand { get; }
+        public ICommand RemoveShelvesCommand { get; }
+        public ICommand ConfirmCommand { get; }
 
+        //private bool CanAddRental() => true;
+        private bool CanTerminateRental() => AgreementId != 0 && CancelDate != default; // Lejeaftale skal være valgt og dato skal være sat
         private bool CanAddRental() => SelectedShelf != null;
         private bool CanAddRenter() => !string.IsNullOrWhiteSpace(FirstName)
                                     && !string.IsNullOrWhiteSpace(LastName)
@@ -187,7 +209,11 @@ namespace Reolmarked.MVVM.ViewModel
                                     && !string.IsNullOrWhiteSpace(ZipCode)
                                     && !string.IsNullOrWhiteSpace(City);
         private bool CanUpdateRenter() => SelectedRenter != null;
-        
+        private bool CanLoadShelves() => true;
+        private bool CanAddShelves() => true;
+        private bool CanRemoveShelves() => true;
+        private bool CanConfirmUpdate() => true;
+
         public RentalAgreementViewModel()
         {
             //Collection over reoler hentes fra database
@@ -213,9 +239,69 @@ namespace Reolmarked.MVVM.ViewModel
             //rentalRepository.Add(new RentalAgreement(DateTime.Now, 850, RentalAgreementStatus.Active, 1, 1, 1));
             //rentalRepository.Delete(1003);
             //rentalRepository.Add(new RentalAgreement(DateTime.Now, 1650, RentalAgreementStatus.Active, 1, 1, 1));
+            TerminateRentalCommand = new RelayCommand(_ => TerminateRental(), _ => CanTerminateRental());
+            LoadShelvesCommand = new RelayCommand(_ => LoadShelves(), _ => CanLoadShelves());
+            AddShelvesCommand = new RelayCommand(_ => AddShelves(), _ => CanAddShelves());
+            RemoveShelvesCommand = new RelayCommand(_ => RemoveShelves(), _ => CanRemoveShelves());
+            ConfirmCommand = new RelayCommand(_ => ConfirmUpdate(), _ => CanConfirmUpdate());
+        }
 
+        private void LoadShelves()
+        {
+            // Tømmer de to ObservableCollection-lister, så de ikke indeholder data fra tidligere kald. 
+            Shelves.Clear();
+            Shelf_Rentals.Clear();
+
+            var all = shelfrentalRepository.GetAll();
+            var inAgreement = all.Where(s => s.Rental.AgreementId == AgreementId).ToList();
+            var notInAgreement = all.Where(s => s.Rental.AgreementId != AgreementId).ToList();
+
+            foreach (var shelfRental in notInAgreement)
+                Shelves.Add(shelfRental.Shelf);
+
+            foreach (var shelf in inAgreement)
+                Shelf_Rentals.Add(shelf);
+        }
+
+        private void AddShelves()
+        {
+            foreach (var shelf in Shelf_Rentals)
+            {
+                shelf.Rental.AgreementId = AgreementId;
+                shelf.Shelf.ShelfArrangement = Layout;
+                shelfrentalRepository.Update(shelf); // Bruger Update til at tilknytte reolen
             }
-        
+
+            MessageBox.Show($"Tilføjet {Shelf_Rentals.Count} reoler med layout '{Layout}'.");
+            LoadShelves();
+        }
+
+        private void RemoveShelves()
+        {
+            foreach (var shelf in Shelf_Rentals)
+            {
+                shelf.Rental.EndDate = EndDate;
+                shelfrentalRepository.Update(shelf); // Opdaterer opsigelsesdato
+            }
+
+            MessageBox.Show($"Opsagt {Shelf_Rentals.Count} reoler pr. {CancelDate:dd-MM-yyyy}.");
+            LoadShelves();
+        }
+
+        private void ConfirmUpdate()
+        {
+            var totalPrice = Shelf_Rentals.Sum(s => s.Shelf.ShelfPrice);
+            var discount = CalculateDiscount(totalPrice);
+
+            MessageBox.Show($"\n\nNy pris: {totalPrice - discount:C}\nRabat: {discount:C}\nVilkår opdateret.");
+        }
+
+        private double CalculateDiscount(double total)
+        {
+            if (total > 5000) return total * 0.1d; // Eksempel: 10% rabat over 5000 kr. Skal rettes!!!!!!!
+            return 0;
+        }
+
         private void AddRental()
         {
             MessageBoxResult result = MessageBox.Show($"Bekræft oprettelse af lejeaftale", "Er du enig?", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -255,6 +341,109 @@ namespace Reolmarked.MVVM.ViewModel
             SelectedRenter = null;
             selectedPaymentMethod = null;
             Total = 0;            
+        }
+
+        private void TerminateRental()
+        {
+            MessageBoxResult result = MessageBox.Show($"Bekræft opsigelse af lejeaftale {AgreementId}", "Er du enig?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                //find lejeaftale i database
+                var rental = rentalRepository.GetById(AgreementId); // SelectedAgreement
+                if (rental != null)
+                {
+                    //opdater status og opsigelsesdato
+                    rental.Status = "Opsagt";
+                    rental.CancelDate = CancelDate;
+                    //opdater i database via repository
+                    rentalRepository.Update(rental);
+                    //opdater i observablecollection til UI-view
+                    var rentalInList = Rentals.FirstOrDefault(r => r.AgreementId == AgreementId);
+                    if (rentalInList != null)
+                    {
+                        int index = Rentals.IndexOf(rentalInList);
+                        Rentals[index] = rental;
+                    }
+
+                    // Deaktiver tilknyttede reoler hvis opsigelsen er i dag
+                    if (EndDate == DateTime.Today)
+                    {
+                        var shelfrentals = shelfrentalRepository.GetAll()
+                            .Where(sr => sr.Rental.AgreementId == AgreementId && sr.IsActive)
+                            .ToList();
+
+                        foreach (var sr in shelfrentals)
+                        {
+                            sr.IsActive = false;
+                            // sr.IsRented = "Ledig"; // Hvis relevant
+                            shelfrentalRepository.Update(sr);
+                        }
+                    }
+
+                    //vis bekræftelse
+                    MessageBox.Show($"Lejeaftalen {AgreementId} er opsagt!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Lejeaftale {AgreementId} ikke fundet!", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show($"Opsigelse af lejeaftalen er annulleret!", "Annulleret", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            //nulstil felter
+            AgreementId = 0;
+        }
+
+        private bool IsValidCancelDate()
+        {
+            DateTime today = DateTime.Today;
+            DateTime earliestAllowed = new DateTime(today.Year, today.Month, 1).AddMonths(1);
+
+            // Beregn opsigelsesdato hvis ikke allerede valgt
+            if (today.Day < 20)
+            {
+                // Før d. 20: Datoen må være fra og med i dag
+                if (SelectedDate < today)
+                {
+                    MessageBox.Show($"Opsigelsesdatoen skal være fra og med i dag ({today:dd-MM-yyyy}).", "Ugyldig dato", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                EndDate = SelectedDate;
+                return true;
+            }
+            else
+            {
+                if (SelectedDate < earliestAllowed)
+                {
+                    MessageBox.Show($"Opsigelsesdatoen kan tidligst sættes til {earliestAllowed:dd-MM-yyyy}.",
+                    "Ugyldig dato!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return false;
+                }
+
+                MessageBoxResult result = MessageBox.Show($"Opsigelsesdato er valgt til {SelectedDate:dd-MM-yyyy}. \n\nVil du gå med denne dato?",
+                     "Er du enig?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.No)
+                {
+                    MessageBox.Show("Vælg ny dato.", "Annulleret", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return false;
+                }
+                else if (result == MessageBoxResult.Yes)
+                {
+                    MessageBox.Show($"Opsigelsesdatoen er valgt til {SelectedDate:dd-MM-yyyy}.", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+                    EndDate = SelectedDate;
+                    return true;
+                }
+            }
+
+            // Overflødig, men er der for at tilfredsstille kompilatoren.
+            return false;
         }
 
         private void AddRenter()

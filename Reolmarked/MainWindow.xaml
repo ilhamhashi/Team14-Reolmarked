@@ -10,10 +10,6 @@
         Height="500" Width="350"        
         Background="Beige">
 
-    <Window.DataContext>
-        <vm:RentalAgreementViewModel/>
-    </Window.DataContext>
-
     <Grid>
         
     </Grid>

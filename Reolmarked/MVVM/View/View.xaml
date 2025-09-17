@@ -7,9 +7,65 @@
         xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="View" Height="500" Width="350">
-   
+    
+    <!--<Window.DataContext>
+        <vm:RentalAgreementViewModel/>
+    </Window.DataContext>   DataContext i View.Xaml.cs -->
     
     <Grid>
+        <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <!-- ItemsPanelTemplate -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
 
+            <!-- ItemContainerStyle -->
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column"
+                    Value="{Binding ColumnIndex}" />
+                    <Setter Property="Grid.Row"
+                    Value="{Binding RowIndex}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <!-- ItemTemplate -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding ShelfId}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>
