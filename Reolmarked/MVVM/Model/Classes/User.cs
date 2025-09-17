@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Xml.Linq;
-
-namespace Reolmarked.MVVM.Model.Classes
+﻿namespace Reolmarked.MVVM.Model.Classes
 {
     public abstract class User
     {
@@ -18,6 +10,13 @@ namespace Reolmarked.MVVM.Model.Classes
         protected User(int userId, string firstName, string lastName, DateTime creationDate)
         {
             UserId = userId;
+            FirstName = firstName;
+            LastName = lastName;
+            CreationDate = creationDate;
+        }
+
+        protected User(string firstName, string lastName, DateTime creationDate)
+        {
             FirstName = firstName;
             LastName = lastName;
             CreationDate = creationDate;
