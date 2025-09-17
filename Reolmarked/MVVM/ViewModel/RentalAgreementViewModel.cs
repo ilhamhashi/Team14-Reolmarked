@@ -337,7 +337,7 @@ namespace Reolmarked.MVVM.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 //find lejeaftale i database
-                var rental = rentalRepository.GetById(AgreementId);
+                var rental = rentalRepository.GetById(AgreementId); // SelectedAgreement
                 if (rental != null)
                 {
                     //opdater status og opsigelsesdato
@@ -354,7 +354,7 @@ namespace Reolmarked.MVVM.ViewModel
                     }
 
                     // Deaktiver tilknyttede reoler hvis opsigelsen er i dag
-                    if (CancelDate == DateTime.Today)
+                    if (EndDate == DateTime.Today)
                     {
                         var shelfrentals = shelfrentalRepository.GetAll()
                             .Where(sr => sr.Rental.AgreementId == AgreementId && sr.IsActive)
@@ -402,7 +402,7 @@ namespace Reolmarked.MVVM.ViewModel
                     return false;
                 }
 
-                CancelDate = SelectedDate;
+                EndDate = SelectedDate;
                 return true;
             }
             else
@@ -425,7 +425,7 @@ namespace Reolmarked.MVVM.ViewModel
                 else if (result == MessageBoxResult.Yes)
                 {
                     MessageBox.Show($"Opsigelsesdatoen er valgt til {SelectedDate:dd-MM-yyyy}.", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CancelDate = SelectedDate;
+                    EndDate = SelectedDate;
                     return true;
                 }
             }
