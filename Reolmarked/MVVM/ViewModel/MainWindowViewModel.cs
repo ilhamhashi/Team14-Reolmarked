@@ -1,12 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Reolmarked.MVVM.ViewModel
+﻿namespace Reolmarked.MVVM.ViewModel
 {
-    internal class MainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
+        //public RelayCommand HomeViewCommand { get; set; }
+        public RelayCommand CreateRentalViewCommand { get; set; }
+        public RentalAgreementViewModel CreateRentalVM { get; set; }
+        //public DiscoveryViewModel DiscoveryVM { get; set; }
+
+        private object _currentView;
+        public object CurrentView
+        {
+            get { return _currentView; }
+            set { _currentView = value; OnPropertyChanged(); }
+        }
+
+        public MainWindowViewModel()
+        {
+            CreateRentalVM = new RentalAgreementViewModel();
+            //DiscoveryVM = new DiscoveryViewModel();
+            CurrentView = CreateRentalVM;
+
+            CreateRentalViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = CreateRentalVM;
+            });
+
+           /* DiscoveryViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = DiscoveryVM;
+            });*/
+        }
     }
 }
