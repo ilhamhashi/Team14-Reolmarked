@@ -1,5 +1,6 @@
 ﻿using Reolmarked.MVVM.Model.Classes;
 using Microsoft.Data.SqlClient;
+using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {

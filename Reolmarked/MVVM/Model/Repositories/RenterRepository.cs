@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
