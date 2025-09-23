@@ -1,21 +1,21 @@
 ﻿namespace Reolmarked.MVVM.Model.Classes
 {
-    public abstract class User
+    public abstract class Person
     {
-        public int UserId { get; set; }
+        public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime CreationDate { get; set; }
 
-        protected User(int userId, string firstName, string lastName, DateTime creationDate)
+        protected Person(int personId, string firstName, string lastName, DateTime creationDate)
         {
-            UserId = userId;
+            PersonId = personId;
             FirstName = firstName;
             LastName = lastName;
             CreationDate = creationDate;
         }
 
-        protected User(string firstName, string lastName, DateTime creationDate)
+        protected Person(string firstName, string lastName, DateTime creationDate)
         {
             FirstName = firstName;
             LastName = lastName;

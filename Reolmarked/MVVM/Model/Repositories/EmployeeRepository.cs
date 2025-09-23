@@ -4,7 +4,7 @@ using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    internal class EmployeeRepository : IRepository<Employee>
+    internal class EmployeeRepository : IRepository<SalesPerson>
     {
         private readonly string _connectionString;
 
@@ -13,9 +13,9 @@ namespace Reolmarked.MVVM.Model.Repositories
             _connectionString = connectionString;
         }
 
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<SalesPerson> GetAll()
         {
-            var employees = new List<Employee>();
+            var employees = new List<SalesPerson>();
             string query = "SELECT * FROM Employee";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -27,7 +27,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        employees.Add(new Employee
+                        employees.Add(new SalesPerson
                         (
                             (int)reader["EmployeeId"],
                             (string)reader["FirstName"],
@@ -41,9 +41,9 @@ namespace Reolmarked.MVVM.Model.Repositories
             return employees;
         }
 
-        public Employee GetById(int id)
+        public SalesPerson GetById(int id)
         {
-            Employee employee = null;
+            SalesPerson employee = null;
             string query = "SELECT * FROM Employee WHERE EmployeeId = @EmployeeId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -56,7 +56,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     if (reader.Read())
                     {
-                        employee = new Employee
+                        employee = new SalesPerson
                         (
                             (int)reader["EmployeeId"],
                             (string)reader["FirstName"],
@@ -70,7 +70,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             return employee;
         }
 
-        public void Add(Employee entity)
+        public void Add(SalesPerson entity)
         {
             string query = "INSERT INTO Employee (FirstName, LastName, CreationDate, Role) VALUES (@FirstName, @LastName, @CreationDate, @Role)";
 
@@ -86,14 +86,14 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
-        public void Update(Employee entity)
+        public void Update(SalesPerson entity)
         {
             string query = "UPDATE Employee SET EmployeeId = @EmployeeId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, Role = @Role WHERE EmployeeId = @EmployeeId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@EmployeeId", entity.UserId);
+                command.Parameters.AddWithValue("@EmployeeId", entity.PersonId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);

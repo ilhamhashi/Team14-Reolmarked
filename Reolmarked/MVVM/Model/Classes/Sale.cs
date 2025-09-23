@@ -1,28 +1,38 @@
-﻿namespace Reolmarked.MVVM.Model.Classes
+﻿using Reolmarked.MVVM.Model.Interfaces;
+
+namespace Reolmarked.MVVM.Model.Classes
 {
-    public class Sale
+    public class Sale : IInvoiceable
     {
         public int SaleId { get; set; }
-        public DateTime SalesDate { get; set; }
-        public double TotalPrice { get; set; }
+        public DateTime DateTime { get; set; }
+        public double GrandTotal { get; set; }
         public bool IsPaid { get; set; }
+        public int SalesPersonId { get; set; }
 
-        public Sale(int saleId, DateTime salesDate, double totalPrice, bool isPaid)
+        public Sale(int saleId, DateTime dateTime, double grandTotal, bool isPaid, int salesPersonId)
         {
             SaleId = saleId;
-            SalesDate = salesDate;
-            TotalPrice = totalPrice;
+            DateTime = dateTime;
+            GrandTotal = grandTotal;
             IsPaid = isPaid;
+            SalesPersonId = salesPersonId;
         }
 
-        public Sale(DateTime salesDate, double totalPrice, bool isPaid)
+        public Sale(DateTime dateTime, double grandTotal, bool isPaid, int salesPersonId)
         {
-            SalesDate = salesDate;
-            TotalPrice = totalPrice;
+            DateTime = dateTime;
+            GrandTotal = grandTotal;
             IsPaid = isPaid;
+            SalesPersonId = salesPersonId;
         }
 
         public bool RegisterPaymentForSale()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintInvoice()
         {
             throw new NotImplementedException();
         }

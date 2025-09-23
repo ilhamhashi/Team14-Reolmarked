@@ -4,7 +4,6 @@
     {
         double Discount { get; }
         double DiscountPctg { get; }
-
         void ReduceSellingPrice();
     }
 }

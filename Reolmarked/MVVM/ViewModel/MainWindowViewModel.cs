@@ -1,7 +1,12 @@
-﻿namespace Reolmarked.MVVM.ViewModel
+﻿using Microsoft.Extensions.Configuration;
+using Reolmarked.MVVM.ViewModel.Core;
+
+namespace Reolmarked.MVVM.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public static IConfigurationRoot Config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
         //public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CreateRentalViewCommand { get; set; }
         public RentalAgreementViewModel CreateRentalVM { get; set; }

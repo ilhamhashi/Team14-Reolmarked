@@ -2,18 +2,26 @@
 
 namespace Reolmarked.MVVM.Model.Classes
 {
-    public class Item : IDiscountable
+    public class Item : ISellable
     {
         public int ItemId { get; set; }
+        public int ShelfId { get; set; }
         public double Price { get; set; }
-        public double Discount { get; set; }
-        public double DiscountPctg { get; set; }
+        public string BarcodeImage { get; set; }
 
-
-        public void ReduceSellingPrice()
+        public Item(int itemId, int shelfId, double price, string barcodeImage)
         {
-            Price -= Price * DiscountPctg;
-            Price -= Discount;
+            ItemId = itemId;
+            ShelfId = shelfId;
+            Price = price;
+            BarcodeImage = barcodeImage;
+        }
+
+        public Item(int shelfId, double price, string barcodeImage)
+        {
+            ShelfId = shelfId;
+            Price = price;
+            BarcodeImage = barcodeImage;
         }
     }
 }

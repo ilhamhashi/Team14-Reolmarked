@@ -115,7 +115,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@RenterId", entity.UserId);
+                command.Parameters.AddWithValue("@RenterId", entity.PersonId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);

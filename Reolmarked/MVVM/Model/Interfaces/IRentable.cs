@@ -4,7 +4,7 @@
     {
         DateTime StartDate { get; set; }
         DateTime? EndDate { get; set; }
-        bool IsRentalActive { get; set; }
+        bool IsActive { get; set; }
         void BeginRental();
         void EndRental();
     }

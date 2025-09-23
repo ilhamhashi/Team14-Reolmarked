@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Reolmarked.MVVM.ViewModel;
 
 namespace Reolmarked.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for View.xaml
+    /// Interaction logic for AdministerRenters.xaml
     /// </summary>
-    public partial class View : Window
+    public partial class AdministerRenters : UserControl
     {
-        public View()
+        public AdministerRenters()
         {
             InitializeComponent();
-            DataContext = new RentalAgreementViewModel();
         }
     }
 }

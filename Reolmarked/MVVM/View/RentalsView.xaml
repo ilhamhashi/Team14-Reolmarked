@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Reolmarked.MVVM.View"
         xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="AdministerRentals" Height="450" Width="800">
+             Height="450" Width="800">
     
     <UserControl.Resources>
         <Style TargetType="Button">
