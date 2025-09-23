@@ -15,7 +15,7 @@ namespace Reolmarked.MVVM.ViewModel
     {
         private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Renter> renterRepository = new RenterRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<SalesPerson> employeeRepository = new EmployeeRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<SalesPerson> employeeRepository = new SalesPersonRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Discount> discountRepository = new DiscountRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 

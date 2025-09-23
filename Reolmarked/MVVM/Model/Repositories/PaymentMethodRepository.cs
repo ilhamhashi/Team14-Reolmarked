@@ -29,8 +29,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                         PaymentMethods.Add(new PaymentMethod
                         (
                             (int)reader["PaymentMethodId"],
-                            (string)reader["Name"],
-                            (double?)reader["Fee"]
+                            (string)reader["Name"]
                         ));
                     }
                 }
@@ -56,8 +55,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                         PaymentMethod = new PaymentMethod
                         (
                             (int)reader["PaymentMethodId"],
-                            (string)reader["Name"],
-                            (double?)reader["Fee"]
+                            (string)reader["Name"]
                         );
                     }
                 }
@@ -67,13 +65,12 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(PaymentMethod entity)
         {
-            string query = "INSERT INTO PaymentMethod (Name, Fee) VALUES (@Name, @Fee)";
+            string query = "INSERT INTO PaymentMethod (Name) VALUES (@Name)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Name", entity.Name);
-                command.Parameters.AddWithValue("@Fee", entity.Fee);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -81,14 +78,13 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(PaymentMethod entity)
         {
-            string query = "UPDATE PaymentMethod SET PaymentMethodId = @PaymentMethodId, Name = @Name, Fee= @Fee";
+            string query = "UPDATE PaymentMethod SET PaymentMethodId = @PaymentMethodId, Name = @Name";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
                 command.Parameters.AddWithValue("@Name", entity.Name);
-                command.Parameters.AddWithValue("@Fee", entity.Fee);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
