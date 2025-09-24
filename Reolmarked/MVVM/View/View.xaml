@@ -4,14 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reolmarked.MVVM.View"
-        xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
+        xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=vm:RentalAgreementViewModel}"
         mc:Ignorable="d"
         Title="View" Height="500" Width="350">
-    
-    <!--<Window.DataContext>
+
+    <Window.DataContext>
         <vm:RentalAgreementViewModel/>
-    </Window.DataContext>   DataContext i View.Xaml.cs -->
-    
+    </Window.DataContext>
+
     <Grid>
         <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -63,7 +64,8 @@
             <!-- ItemTemplate -->
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding ShelfId}" />
+                    <Button Content="{Binding ShelfId}" 
+                            Style="{StaticResource myShelfButton}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

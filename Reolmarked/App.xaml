@@ -9,6 +9,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/ButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Themes/TextBoxDictionary.xaml"/>
+                <!-- <ResourceDictionary Source="Themes/GlobalDictionary.xaml"/> -->
+                <ResourceDictionary Source="Themes/ShelfButtonDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type vm:RentalAgreementViewModel}">

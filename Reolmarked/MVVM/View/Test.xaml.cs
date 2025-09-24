@@ -10,20 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Reolmarked.MVVM.ViewModel;
 
 namespace Reolmarked.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for AdministerRentals.xaml
-    /// </summary>
-    public partial class AdministerRentals : UserControl
+    public partial class Test : UserControl
     {
-        public AdministerRentals()
+        public Test()
         {
             InitializeComponent();
-            DataContext = new RentalAgreementViewModel();
         }
     }
 }

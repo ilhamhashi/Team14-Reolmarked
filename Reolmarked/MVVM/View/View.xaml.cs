@@ -16,15 +16,11 @@ using Reolmarked.MVVM.ViewModel;
 
 namespace Reolmarked.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for View.xaml
-    /// </summary>
     public partial class View : Window
     {
         public View()
         {
             InitializeComponent();
-            DataContext = new RentalAgreementViewModel();
         }
     }
 }
