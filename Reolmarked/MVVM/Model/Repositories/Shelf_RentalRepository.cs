@@ -15,6 +15,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Shelf_Rental> GetAll()
         {
             var shelfrentals = new List<Shelf_Rental>();
+
             string query = "SELECT * FROM Shelf_Rental";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -30,6 +31,8 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["ShelfId"],
                             (int)reader["AgreementId"],
+                            (DateTime)reader["StartDate"],
+                            Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
                             (bool)reader["IsActive"]
                         ));
                     }
@@ -41,13 +44,13 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Shelf_Rental GetById(int shelfid)
         {
             Shelf_Rental shelfrental = null;
+            
             string query = "SELECT * FROM Shelf_Rental WHERE ShelfId = @ShelfId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", shelfid);
-                //command.Parameters.AddWithValue("@AgreementId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -58,6 +61,8 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["ShelfId"],
                             (int)reader["AgreementId"],
+                            (DateTime)reader["StartDate"],
+                            Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
                             (bool)reader["IsActive"]
                         );
                     }
@@ -68,13 +73,13 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Shelf_Rental GetByAgremmentId(int agreementid)
         {
             Shelf_Rental shelfrental = null;
+            
             string query = "SELECT * FROM Shelf_Rental WHERE AgreementId = @AgreementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@AgreementId", agreementid);
-                //command.Parameters.AddWithValue("@AgreementId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -85,6 +90,8 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["ShelfId"],
                             (int)reader["AgreementId"],
+                            (DateTime)reader["StartDate"],
+                            Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
                             (bool)reader["IsActive"]
                         );
                     }
@@ -94,13 +101,15 @@ namespace Reolmarked.MVVM.Model.Repositories
         }
         public void Add(Shelf_Rental entity)
         {
-            string query = "INSERT INTO Shelf_Rental (ShelfId, AgreementId, IsActive) VALUES (@ShelfId, @AgreementId, @IsActive)";
+            string query = "INSERT INTO Shelf_Rental (ShelfId, AgreementId, StartDate, EndDate, IsActive) VALUES (@ShelfId, @AgreementId, @StartDate, @EndDate, @IsActive)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@StartDate", entity.StartDate);
+                command.Parameters.AddWithValue("@EndDate", entity.EndDate);
                 command.Parameters.AddWithValue("@IsActive", entity.IsActive);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -109,13 +118,15 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Shelf_Rental entity)
         {
-            string query = "UPDATE Shelf_Rental SET ShelfId = @ShelfId, AgreementId = @AgreementId, IsActive = @IsActive";
+            string query = "UPDATE Shelf_Rental SET ShelfId = @ShelfId, AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, IsActive = @IsActive";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@StartDate", entity.StartDate);
+                command.Parameters.AddWithValue("@EndDate", entity.EndDate);
                 command.Parameters.AddWithValue("@IsActive", entity.IsActive);
                 connection.Open();
                 command.ExecuteNonQuery();

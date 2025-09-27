@@ -6,68 +6,73 @@
         xmlns:local="clr-namespace:Reolmarked"
         xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" 
-        Height="500" Width="350"        
-        Background="Beige">
+        Height="600" Width="910"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
 
-    <Window.DataContext>
-        <vm:RentalAgreementViewModel/>
-    </Window.DataContext>
+   <!-- <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext> -->
 
     <Grid>
-        <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-            <!-- ItemsPanelTemplate -->
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+        <Border Background="#272537"
+        CornerRadius="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="DAT-linien.dk"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Foreground="White"
+               FontSize="22"
+               Margin="20,0,0,0"/>
 
-            <!-- ItemContainerStyle -->
-            <ListBox.ItemContainerStyle>
-                <Style>
-                    <Setter Property="Grid.Column"
-                            Value="{Binding ColumnIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                    <Setter Property="Grid.Row"
-                            Value="{Binding RowIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </Style>
-            </ListBox.ItemContainerStyle>
+                <StackPanel Grid.Row="1">
 
-            <!-- ItemTemplate -->
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding ShelfId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                    <RadioButton Content="Oversigt"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"
+                         IsChecked="True"
+                         Command="{Binding CreateRentalViewCommand}"/>
+
+                    <RadioButton Content="Udlej reol"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding CreateRentalViewCommand}"/>
+
+                    <RadioButton Content="Administrer udlejning"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"/>
+
+                    <RadioButton Content="Administrer lejere"
+                         Height="50"
+                         Foreground="White"
+                         FontSize="14"
+                         Style="{StaticResource MenuButtonTheme}"/>
+                    
+                </StackPanel>
+
+
+                <ContentControl Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}"/>
+
+            </Grid>
+        </Border>
     </Grid>
 </Window>

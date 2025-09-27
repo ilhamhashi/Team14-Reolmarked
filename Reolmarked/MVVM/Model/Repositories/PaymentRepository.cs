@@ -14,7 +14,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public IEnumerable<Payment> GetAll()
         {
-            var Payments = new List<Payment>();
+            var payments = new List<Payment>();
             string query = "SELECT * FROM Payment";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -26,23 +26,24 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        Payments.Add(new Payment
+                        payments.Add(new Payment
                         (
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
                             (double)reader["Amount"],
-                            (int)reader["PaymentMethodId"],
-                            (int)reader["AgreementId"]
+                            (int?)reader["PaymentMethodId"],
+                            (int?)reader["AgreementId"]
                         ));
                     }
                 }
             }
-            return Payments;
+            return payments;
         }
 
         public Payment GetById(int id)
         {
-            Payment Payment = null;
+            Payment payment = null;
+
             string query = "SELECT * FROM Payment WHERE PaymentId = @PaymentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -55,23 +56,23 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     if (reader.Read())
                     {
-                        Payment = new Payment
+                        payment = new Payment
                         (
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
                             (double)reader["Amount"],
-                            (int)reader["PaymentMethodId"],
-                            (int)reader["AgreementId"]
+                            (int?)reader["PaymentMethodId"],
+                            (int?)reader["AgreementId"]
                         );
                     }
                 }
             }
-            return Payment;
+            return payment;
         }
 
         public void Add(Payment entity)
         {
-            string query = "INSERT INTO Payment (PaymentId, PaymentDate, Amount, PaymentMethodId, AgreementId) VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethodId, @AgreementId";
+            string query = "INSERT INTO Payment (PaymentId, PaymentDate, Amount, PaymentMethodId, AgreementId) VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethodId, @AgreementId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -88,7 +89,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Payment entity)
         {
-            string query = "UPDATE Payment SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount= @Amount, PaymentMethodId=@PaymentMethodId, AgreementId= @AgreementId";
+            string query = "UPDATE Payment SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethodId = @PaymentMethodId, AgreementId = @AgreementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

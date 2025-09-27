@@ -5,10 +5,10 @@
         public int PaymentId { get; set; }
         public DateTime PaymentDate { get; set; }
         public double Amount { get; set; }
-        public int PaymentMethodId { get; set; }
-        public int AgreementId { get; set; }
+        public int? PaymentMethodId { get; set; }
+        public int? AgreementId { get; set; }
 
-        public Payment(int paymentId, DateTime paymentDate, double amount, int paymentMethodId, int agreementId)
+        public Payment(int paymentId, DateTime paymentDate, double amount, int? paymentMethodId, int? agreementId)
         {
             PaymentId = paymentId;
             PaymentDate = paymentDate;
@@ -17,7 +17,7 @@
             AgreementId = agreementId;
         }
 
-        public Payment(DateTime paymentDate, double amount, int paymentMethodId, int agreementId)
+        public Payment(DateTime paymentDate, double amount, int? paymentMethodId, int? agreementId)
         {
             PaymentDate = paymentDate;
             Amount = amount;
