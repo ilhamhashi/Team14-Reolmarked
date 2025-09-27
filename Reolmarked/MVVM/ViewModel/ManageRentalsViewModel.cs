@@ -14,6 +14,7 @@ namespace Reolmarked.MVVM.ViewModel
 {
     public class ManageRentalsViewModel : ViewModelBase
     {
+        /*
         private readonly IRepository<SalesPerson> employeeRepository = new SalesPersonRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 
@@ -465,5 +466,7 @@ namespace Reolmarked.MVVM.ViewModel
             //nulstil felter
             SelectedRenter = null;
         }
+
+        */
     }
 }

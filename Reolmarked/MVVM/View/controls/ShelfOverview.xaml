@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:Reolmarked.MVVM.View.controls"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              mc:Ignorable="d"
-             Height="500" Width="350">
+             Height="824" Width="850">
 
     <UserControl.DataContext>
-        <vm:RentalAgreementViewModel/>
+        <vm:ManageShelvesViewModel/>
     </UserControl.DataContext>
 
     <Grid>

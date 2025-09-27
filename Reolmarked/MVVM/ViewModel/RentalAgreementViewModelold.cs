@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
 using Reolmarked.MVVM.Model.Repositories;
+using Reolmarked.MVVM.ViewModel.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,11 +15,8 @@ namespace Reolmarked.MVVM.ViewModel
 {
     public class RentalAgreementViewModel : ViewModelBase
     {
-        public static IConfigurationRoot Config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(Config.GetConnectionString("DefaultConnection"));
+/*        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Renter> renterRepository = new RenterRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Employee> employeeRepository = new EmployeeRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Discount> discountRepository = new DiscountRepository(Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Shelf_Rental> shelfrentalRepository = new Shelf_RentalRepository(Config.GetConnectionString("DefaultConnection"));
@@ -74,20 +73,6 @@ namespace Reolmarked.MVVM.ViewModel
         {
             get { return selectedRenter; }
             set { selectedRenter = value; OnPropertyChanged(); }
-        }
-
-        private Discount selectedDiscount;
-        public Discount SelectedDiscount
-        {
-            get { return selectedDiscount; }
-            set { selectedDiscount = value; OnPropertyChanged(); }
-        }
-
-        private Employee currentUser;
-        public Employee CurrentUser
-        {
-            get { return currentUser; }
-            set { currentUser = value; OnPropertyChanged(); }
         }
 
         private Shelf selectedShelf;
@@ -306,7 +291,7 @@ namespace Reolmarked.MVVM.ViewModel
         {
             if (total > 5000) return total * 0.1d; // Eksempel: 10% rabat over 5000 kr. Skal rettes!!!!!!!
             return 0;
-        }*/
+        }
 
         private void AddRental()
         {
@@ -483,5 +468,7 @@ namespace Reolmarked.MVVM.ViewModel
             //nulstil felter
             SelectedRenter = null;
         }
+
+        */
     }
 }

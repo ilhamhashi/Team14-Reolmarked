@@ -18,9 +18,9 @@ namespace Reolmarked.MVVM.View
     /// <summary>
     /// Interaction logic for AdministerRenters.xaml
     /// </summary>
-    public partial class AdministerRenters : UserControl
+    public partial class RentersView : UserControl
     {
-        public AdministerRenters()
+        public RentersView()
         {
             InitializeComponent();
         }
