@@ -12,13 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Reolmarked.MVVM.ViewModel;
 
 namespace Reolmarked.MVVM.View
 {
-    public partial class Test : UserControl
+    /// <summary>
+    /// Interaction logic for AdministerRenters.xaml
+    /// </summary>
+    public partial class RentersView : UserControl
     {
-        public Test()
+        public RentersView()
         {
             InitializeComponent();
         }

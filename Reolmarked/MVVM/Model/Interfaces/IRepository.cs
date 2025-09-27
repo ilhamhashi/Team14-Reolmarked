@@ -1,4 +1,4 @@
-﻿namespace Reolmarked.MVVM.Model.Repositories
+﻿namespace Reolmarked.MVVM.Model.Interfaces
 {
     public interface IRepository<T> where T : class
     {

@@ -12,60 +12,79 @@
         Background="Transparent"
         AllowsTransparency="True">
 
-   <!-- <Window.DataContext>
+   <Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext> -->
+   </Window.DataContext>
 
     <Grid>
         <Border Background="#272537"
         CornerRadius="20">
             <Grid>
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="75"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="DAT-linien.dk"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Left"
-               Foreground="White"
-               FontSize="22"
-               Margin="20,0,0,0"/>
+                
+                <!-- TITLE -->
+                <TextBlock Text="REOLMARKED"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           FontSize="22"
+                           Margin="20,0,0,0"/>
 
                 <StackPanel Grid.Row="1">
 
-                    <RadioButton Content="Oversigt"
-                         Height="50"
-                         Foreground="White"
-                         FontSize="14"
-                         Style="{StaticResource MenuButtonTheme}"
-                         IsChecked="True"
-                         Command="{Binding CreateRentalViewCommand}"/>
+                    <RadioButton Content="Registrer Salg"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 IsChecked="True"
+                                 Command="{Binding SalesViewCommand}"/>
 
                     <RadioButton Content="Udlej reol"
-                         Height="50"
-                         Foreground="White"
-                         FontSize="14"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Command="{Binding CreateRentalViewCommand}"/>
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 Command="{Binding CreateRentalViewCommand}"/>
 
                     <RadioButton Content="Administrer udlejning"
-                         Height="50"
-                         Foreground="White"
-                         FontSize="14"
-                         Style="{StaticResource MenuButtonTheme}"/>
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 Command="{Binding RentalsViewCommand}"/>
 
                     <RadioButton Content="Administrer lejere"
-                         Height="50"
-                         Foreground="White"
-                         FontSize="14"
-                         Style="{StaticResource MenuButtonTheme}"/>
-                    
-                </StackPanel>
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 Command="{Binding RentersViewCommand}"/>
 
+                    <RadioButton Content="Månedsopgørelser"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 Command="{Binding MonthlyStatementViewCommand}"/>
+
+                    <RadioButton Content="Prismærker"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"
+                                 Command="{Binding PriceLabelsViewCommand}"/>
+
+                </StackPanel>
 
                 <ContentControl Grid.Row="1"
                             Grid.Column="1"

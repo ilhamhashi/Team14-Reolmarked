@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Reolmarked.MVVM.ViewModel
+namespace Reolmarked.MVVM.ViewModel.Core
 {
     public class RelayCommand : ICommand
     {

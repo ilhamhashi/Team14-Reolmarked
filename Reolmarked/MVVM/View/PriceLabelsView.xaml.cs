@@ -1,6 +1,8 @@
-﻿using Reolmarked.MVVM.ViewModel;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Reolmarked
+namespace Reolmarked.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PriceLabelsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PriceLabelsView : UserControl
     {
-        public MainWindow()
+        public PriceLabelsView()
         {
             InitializeComponent();
         }
