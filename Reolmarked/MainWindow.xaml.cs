@@ -21,7 +21,6 @@ namespace Reolmarked
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
         }
     }
 }
