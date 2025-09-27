@@ -6,12 +6,283 @@
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#f4f6f8">
 
-    <UserControl.DataContext>
-        <vm:RentalAgreementViewModel />
-    </UserControl.DataContext>
-    <Grid>
-            
-    </Grid>
-</UserControl>
+
+
+        <!-- UserControl.Resources>
+
+            <Style TargetType="Button">
+
+                <Setter Property="Background" Value="#a2bcd9"/>
+
+                <Setter Property="Foreground" Value="#070808"/>
+
+                <Setter Property="FontSize" Value="12"/>
+
+            </Style>
+
+
+
+            <Style TargetType="TextBox" x:Key="SearchTextBoxStyle">
+
+                <Setter Property="Height" Value="50"/>
+
+                <Setter Property="FontSize" Value="14"/>
+
+                <Setter Property="Background" Value="White"/>
+
+                <Setter Property="Padding" Value="40,0,10,0"/>
+
+                <Setter Property="BorderBrush" Value="#4488FF"/>
+
+                <Setter Property="BorderThickness" Value="2"/>
+
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+                <Setter Property="Foreground" Value="Black"/>
+
+                <Setter Property="Template">
+
+                    <Setter.Value>
+
+                        <ControlTemplate TargetType="TextBox">
+
+                            <Grid>
+
+                                <Border Background="{TemplateBinding Background}" 
+
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+
+                                    CornerRadius="4" />
+
+                                <ScrollViewer Margin="0" 
+
+                                          x:Name="PART_ContentHost" 
+
+                                          VerticalAlignment="Center"/>
+
+                                <Image Source="https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png" 
+
+                                   Width="20" Height="20" 
+
+                                   VerticalAlignment="Center" 
+
+                                   HorizontalAlignment="Right" 
+
+                                   Margin="10,0,0,0" 
+
+                                   IsHitTestVisible="False"/>
+
+                            </Grid>
+
+                        </ControlTemplate>
+
+                    </Setter.Value>
+
+                </Setter>
+
+            </Style>
+
+        </UserControl.Resources>
+
+
+
+        <Grid Margin="20">
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="Auto"/>
+
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="Auto"/>
+
+                <ColumnDefinition/>
+
+                <ColumnDefinition Width="250"/>
+
+            </Grid.ColumnDefinitions>
+
+
+
+            <GroupBox Grid.Row="0" Grid.Column="1" Margin="0,0,30,0">
+
+                <StackPanel Width="300" HorizontalAlignment="Left" Margin="0,0,0,0">
+
+                    <TextBlock Text="Opret ny lejeaftale"  
+
+                           FontSize="16"  
+
+                           Foreground="LightBlue" 
+
+                           FontWeight="Bold" 
+
+                           Margin="0,0,0,10"/>
+
+                    <TextBox Text="Fornavn" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Efternavn" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Vejnavn" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Vejnummer" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Postnummer" Margin="0 10 0 0"/>
+
+                    <TextBox Text="By" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Telefonnummer" Margin="0 10 0 0"/>
+
+                    <TextBox Text="Email" Margin="0 10 0 0"/>
+
+                </StackPanel>
+
+            </GroupBox>
+
+
+
+            <Grid Grid.Row="0" Grid.Column="2" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top">
+
+                <TextBox x:Name="SearchTextBox" 
+
+                     Style="{StaticResource SearchTextBoxStyle}" 
+
+                     Width="250" 
+
+                     Margin="0"/>
+
+            </Grid>
+
+
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="0,20,0,0">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+
+
+                <Button Name="UpdateBtn" Content="Opret lejere" 
+
+                    Grid.Column="0" 
+
+                    Height="25" Width="110" 
+
+                    HorizontalAlignment="Left" 
+
+                    Background="Green" 
+
+                    Command="{Binding Path=TerminateRentalCommand}">
+
+                    <Button.Resources>
+
+                        <Style TargetType="{x:Type Border}">
+
+                            <Setter Property="CornerRadius" Value="10"/>
+
+                        </Style>
+
+                    </Button.Resources>
+
+                </Button>
+
+
+
+                <Button Name="CancelBtn" Content="Næste" 
+
+                    Grid.Column="1" 
+
+                    Height="25" Width="110" 
+
+                    HorizontalAlignment="Center" 
+
+                    Background="White" 
+
+                    Command="{Binding Path=SaveCommand}">
+
+                    <Button.Resources>
+
+                        <Style TargetType="{x:Type Border}">
+
+                            <Setter Property="CornerRadius" Value="10"/>
+
+                        </Style>
+
+                    </Button.Resources>
+
+                </Button>
+
+            </Grid>
+
+
+
+            <Border Background="White" 
+
+                Width="280" Height="80" 
+
+                HorizontalAlignment="Left" 
+
+                VerticalAlignment="Center" 
+
+                Padding="10" 
+
+                Margin="70,60,0,0" 
+
+                Grid.RowSpan="2" Grid.ColumnSpan="3">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+
+                    <Image Source="https://wallpapers.com/images/high/black-check-mark-green-background-qwbw1mxehl0sekj6-2.png" 
+
+                       Width="20" Height="20" 
+
+                       VerticalAlignment="Center" 
+
+                       Margin="0,0,10,0" 
+
+                       IsHitTestVisible="False"/>
+
+                    <TextBlock VerticalAlignment="Center" 
+
+                           FontWeight="Normal" 
+
+                           FontSize="14" 
+
+                           Foreground="Black" 
+
+                           TextAlignment="Left" 
+
+                           TextWrapping="Wrap" 
+
+                           MaxWidth="240"> 
+
+                    <Run Text="[Fornavn] [Efternavn] oprettet!" /> 
+
+                    <LineBreak/> 
+
+                    <Run Text="Kundeoprettelsen er lykkedes!" />
+
+                    </TextBlock>
+
+                </StackPanel>
+
+            </Border>
+
+        </Grid -->
+
+    </UserControl> 
