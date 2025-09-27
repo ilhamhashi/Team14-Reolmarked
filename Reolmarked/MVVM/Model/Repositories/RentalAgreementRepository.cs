@@ -32,7 +32,6 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["AgreementId"],
                             (DateTime)reader["StartDate"],
                             Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
-                            (double)reader["Total"],
                             (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["AgreementStatus"]),
                             (int)reader["RenterId"],
                             (int)reader["SalesPersonId"]
@@ -63,7 +62,6 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["AgreementId"],
                             (DateTime)reader["StartDate"],
                             Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
-                            (double)reader["Total"], 
                             (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["AgreementStatus"]),
                             (int)reader["RenterId"],
                             (int)reader["SalesPersonId"]
@@ -76,13 +74,12 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(RentalAgreement entity)
         {
-            string query = "INSERT INTO RentalAgreement (StartDate, Total, AgreementStatus, RenterId, SalesPersonId) VALUES (@StartDate, @Total, @Status, @RenterId, @SalesPersonId)";
+            string query = "INSERT INTO RentalAgreement (StartDate, AgreementStatus, RenterId, SalesPersonId) VALUES (@StartDate, @Status, @RenterId, @SalesPersonId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@StartDate", entity.StartDate);
-                command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@Status", entity.Status);
                 command.Parameters.AddWithValue("@RenterId", entity.RenterId);
                 command.Parameters.AddWithValue("@EmployeeId", entity.SalesPersonId);
@@ -93,7 +90,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(RentalAgreement entity)
         {
-            string query = "UPDATE RentalAgreement SET AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, Total = @Total, AgreementStatus = @Status, RenterId = @RenterId, SalesPersonId = @SalesPersonId";
+            string query = "UPDATE RentalAgreement SET AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, AgreementStatus = @Status, RenterId = @RenterId, SalesPersonId = @SalesPersonId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -101,7 +98,6 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
                 command.Parameters.AddWithValue("@StartDate", entity.StartDate);
                 command.Parameters.AddWithValue("@EndDate", entity.EndDate);
-                command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@Status", entity.Status);
                 command.Parameters.AddWithValue("@RenterId", entity.RenterId);
                 command.Parameters.AddWithValue("@DiscountId", entity.SalesPersonId);

@@ -19,36 +19,32 @@ namespace Reolmarked.MVVM.Model.Classes
         public int AgreementId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public double Total {  get; set; }
         public RentalAgreementStatus Status { get; set; }
         public int? RenterId { get; set; }
         public int? SalesPersonId { get; set; }
 
-        public RentalAgreement(int agreementId, DateTime startDate, DateTime? endDate, double total, RentalAgreementStatus status, int renterId, int salesPersonId)
+        public RentalAgreement(int agreementId, DateTime startDate, DateTime? endDate, RentalAgreementStatus status, int renterId, int salesPersonId)
         {
             AgreementId = agreementId;
             StartDate = startDate;
             EndDate = endDate;
-            Total = total;
             Status = status;
             RenterId = renterId;
             SalesPersonId = salesPersonId;
         }
 
-        public RentalAgreement(DateTime startDate, DateTime? endDate, double total, RentalAgreementStatus status, int renterId, int salesPersonId)
+        public RentalAgreement(DateTime startDate, DateTime? endDate, RentalAgreementStatus status, int renterId, int salesPersonId)
         {
             StartDate = startDate;
             EndDate = endDate;
-            Total = total;
             Status = status;
             RenterId = renterId;
             SalesPersonId = salesPersonId;
         }
 
-        public RentalAgreement(DateTime startDate, double total, RentalAgreementStatus status, int renterId, int discountId, int salesPersonId)
+        public RentalAgreement(DateTime startDate, RentalAgreementStatus status, int renterId, int salesPersonId)
         {
             StartDate = startDate;
-            Total = total;
             Status = status;
             RenterId = renterId;
             SalesPersonId = salesPersonId;

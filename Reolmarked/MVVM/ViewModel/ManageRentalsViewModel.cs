@@ -2,6 +2,7 @@
 using Reolmarked.MVVM.Model.Classes;
 using Reolmarked.MVVM.Model.Interfaces;
 using Reolmarked.MVVM.Model.Repositories;
+using Reolmarked.MVVM.ViewModel;
 using Reolmarked.MVVM.ViewModel.Core;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,12 +12,9 @@ using System.Windows.Input;
 
 namespace Reolmarked.MVVM.ViewModel
 {
-    public class RentalAgreementViewModel : ViewModelBase
+    public class ManageRentalsViewModel : ViewModelBase
     {
-        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Renter> renterRepository = new RenterRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<SalesPerson> employeeRepository = new SalesPersonRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Discount> discountRepository = new DiscountRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 
         private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
@@ -74,13 +72,6 @@ namespace Reolmarked.MVVM.ViewModel
         {
             get { return selectedRenter; }
             set { selectedRenter = value; OnPropertyChanged(); }
-        }
-
-        private Discount selectedDiscount;
-        public Discount SelectedDiscount
-        {
-            get { return selectedDiscount; }
-            set { selectedDiscount = value; OnPropertyChanged(); }
         }
 
         private SalesPerson currentUser;
@@ -213,7 +204,7 @@ namespace Reolmarked.MVVM.ViewModel
         private bool CanRemoveShelves() => true;
         private bool CanConfirmUpdate() => true;
 
-        public RentalAgreementViewModel()
+        public ManageRentalsViewModel()
         {
             //Collection over reoler hentes fra database
             Shelves = new ObservableCollection<Shelf>(shelfRepository.GetAll());

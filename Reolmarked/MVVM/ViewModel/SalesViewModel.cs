@@ -3,27 +3,25 @@ using Reolmarked.MVVM.Model.Classes;
 using Reolmarked.MVVM.Model.Interfaces;
 using Reolmarked.MVVM.Model.Repositories;
 using Reolmarked.MVVM.ViewModel.Core;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Reolmarked.MVVM.ViewModel
 {
     public class SalesViewModel : ViewModelBase
     {
-        private readonly IRepository<ItemLine> itemLineRepository = new ItemLineRepository(RentalAgreementViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<ItemLine> itemLineRepository = new ItemLineRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        public ObservableCollection<ItemLine>? ItemLines { get; set; }
+        public static ICollectionView? ItemLinesCollectionView { get; set; }
 
-
-		private double price;
-		public double Price
-		{
-			get { return price; }
-			set { price = value; OnPropertyChanged(); }
-		}
-
-        private int itemQuantity;
-        public int ItemQuantity
+        private int itemId;
+        public int ItemId
         {
-            get { return itemQuantity; }
-            set { itemQuantity = value; OnPropertyChanged(); }
+            get { return itemId; }
+            set { itemId = value; OnPropertyChanged(); }
         }
 
         private int saleId;
@@ -33,20 +31,40 @@ namespace Reolmarked.MVVM.ViewModel
             set { saleId = value; OnPropertyChanged(); }
         }
 
-		private DateTime saleDateTime;
+        private double itemLinePrice;
+		public double ItemLinePrice
+        {
+			get { return itemLinePrice; }
+			set { itemLinePrice = value; OnPropertyChanged(); }
+		}
+
+        private int itemLineQuantity;
+        public int ItemLineQuantity
+        {
+            get { return itemLineQuantity; }
+            set { itemLineQuantity = value; OnPropertyChanged(); }
+        }
+
+        private double discount;
+        public double Discount
+        {
+            get { return discount; }
+            set { discount = value; OnPropertyChanged(); }
+        }
+
+        private double discountPctg;
+        public double DiscountPctg
+        {
+            get { return discountPctg; }
+            set { discountPctg = value; OnPropertyChanged(); }
+        }
+
+        private DateTime saleDateTime;
 		public DateTime SaleDateTime
         {
 			get { return saleDateTime; }
 			set { saleDateTime = value; OnPropertyChanged(); }
 		}
-
-		private double subTotal;
-		public double Subtotal
-		{
-			get { return subTotal; }
-			set { subTotal = value; OnPropertyChanged(); }
-		}
-
 
 		private double grandTotal;
 		public double GrandTotal
@@ -62,18 +80,62 @@ namespace Reolmarked.MVVM.ViewModel
             set { isPaid = value; OnPropertyChanged(); }
         }
 
+        private SalesPerson salesPerson;
+        public SalesPerson SalesPerson
+        {
+            get { return salesPerson; }
+            set { salesPerson = value; OnPropertyChanged(); }
+        }
 
-        public ICommand AddItemCommand { get; }
+        private ItemLine selectedItemLine;
+        public ItemLine SelectedItemLine
+        {
+            get { return selectedItemLine; }
+            set { selectedItemLine = value; OnPropertyChanged(); }
+        }
+
         public ICommand AddItemLineCommand { get; }
-        public ICommand UpdateItemCommand { get; }        
-		public ICommand RemoveItemCommand { get; }
+        public ICommand UpdateItemLineCommand { get; }        
+		public ICommand RemoveItemLineCommand { get; }
 
+        private bool CanAddItemLine() => true;
+        private bool CanUpdateItemLine() => true;
+        private bool CanRemoveItemLine() => true;
 
         public SalesViewModel()
         {
+            ItemLines = new ObservableCollection<ItemLine>(itemLineRepository.GetAll());
+            ItemLinesCollectionView = CollectionViewSource.GetDefaultView(ItemLines);
 
+            AddItemLineCommand = new RelayCommand(_ => AddItemLine(), _ => CanAddItemLine());
+            UpdateItemLineCommand = new RelayCommand(_ => UpdateItemLine(), _ => CanUpdateItemLine());
+            RemoveItemLineCommand = new RelayCommand(_ => RemoveItemLine(), _ => CanRemoveItemLine());
         }
 
+        private void AddItemLine()
+        {
+            // Opret itemLine-objekt
+            ItemLine itemline = new ItemLine(ItemId, SaleId, ItemLinePrice, ItemLineQuantity, Discount, DiscountPctg);
+            // Tilføj til database via repository
+            itemLineRepository.Add(itemline);
+            // Tilføj til observablecollection til UI-view
+            ItemLines?.Add(itemline);
+        }
 
-	}
+        private void UpdateItemLine()
+        {
+            //opdater itemline i repository
+            itemLineRepository.Update(SelectedItemLine);
+            //vis bekræftelse 
+            MessageBox.Show($"Ændringerne er gemt", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+            //nulstil felter
+            SelectedItemLine = null;
+        }
+
+        private void RemoveItemLine()
+        {
+            itemLineRepository.Delete(SelectedItemLine.ItemId);
+            ItemLines?.Remove(SelectedItemLine);
+        }
+    }
 }

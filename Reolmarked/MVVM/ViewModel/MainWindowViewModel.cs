@@ -7,10 +7,8 @@ namespace Reolmarked.MVVM.ViewModel
     {
         public static IConfigurationRoot Config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-        //public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand CreateRentalViewCommand { get; set; }
-        public RentalAgreementViewModel CreateRentalVM { get; set; }
-        //public DiscoveryViewModel DiscoveryVM { get; set; }
+        public CreateRentalViewModel CreateRentalVM { get; set; }
 
         private object _currentView;
         public object CurrentView
@@ -21,19 +19,14 @@ namespace Reolmarked.MVVM.ViewModel
 
         public MainWindowViewModel()
         {
-            CreateRentalVM = new RentalAgreementViewModel();
-            //DiscoveryVM = new DiscoveryViewModel();
+            CreateRentalVM = new CreateRentalViewModel();
+
             CurrentView = CreateRentalVM;
 
             CreateRentalViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CreateRentalVM;
             });
-
-           /* DiscoveryViewCommand = new RelayCommand(o =>
-            {
-                CurrentView = DiscoveryVM;
-            });*/
         }
     }
 }

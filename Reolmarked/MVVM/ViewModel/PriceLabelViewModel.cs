@@ -65,7 +65,7 @@ namespace Reolmarked.MVVM.ViewModel
 
             AddItemCommand = new RelayCommand(_ => AddItem(), _ => CanAddItem());
             RemoveItemCommand = new RelayCommand(_ => RemoveItem(), _ => CanRemoveItem());
-        }
+        }    
 
         private void AddItem()
         {
