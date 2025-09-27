@@ -1,21 +1,22 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    internal class EmployeeRepository : IRepository<Employee>
+    internal class SalesPersonRepository : IRepository<SalesPerson>
     {
         private readonly string _connectionString;
 
-        public EmployeeRepository(string connectionString)
+        public SalesPersonRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<SalesPerson> GetAll()
         {
-            var employees = new List<Employee>();
-            string query = "SELECT * FROM Employee";
+            var salesPersons = new List<SalesPerson>();
+            string query = "SELECT * FROM SalesPerson";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -26,9 +27,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        employees.Add(new Employee
+                        salesPersons.Add(new SalesPerson
                         (
-                            (int)reader["EmployeeId"],
+                            (int)reader["SalesPersonId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
@@ -37,27 +38,27 @@ namespace Reolmarked.MVVM.Model.Repositories
                     }
                 }
             }
-            return employees;
+            return salesPersons;
         }
 
-        public Employee GetById(int id)
+        public SalesPerson GetById(int id)
         {
-            Employee employee = null;
-            string query = "SELECT * FROM Employee WHERE EmployeeId = @EmployeeId";
+            SalesPerson salesPerson = null;
+            string query = "SELECT * FROM SalesPerson WHERE SalesPersonId = @SalesPersonId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@EmployeeId", id);
+                command.Parameters.AddWithValue("@SalesPersonId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        employee = new Employee
+                        salesPerson = new SalesPerson
                         (
-                            (int)reader["EmployeeId"],
+                            (int)reader["SalesPersonId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
@@ -66,12 +67,12 @@ namespace Reolmarked.MVVM.Model.Repositories
                     }
                 }
             }
-            return employee;
+            return salesPerson;
         }
 
-        public void Add(Employee entity)
+        public void Add(SalesPerson entity)
         {
-            string query = "INSERT INTO Employee (FirstName, LastName, CreationDate, Role) VALUES (@FirstName, @LastName, @CreationDate, @Role)";
+            string query = "INSERT INTO SalesPerson (FirstName, LastName, CreationDate, Role) VALUES (@FirstName, @LastName, @CreationDate, @Role)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -85,14 +86,14 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
-        public void Update(Employee entity)
+        public void Update(SalesPerson entity)
         {
-            string query = "UPDATE Employee SET EmployeeId = @EmployeeId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, Role = @Role WHERE EmployeeId = @EmployeeId";
+            string query = "UPDATE SalesPerson SET SalesPersonId = @SalesPersonId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, Role = @Role WHERE SalesPersonId = @SalesPersonId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@EmployeeId", entity.UserId);
+                command.Parameters.AddWithValue("@SalesPersonId", entity.PersonId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
@@ -104,12 +105,12 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Employee WHERE EmployeeId = @EmployeeId";
+            string query = "DELETE FROM SalesPerson WHERE SalesPersonId = @SalesPersonId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@EmployeeId", id);
+                command.Parameters.AddWithValue("@SalesPersonId", id);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

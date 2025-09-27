@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Reolmarked.MVVM.ViewModel
+namespace Reolmarked.MVVM.ViewModel.Core
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
