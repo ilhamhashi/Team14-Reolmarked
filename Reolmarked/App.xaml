@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="Themes/ShelfButtonDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type vm:RentalAgreementViewModel}">
+            <DataTemplate DataType="{x:Type vm:CreateRentalViewModel}">
                 <view:CreateRentalView/>
             </DataTemplate>
 

@@ -16,6 +16,9 @@ namespace Reolmarked.MVVM.ViewModel
         private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         public ObservableCollection<RentalAgreement>? Rentals { get; set; }
         public static ICollectionView? RentalsCollectionView { get; set; }
+        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        public ObservableCollection<Shelf>? Shelves { get; set; }
+        public static ICollectionView? ShelvesCollectionView { get; set; }
         public ICollectionView? RentersCollectionView { get; set; }
 
         private int agreementId;
@@ -53,6 +56,13 @@ namespace Reolmarked.MVVM.ViewModel
             set { selectedRenter = value; OnPropertyChanged(); }
         }
 
+        private Shelf selectedShelf;
+        public Shelf SelectedShelf
+        {
+            get { return selectedShelf; }
+            set { selectedShelf = value; OnPropertyChanged(); }
+        }
+
         private SalesPerson currentUser;
         public SalesPerson CurrentUser
         {
@@ -67,6 +77,8 @@ namespace Reolmarked.MVVM.ViewModel
             Rentals = new ObservableCollection<RentalAgreement>(rentalRepository.GetAll());
             RentalsCollectionView = CollectionViewSource.GetDefaultView(Rentals);
             RentersCollectionView = CollectionViewSource.GetDefaultView(RentersViewModel.RentersCollectionView);
+            Shelves = new ObservableCollection<Shelf>(shelfRepository.GetAll());
+            ShelvesCollectionView = CollectionViewSource.GetDefaultView(Shelves);
 
             AddRentalCommand = new RelayCommand(_ => AddRental(), _ => CanAddRental());
         }
