@@ -86,6 +86,19 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('SalesPerson') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(SalesPerson entity)
         {
             string query = "UPDATE SalesPerson SET SalesPersonId = @SalesPersonId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, Role = @Role WHERE SalesPersonId = @SalesPersonId";

@@ -5,6 +5,7 @@
         IEnumerable<T> GetAll();
         T GetById(int id);
         void Add(T entity);
+        int GetLastInsertedId();
         void Update(T entity);
         void Delete(int id);
     }
