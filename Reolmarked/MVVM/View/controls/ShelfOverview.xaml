@@ -14,8 +14,9 @@
 
     <Grid>
         <StackPanel>
-            <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged}">
+                
                 <!-- ItemsPanelTemplate -->
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
