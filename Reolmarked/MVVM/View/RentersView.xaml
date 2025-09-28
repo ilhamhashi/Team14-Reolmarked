@@ -10,6 +10,10 @@
              Background="#f4f6f8">
 
 
+    <UserControl.DataContext>
+        <vm:RentersViewModel/>
+    </UserControl.DataContext>
+
 
     <UserControl.Resources>
 
@@ -23,6 +27,7 @@
 
         </Style>
 
+        
 
 
         <Style TargetType="TextBox" x:Key="SearchTextBoxStyle">
@@ -105,7 +110,7 @@
 
         <Grid.ColumnDefinitions>
 
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
 
             <ColumnDefinition Width="*"/>
 
@@ -113,6 +118,19 @@
 
 
 
+        <ListBox ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged}"
+             SelectedItem="{Binding SelectedRenter, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
         <GroupBox Grid.Row="0" Grid.Column="1" Margin="0,0,30,0">
 
             <Grid Width="300" HorizontalAlignment="Left">

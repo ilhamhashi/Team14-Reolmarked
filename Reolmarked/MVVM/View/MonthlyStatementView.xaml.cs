@@ -5,9 +5,9 @@ namespace Reolmarked.MVVM.View
     /// <summary>
     /// Interaction logic for MonthlyStatement.xaml
     /// </summary>
-    public partial class MonthlyStatement : UserControl
+    public partial class MonthlyStatementView : UserControl
     {
-        public MonthlyStatement()
+        public MonthlyStatementView()
         {
             InitializeComponent();
         }
