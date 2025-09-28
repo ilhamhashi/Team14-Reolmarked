@@ -6,6 +6,7 @@ using Reolmarked.MVVM.ViewModel.Core;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Reolmarked.MVVM.ViewModel
@@ -89,6 +90,12 @@ namespace Reolmarked.MVVM.ViewModel
         public ICommand UpdateRenterCommand { get; }
         public ICommand RemoveRenterCommand { get; }
 
+        public RentersViewModel()
+        {
+            Renters = new ObservableCollection<Renter>(renterRepository.GetAll());
+            RentersCollectionView =  CollectionViewSource.GetDefaultView(Renters);
+        }
+
         private bool CanAddRenter() => !string.IsNullOrWhiteSpace(FirstName)
                             && !string.IsNullOrWhiteSpace(LastName)
                             && !string.IsNullOrWhiteSpace(Phone)
@@ -102,7 +109,7 @@ namespace Reolmarked.MVVM.ViewModel
         private void AddRenter()
         {
             //opret objekt og tilføj til repository og observablecollection
-            Renter renter = new Renter(FirstName, LastName, DateTime.Now, Phone, Email, StreetName, StreetNumber, ZipCode, City);
+            Renter renter = new Renter(FirstName, LastName, Email, Phone, StreetName, StreetNumber, ZipCode, City, DateTime.Now);
             renterRepository.Add(renter);
             Renters.Add(renter);
 
