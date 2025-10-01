@@ -4,18 +4,17 @@ using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    public class PaymentMethodRepository : IRepository<PaymentMethod>
+    public class ItemRepository : IRepository<Item>
     {
         private readonly string _connectionString;
-        public PaymentMethodRepository(string connectionString)
+        public ItemRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
-
-        public IEnumerable<PaymentMethod> GetAll()
+        public IEnumerable<Item> GetAll()
         {
-            var PaymentMethods = new List<PaymentMethod>();
-            string query = "SELECT * FROM PaymentMethod";
+            var items = new List<Item>();
+            string query = "SELECT * FROM Item";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -26,51 +25,57 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        PaymentMethods.Add(new PaymentMethod
+                        items.Add(new Item
                         (
-                            (int)reader["PaymentMethodId"],
-                            (string)reader["Name"]
+                            (int)reader["ItemId"],
+                            (int)reader["ShelfId"],
+                            (double)reader["Price"], 
+                            (string)reader["BarcodeImagePath"]
                         ));
                     }
                 }
             }
-            return PaymentMethods;
+            return items;
         }
 
-        public PaymentMethod GetById(int id)
+        public Item GetById(int id)
         {
-            PaymentMethod PaymentMethod = null;
-            string query = "SELECT * FROM PaymentMethod WHERE PaymentMethodId = @PaymentMethodId";
+            Item item = null;
+            string query = "SELECT * FROM Item WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PaymentMethodId", id);
+                command.Parameters.AddWithValue("@ItemId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        PaymentMethod = new PaymentMethod
+                        item = new Item
                         (
-                            (int)reader["PaymentMethodId"],
-                            (string)reader["Name"]
+                            (int)reader["ItemId"],
+                            (int)reader["ShelfId"],
+                            (double)reader["Price"],
+                            (string)reader["BarcodeImagePath"]
                         );
                     }
                 }
             }
-            return PaymentMethod;
+            return item;
         }
 
-        public void Add(PaymentMethod entity)
+        public void Add(Item entity)
         {
-            string query = "INSERT INTO PaymentMethod (Name) VALUES (@Name)";
+            string query = "INSERT INTO Item (ShelfId, Price, BarcodeImagePath) VALUES (@ShelfId, @Price, @BarcodeImagePath)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Name", entity.Name);
+                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
+                command.Parameters.AddWithValue("@Price", entity.Price);
+                command.Parameters.AddWithValue("@BarcodeImagePath", entity.BarcodeImage);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -78,7 +83,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('PaymentMethod') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('Item') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -88,15 +93,17 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
             return (int)newId;
         }
-        public void Update(PaymentMethod entity)
+
+        public void Update(Item entity)
         {
-            string query = "UPDATE PaymentMethod SET PaymentMethodId = @PaymentMethodId, Name = @Name";
+            string query = "UPDATE Item SET ShelfId = @ShelfId, Price = @Price, BarcodeImagePath = @BarcodeImagePath WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
-                command.Parameters.AddWithValue("@Name", entity.Name);
+                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
+                command.Parameters.AddWithValue("@Price", entity.Price);
+                command.Parameters.AddWithValue("@BarcodeImagePath", entity.BarcodeImage);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -104,16 +111,15 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM PaymentMethod WHERE PaymentMethodId = @PaymentMethodId";
+            string query = "DELETE FROM Item WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PaymentMethodId", id);
+                command.Parameters.AddWithValue("@ItemId", id);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
     }
 }
-

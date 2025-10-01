@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,13 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["RenterId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
-                            (DateTime)reader["CreationDate"],
+                            (string)reader["Email"],
+                            (string)reader["Phone"],
                             (string)reader["StreetName"],
                             (string)reader["StreetNumber"],
                             (string)reader["ZipCode"],
                             (string)reader["City"],
-                            (string)reader["Phone"],
-                            (string)reader["Email"]
+                            (DateTime)reader["CreationDate"]
                          ));
                     }
                 }
@@ -70,13 +71,13 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["RenterId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
-                            (DateTime)reader["CreationDate"],
+                            (string)reader["Email"],
+                            (string)reader["Phone"],
                             (string)reader["StreetName"],
                             (string)reader["StreetNumber"],
                             (string)reader["ZipCode"],
                             (string)reader["City"],
-                            (string)reader["PhoneNumber"],
-                            (string)reader["Email"]
+                            (DateTime)reader["CreationDate"]
                         );
                     }
                 }
@@ -106,6 +107,19 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('Renter') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(Renter entity)
         {
             string query = "UPDATE Renter SET FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, StreetName = @StreetName, StreetNumber = @StrretNumber," +
@@ -114,7 +128,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@RenterId", entity.UserId);
+                command.Parameters.AddWithValue("@RenterId", entity.PersonId);
                 command.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 command.Parameters.AddWithValue("@LastName", entity.LastName);
                 command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);

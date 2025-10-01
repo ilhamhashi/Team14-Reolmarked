@@ -4,19 +4,16 @@
     {
         public int PaymentMethodId { get; set; }
         public string Name { get; set; }
-        public double? Fee { get; set; }
 
-        public PaymentMethod(int paymentMethodId, string name, double? fee)
+        public PaymentMethod(int paymentMethodId, string name)
         {
             PaymentMethodId = paymentMethodId;
             Name = name;
-            Fee = fee;
         }
 
-        public PaymentMethod(string name, double? fee)
+        public PaymentMethod(string name)
         {
             Name = name;
-            Fee = fee;
         }
     }
 }

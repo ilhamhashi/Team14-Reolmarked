@@ -1,5 +1,7 @@
 ﻿using Reolmarked.MVVM.Model.Classes;
 using Microsoft.Data.SqlClient;
+using Reolmarked.MVVM.Model.Interfaces;
+using System.ComponentModel;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
@@ -87,6 +89,19 @@ namespace Reolmarked.MVVM.Model.Repositories
                 connection.Open();
                 command.ExecuteNonQuery();
             }
+        }
+
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('Shelf') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
         }
 
         public void Update(Shelf entity)

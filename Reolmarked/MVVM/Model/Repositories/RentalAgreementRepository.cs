@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
@@ -31,11 +33,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["AgreementId"],
                             (DateTime)reader["StartDate"],
                             Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
-                            (double)reader["Total"],
-                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["AgreementStatus"]),
+                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["Status"]),
                             (int)reader["RenterId"],
-                            (int)reader["DiscountId"],
-                            (int)reader["EmployeeId"]
+                            (int)reader["SalesPersonId"]
                         ));
                     }
                 }
@@ -63,11 +63,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["AgreementId"],
                             (DateTime)reader["StartDate"],
                             Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
-                            (double)reader["Total"], 
-                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["AgreementStatus"]),
+                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["Status"]),
                             (int)reader["RenterId"],
-                            (int)reader["DiscountId"],
-                            (int)reader["EmployeeId"]
+                            (int)reader["SalesPersonId"]
                         );
                     }
                 }
@@ -77,25 +75,36 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(RentalAgreement entity)
         {
-            string query = "INSERT INTO RentalAgreement (StartDate, Total, AgreementStatus, RenterId, DiscountId, EmployeeId) VALUES (@StartDate, @Total, @Status, @RenterId, @DiscountId, @EmployeeId)";
+            string query = "INSERT INTO RentalAgreement (StartDate, Status, RenterId, SalesPersonId) VALUES (@StartDate, @Status, @RenterId, @SalesPersonId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@StartDate", entity.StartDate);
-                command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@Status", entity.Status);
                 command.Parameters.AddWithValue("@RenterId", entity.RenterId);
-                command.Parameters.AddWithValue("@DiscountId", entity.DiscountId);
-                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
+                command.Parameters.AddWithValue("@SalesPersonId", entity.SalesPersonId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('RentalAgreement') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(RentalAgreement entity)
         {
-            string query = "UPDATE RentalAgreement SET AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, Total = @Total, AgreementStatus = @Status, RenterId = @RenterId, DiscountId = @DiscountId, EmployeeId = @EmployeeId";
+            string query = "UPDATE RentalAgreement SET AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, Status = @Status, RenterId = @RenterId, SalesPersonId = @SalesPersonId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -103,11 +112,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
                 command.Parameters.AddWithValue("@StartDate", entity.StartDate);
                 command.Parameters.AddWithValue("@EndDate", entity.EndDate);
-                command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@Status", entity.Status);
                 command.Parameters.AddWithValue("@RenterId", entity.RenterId);
-                command.Parameters.AddWithValue("@DiscountId", entity.DiscountId);
-                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
+                command.Parameters.AddWithValue("@SalesPersonId", entity.SalesPersonId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

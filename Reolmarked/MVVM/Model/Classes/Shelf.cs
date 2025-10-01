@@ -36,6 +36,5 @@ namespace Reolmarked.MVVM.Model.Classes
             Status = status;
             Price = price;
         }
-
     }
 }

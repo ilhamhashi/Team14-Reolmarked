@@ -1,28 +1,26 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reolmarked.MVVM.Model.Classes;
+using Reolmarked.MVVM.Model.Interfaces;
 using Reolmarked.MVVM.Model.Repositories;
-using System;
+using Reolmarked.MVVM.ViewModel;
+using Reolmarked.MVVM.ViewModel.Core;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Reolmarked.MVVM.ViewModel
 {
-    public class RentalAgreementViewModel : ViewModelBase
+    public class ManageRentalsViewModel : ViewModelBase
     {
-        public static IConfigurationRoot Config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Renter> renterRepository = new RenterRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Employee> employeeRepository = new EmployeeRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Discount> discountRepository = new DiscountRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(Config.GetConnectionString("DefaultConnection"));
+        /*
+        private readonly IRepository<SalesPerson> employeeRepository = new SalesPersonRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 
-        private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Shelf_Rental> shelfrentalRepository = new Shelf_RentalRepository(Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Payment> paymentRepository = new PaymentRepository(Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<Shelf_Rental> shelfrentalRepository = new Shelf_RentalRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<Payment> paymentRepository = new PaymentRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 
         public ObservableCollection<RentalAgreement>? Rentals { get; set; }
         public ObservableCollection<Shelf>? Shelves { get; set; }
@@ -77,15 +75,8 @@ namespace Reolmarked.MVVM.ViewModel
             set { selectedRenter = value; OnPropertyChanged(); }
         }
 
-        private Discount selectedDiscount;
-        public Discount SelectedDiscount
-        {
-            get { return selectedDiscount; }
-            set { selectedDiscount = value; OnPropertyChanged(); }
-        }
-
-        private Employee currentUser;
-        public Employee CurrentUser
+        private SalesPerson currentUser;
+        public SalesPerson CurrentUser
         {
             get { return currentUser; }
             set { currentUser = value; OnPropertyChanged(); }
@@ -214,7 +205,7 @@ namespace Reolmarked.MVVM.ViewModel
         private bool CanRemoveShelves() => true;
         private bool CanConfirmUpdate() => true;
 
-        public RentalAgreementViewModel()
+        public ManageRentalsViewModel()
         {
             //Collection over reoler hentes fra database
             Shelves = new ObservableCollection<Shelf>(shelfRepository.GetAll());
@@ -309,7 +300,7 @@ namespace Reolmarked.MVVM.ViewModel
             if (result == MessageBoxResult.Yes)
             {
                 // Opret rentalagreement-objekt
-                RentalAgreement rental = new RentalAgreement(DateTime.Now, Total, RentalAgreementStatus.CreatedAwaitingPayment, selectedRenter.UserId, selectedDiscount.DiscountId, currentUser.UserId);
+                RentalAgreement rental = new RentalAgreement(DateTime.Now, Total, RentalAgreementStatus.CreatedAwaitingPayment, selectedRenter.PersonId, selectedDiscount.DiscountId, currentUser.PersonId);
                 // Tilføj til database via repository
                 rentalRepository.Add(rental);
                 // Tilføj til observablecollection til UI-view
@@ -475,5 +466,7 @@ namespace Reolmarked.MVVM.ViewModel
             //nulstil felter
             SelectedRenter = null;
         }
+
+        */
     }
 }
