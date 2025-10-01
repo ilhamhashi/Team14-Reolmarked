@@ -5,7 +5,7 @@
     <Color x:Key="SecondaryColor">#a2bcd9</Color>
     <Color x:Key="AccentColor">#6597d2</Color>
     <Color x:Key="TextColor">#000a19</Color>
-    <Color x:Key="WindowBackgroundColor">#FDFDFF</Color>
+    <Color x:Key="WindowBackgroundColor">#E6E6E6</Color>
 
     <!-- 🖌️ Bør bruges til pensler -->
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />

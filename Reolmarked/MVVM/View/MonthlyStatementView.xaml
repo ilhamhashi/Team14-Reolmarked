@@ -4,9 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
+             xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="710"
+             Background="#E6E6E6">
+
+    <UserControl.DataContext>
+        <vm:MonthlyStatementViewModel/>
+    </UserControl.DataContext>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Oversigt" FontSize="28" FontWeight="Normal"
+                   FontFamily="Tahoma"
+                   VerticalAlignment="Center" Margin="27 0 0 0"/>
+
+        <TextBox Style="{StaticResource SearchTextBoxStyle}"
+                 Tag="Søg efter reollejer..."
+                 HorizontalAlignment="Right" Margin="0 0 25 0"/>
+
+        <DataGrid Grid.Row="1" Margin="25 50 25 25">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Aftalenr." Width="80" Binding="{Binding AgreementId}"/>
+                <DataGridTextColumn Header="Information" Width="270"/>
+                <DataGridTextColumn Header="Reolnr." Width="90"/>
+                <DataGridTextColumn Header="Seneste salg" Width="120"/>
+                <DataGridTextColumn Header="Salgspris" Width="*"/>
+            </DataGrid.Columns> 
+        </DataGrid>
     </Grid>
 </UserControl>
