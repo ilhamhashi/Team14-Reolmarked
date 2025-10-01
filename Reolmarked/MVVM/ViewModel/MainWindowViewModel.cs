@@ -20,11 +20,11 @@ namespace Reolmarked.MVVM.ViewModel
         public SalesViewModel SalesVM { get; set; }
         public PriceLabelsViewModel PriceLabelsVM { get; set; }
 
-        private object _currentView;
-        public object CurrentView
+        private object _currentMainWindowView;
+        public object CurrentMainWindowView
         {
-            get { return _currentView; }
-            set { _currentView = value; OnPropertyChanged(); }
+            get { return _currentMainWindowView; }
+            set { _currentMainWindowView = value; OnPropertyChanged(); }
         }
 
         public MainWindowViewModel()
@@ -36,36 +36,36 @@ namespace Reolmarked.MVVM.ViewModel
             SalesVM = new SalesViewModel();
             PriceLabelsVM = new PriceLabelsViewModel();
 
-            CurrentView = SalesVM;
+            CurrentMainWindowView = SalesVM;
 
             CreateRentalViewCommand = new RelayCommand(o =>
             {
-                CurrentView = CreateRentalVM;
+                CurrentMainWindowView = CreateRentalVM;
             });
 
             MonthlyStatementViewCommand = new RelayCommand(o =>
             {
-                CurrentView = MonthlyStatementVM;
+                CurrentMainWindowView = MonthlyStatementVM;
             });
 
             RentalsViewCommand = new RelayCommand(o =>
             {
-                CurrentView = ManageRentalsVM;
+                CurrentMainWindowView = ManageRentalsVM;
             });
 
             RentersViewCommand = new RelayCommand(o =>
             {
-                CurrentView = RentersVM;
+                CurrentMainWindowView = RentersVM;
             });
 
             SalesViewCommand = new RelayCommand(o =>
             {
-                CurrentView = SalesVM;
+                CurrentMainWindowView = SalesVM;
             });
 
             PriceLabelsViewCommand = new RelayCommand(o =>
             {
-                CurrentView = PriceLabelsVM;
+                CurrentMainWindowView = PriceLabelsVM;
             });
         }
     }

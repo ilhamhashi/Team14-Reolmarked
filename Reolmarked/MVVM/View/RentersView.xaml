@@ -123,9 +123,18 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}, {1} {2}, {3}, {4}, {5}">
+                                    <Binding Path="PersonId"/>
+                                    <Binding Path="FirstName"/>
+                                    <Binding Path="LastName"/>
+                                    <Binding Path="Phone"/>
+                                    <Binding Path="Email"/>
+                                    <Binding Path="City"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

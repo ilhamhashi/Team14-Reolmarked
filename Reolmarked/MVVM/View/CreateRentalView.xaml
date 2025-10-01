@@ -23,11 +23,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            
         </Grid.RowDefinitions>
+        
         <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 Grid.ColumnSpan="2">
+                 Grid.ColumnSpan="2"
+                 SelectionChanged="ListBox_SelectionChanged">
 
             <!-- ItemsPanelTemplate -->
             <ListBox.ItemsPanel>
@@ -68,28 +69,33 @@
             <ListBox.ItemContainerStyle>
                 <Style>
                     <Setter Property="Grid.Column"
-                    Value="{Binding ColumnIndex}" />
+                    Value="{Binding ColumnIndex, UpdateSourceTrigger=PropertyChanged}" />
                     <Setter Property="Grid.Row"
-                    Value="{Binding RowIndex}" />
+                    Value="{Binding RowIndex, UpdateSourceTrigger=PropertyChanged}" />
                 </Style>
             </ListBox.ItemContainerStyle>
 
             <!-- ItemTemplate -->
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding ShelfId}"
-                               Background="AliceBlue"/>
+                    <TextBlock Text="{Binding ShelfId, UpdateSourceTrigger=PropertyChanged}"
+                               Background="Green"
+                               Foreground="White"
+                               Width="50"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
         
-        
+        <ContentControl Grid.Column="2" 
+                        Margin="10"
+                        Content="{Binding CurrentCreateRentalView}"/>
+
         <StackPanel Grid.Column="2">
             <Label Content="Vælg Kunde"/>
             <!-- Dropdown til kunde -->
             <ComboBox ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedRenter, UpdateSourceTrigger=PropertyChanged}" 
-                      Margin="5 0 0 0"
                       Width="160">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -107,11 +113,43 @@
             </ComboBox>
 
             <Label Content="Kan ikke finde kunde? Opret ny"/>
-            <Label Content="Valgt reol: "/>
-            <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Create Rental"
-                    Command="{Binding AddRentalCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Valgt reol: "
+                       Margin="0,0,10,0"/>
+                <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
 
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Tilføj flere reoler"
+                           Margin=" 0,0,20,0"/>
+                <CheckBox  Style="{StaticResource SwitchCheckBoxStyle}"
+                           IsChecked="False"
+                           Command="{Binding IsAddingMoreShelvesCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Button Content="Bekræft valg"
+                    Command="{Binding AddRentalCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,10,0,0"/>
+            
+            <Button Content="Ryd Markering"
+                    Command="{Binding ResetFieldsCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,10,0,0"/>
+            
+            <TextBlock Text="Vælg betalingsmetode"/>
+            
+            <!-- Dropdown til betalingsmetode -->
+            <ComboBox ItemsSource="{Binding PaymentMethodsCollectionView, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedPaymentMethod, UpdateSourceTrigger=PropertyChanged}" 
+                      Width="160">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button Content="Videre til betaling"
+                    Command="{Binding PayRentalCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,10,0,0"/>
         </StackPanel>
 
     </Grid>
