@@ -9,9 +9,9 @@
         public string ZipCode { get; set; }
         public string City { get; set; }
 
-        public Renter(int personId, string firstName, string lastName, DateTime creationDate,
-                      string phone, string email, string streetName,
-                      string streetNumber, string zipCode, string city)
+        public Renter(int personId, string firstName, string lastName, string email,
+                      string phone, string streetName,
+                      string streetNumber, string zipCode, string city, DateTime creationDate)
             : base(personId, firstName, lastName, creationDate)
         {
             Phone = phone;
@@ -22,10 +22,9 @@
             City = city;
         }
 
-        public Renter(string firstName, string lastName, DateTime creationDate,
-              string phone, string email, string streetName,
-              string streetNumber, string zipCode, string city)
-    : base(firstName, lastName, creationDate)
+        public Renter(string firstName, string lastName, string email, string phone, string streetName,
+                      string streetNumber, string zipCode, string city, DateTime creationDate)
+            : base(firstName, lastName, creationDate)
         {
             Phone = phone;
             Email = email;

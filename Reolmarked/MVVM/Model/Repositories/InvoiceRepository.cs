@@ -95,6 +95,19 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('Invoice') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(Invoice entity)
         {
             string query = "UPDATE Invoice SET InvoiceId = @InvoiceId, InvoiceDateTime = @InvoiceDateTime, TotalValueSold = @TotalValueSold, Deductibles = @Deductibles, InvoiceGrandTotal = @InvoiceGrandTotal, IsInvoicePaid = @IsInvoicePaid, SalesPersonId = @SalesPersonId, AgreementId = @AgreementId WHERE SaleId = @SaleId";

@@ -81,6 +81,19 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('Item') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(Item entity)
         {
             string query = "UPDATE Item SET ShelfId = @ShelfId, Price = @Price, BarcodeImagePath = @BarcodeImagePath WHERE ItemId = @ItemId";

@@ -76,7 +76,7 @@ namespace Reolmarked.MVVM.ViewModel
 
         public ManageShelvesViewModel()
         {
-            LoadAllShelves();
+            //LoadAllShelves();
             Shelves = new ObservableCollection<Shelf>(shelfRepository.GetAll());
             ShelvesCollectionView = CollectionViewSource.GetDefaultView(Shelves);
 

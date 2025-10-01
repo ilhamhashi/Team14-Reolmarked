@@ -5,13 +5,119 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
+             xmlns:controls="clr-namespace:Reolmarked.MVVM.View.controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="900" d:DesignWidth="1000"
              Background="#f4f6f8">
 
 
+    <UserControl.DataContext>
+        <vm:CreateRentalViewModel/>
+    </UserControl.DataContext>
 
-        <!-- UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 Grid.ColumnSpan="2">
+
+            <!-- ItemsPanelTemplate -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <!-- ItemContainerStyle -->
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column"
+                    Value="{Binding ColumnIndex}" />
+                    <Setter Property="Grid.Row"
+                    Value="{Binding RowIndex}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <!-- ItemTemplate -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ShelfId}"
+                               Background="AliceBlue"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        
+        <StackPanel Grid.Column="2">
+            <Label Content="Vælg Kunde"/>
+            <!-- Dropdown til kunde -->
+            <ComboBox ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedRenter, UpdateSourceTrigger=PropertyChanged}" 
+                      Margin="5 0 0 0"
+                      Width="160">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}, {2}">
+                                    <Binding Path="FirstName"/>
+                                    <Binding Path="LastName"/>
+                                    <Binding Path="PersonId"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Kan ikke finde kunde? Opret ny"/>
+            <Label Content="Valgt reol: "/>
+            <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Create Rental"
+                    Command="{Binding AddRentalCommand, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </StackPanel>
+
+    </Grid>
+       
+
+    <!-- UserControl.Resources>
 
             <Style TargetType="Button">
 
