@@ -4,9 +4,92 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
+             xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             d:DesignHeight="600" d:DesignWidth="710"
+             Background="#E6E6E6">
+
+    <UserControl.DataContext>
+        <vm:MonthlyStatementViewModel/>
+    </UserControl.DataContext>
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+
+        <wv2:WebView2 Grid.Row="2" x:Name="PdfViewer"
+                      Source="{Binding PdfPath}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch" Margin="30, 0"/>
+
+
+        <TextBlock Grid.Row="0" Text="Månedsopgørelse" FontSize="30" 
+                   FontWeight="SemiBold" FontFamily="Segoe UI"
+                   VerticalAlignment="Center" Margin="25 0 0 0"/>
+
+        <Button Grid.Row="1" Content="Print faktura" 
+                Width="140" Height="25" VerticalAlignment="Top"
+                HorizontalAlignment="Right" Margin="0 80 25 0"
+                Style="{StaticResource myButton}"/>
+
+        <TextBlock Grid.Row="1" TextWrapping="Wrap"
+                   FontSize="14" Width="320" FontFamily="Segoe UI"
+                   HorizontalAlignment="Left"
+                   Margin="30 0 0 0"
+                   Foreground="DarkSlateGray"
+                   DataContext="{Binding SelectedRental}">
+            <Run Text="{Binding RenterName}" FontWeight="Bold"
+                 FontSize="20"/>
+            <LineBreak/>
+            <Run Text="Adresse: "/>
+            <Run Text="{Binding StreetName}"/>
+            <Run Text=" "/>
+            <Run Text="{Binding StreetNumber}"/>
+            <LineBreak/>
+            <Run Text="Postnr. og by: "/>
+            <Run Text="{Binding ZipCode}"/>
+            <Run Text=" "/>
+            <Run Text="{Binding City}"/>
+            <LineBreak/>
+            <Run Text="Telefon: "/>
+            <Run Text="{Binding Phone}"/>
+            <LineBreak/>
+            <Run Text="Email: "/>
+            <Run Text="{Binding Email}"/>
+            <LineBreak/>
+            <Run Text="Aftalenr.: "/>
+            <Run Text="{Binding AgreementId}"/>
+        </TextBlock>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" 
+                    HorizontalAlignment="Right"
+                    Margin="0 25 25 0" Width="255" Height="25" 
+                    Orientation="Horizontal">
+
+            <TextBlock Text="Rabat:" FontSize="14" FontWeight="Normal"
+                       FontFamily="Segoe UI" VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+
+            <ComboBox Grid.Row="1" Height="25" Width="200"
+                      HorizontalAlignment="Right" Margin="17 0 0 0">
+                <ComboBoxItem Content="Ingen rabat" IsSelected="True"/>
+            </ComboBox>
+        </StackPanel>
+
+        <Button Grid.Row="3" Content="Tilbage" 
+                Width="140" Height="25" VerticalAlignment="Center"
+                HorizontalAlignment="Left" Margin="30 0 0 0"
+                Style="{StaticResource myButton}"/>
+
+        <Button Grid.Row="3" Content="Godkend faktura" 
+                Width="140" Height="25" VerticalAlignment="Center"
+                HorizontalAlignment="Right" Margin="25"
+                Style="{StaticResource myButton}"/>
+
     </Grid>
 </UserControl>
