@@ -76,6 +76,18 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('PaymentMethod') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
         public void Update(PaymentMethod entity)
         {
             string query = "UPDATE PaymentMethod SET PaymentMethodId = @PaymentMethodId, Name = @Name";

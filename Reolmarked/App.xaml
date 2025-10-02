@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Reolmarked"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
-             xmlns:view="clr-namespace:Reolmarked.MVVM.View"             
+             xmlns:view="clr-namespace:Reolmarked.MVVM.View"   
+             xmlns:controls="clr-namespace:Reolmarked.MVVM.View.controls"   
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -14,11 +15,35 @@
                 <!-- <ResourceDictionary Source="Themes/GlobalDictionary.xaml"/> -->
                 <ResourceDictionary Source="Themes/ShelfButtonDictionary.xaml"/>
                 <ResourceDictionary Source="Themes/SearchTextBoxDictionary.xaml"/>
-                <ResourceDictionary Source="Themes/DataGridDictionary.xaml"/>
+                <ResourceDictionary Source="Themes/DataGridDictionary.xaml"/>             
             </ResourceDictionary.MergedDictionaries>
-
-            <DataTemplate DataType="{x:Type vm:RentalAgreementViewModel}">
+            
+            <DataTemplate DataType="{x:Type vm:ManageShelvesViewModel}">
+                <controls:ShelfOverview/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:CreateRentalViewModel}">
                 <view:CreateRentalView/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vm:RentersViewModel}">
+                <view:RentersView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:SalesViewModel}">
+                <view:SalesView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ManageRentalsViewModel}">
+                <view:RentalsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:MonthlyStatementViewModel}">
+                <view:MonthlyStatementView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:PriceLabelsViewModel}">
+                <view:PriceLabelsView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:MonthlyStatementViewModel}">

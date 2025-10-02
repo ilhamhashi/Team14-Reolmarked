@@ -49,5 +49,12 @@ namespace Reolmarked.MVVM.Model.Classes
             RenterId = renterId;
             SalesPersonId = salesPersonId;
         }
+
+        public RentalAgreement(DateTime startDate, RentalAgreementStatus status, int? renterId)
+        {
+            StartDate = startDate;
+            Status = status;
+            RenterId = renterId;
+        }
     }
 }

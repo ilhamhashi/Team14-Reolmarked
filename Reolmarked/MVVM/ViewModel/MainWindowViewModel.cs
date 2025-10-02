@@ -12,8 +12,18 @@ namespace Reolmarked.MVVM.ViewModel
 
         public RelayCommand CreateRentalViewCommand { get; set; }
         public RelayCommand MonthlyStatementViewCommand { get; set; }
+
+        public RelayCommand RentersViewCommand { get; set; }
+        public RelayCommand RentalsViewCommand { get; set; }
+        public RelayCommand SalesViewCommand { get; set; }
+        public RelayCommand PriceLabelsViewCommand { get; set; }
         public CreateRentalViewModel CreateRentalVM { get; set; }
         public MonthlyStatementViewModel MonthlyStatementVM { get; set; }
+        public ManageRentalsViewModel ManageRentalsVM { get; set; }
+        public RentersViewModel RentersVM { get; set; }
+        public SalesViewModel SalesVM { get; set; }
+        public PriceLabelsViewModel PriceLabelsVM { get; set; }
+
 
         public ICommand CloseCommand { get; }
         public ICommand MaximizeCommand { get; }
@@ -49,19 +59,42 @@ namespace Reolmarked.MVVM.ViewModel
 
             // Initial view
             CreateRentalVM = new CreateRentalViewModel();
+            MonthlyStatementVM = new MonthlyStatementViewModel();
+            ManageRentalsVM = new ManageRentalsViewModel();
+            RentersVM = new RentersViewModel();
+            SalesVM = new SalesViewModel();
+            PriceLabelsVM = new PriceLabelsViewModel();
 
-            CurrentView = CreateRentalVM;
+            CurrentView = SalesVM;
 
             CreateRentalViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CreateRentalVM;
             });
 
-            // Tilføj flere views og commands her
-            MonthlyStatementVM = new MonthlyStatementViewModel();
             MonthlyStatementViewCommand = new RelayCommand(o =>
             {
                 CurrentView = MonthlyStatementVM;
+            });
+
+            RentalsViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = ManageRentalsVM;
+            });
+
+            RentersViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = RentersVM;
+            });
+
+            SalesViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = SalesVM;
+            });
+
+            PriceLabelsViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = PriceLabelsVM;
             });
         }
     }
