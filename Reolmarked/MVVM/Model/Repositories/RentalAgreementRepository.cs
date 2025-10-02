@@ -32,7 +32,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["AgreementId"],
                             (DateTime)reader["StartDate"],
                             Convert.IsDBNull(reader["EndDate"]) ? null : (DateTime?)reader["EndDate"],
-                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["AgreementStatus"]),
+                            (RentalAgreementStatus)Enum.Parse(typeof(RentalAgreementStatus), (string)reader["Status"]),
                             (int)reader["RenterId"],
                             (int)reader["SalesPersonId"]
                         ));

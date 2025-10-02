@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="710"
-             Background="#E6E6E6">
+             d:DesignHeight="575" d:DesignWidth="710"
+             Background="Transparent">
 
     <UserControl.DataContext>
         <vm:MonthlyStatementViewModel/>
@@ -19,21 +19,59 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Oversigt" FontSize="28" FontWeight="Normal"
-                   FontFamily="Tahoma"
+        <TextBlock Text="Oversigt" FontSize="28" FontWeight="SemiBold"
+                   FontFamily="Segoe UI"
                    VerticalAlignment="Center" Margin="27 0 0 0"/>
 
         <TextBox Style="{StaticResource SearchTextBoxStyle}"
                  Tag="Søg efter reollejer..."
-                 HorizontalAlignment="Right" Margin="0 0 25 0"/>
+                 HorizontalAlignment="Right" Margin="0 0 25 0"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <DataGrid Grid.Row="1" Margin="25 50 25 25">
+        <Button Grid.Row="1" Width="140" Height="25"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top" Margin="0 32 25 0"
+                Style="{StaticResource myButton}"
+                Content="Se Månedsopgørelse"
+                Command="{Binding ShowMonthlyStatementCommand}"/>
+
+        <DataGrid Grid.Row="1" Margin="25 70 25 25"
+                  ItemsSource="{Binding MonthlyStatementItemsCollectionView}"
+                  AutoGenerateColumns="False"
+                  Style="{StaticResource DataGridStyle}"
+                  ColumnHeaderStyle="{StaticResource CustomColumnHeaderStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Aftalenr." Width="80" Binding="{Binding AgreementId}"/>
-                <DataGridTextColumn Header="Information" Width="270"/>
-                <DataGridTextColumn Header="Reolnr." Width="90"/>
-                <DataGridTextColumn Header="Seneste salg" Width="120"/>
-                <DataGridTextColumn Header="Salgspris" Width="*"/>
+                <!-- Aftalenr. -->
+                <DataGridTextColumn Header="Aftalenr." Width="90" 
+                                    Binding="{Binding AgreementId}"/>
+                
+                <!-- Information -->
+                <DataGridTemplateColumn Header="Information" Width="330">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding RenterName}"
+                                           FontWeight="Bold" Foreground="#373737"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Phone, StringFormat=Tlf.nr.: {0} |}"
+                                               Foreground="#373737"/>
+                                    <TextBlock Text="{Binding Email, StringFormat=Email: {0}}"
+                                               Margin="5 0 0 0" Foreground="#373737"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Status, StringFormat=Status: {0} |}"
+                                               Foreground="#373737"/>
+                                    <TextBlock Text="{Binding RentalPrice, StringFormat=Lejepris: {0}}"
+                                               Margin="5 0 0 0" Foreground="#373737"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <!-- Reolnr. -->
+                <DataGridTextColumn Header="Reolnr." Width="*"
+                                    Binding="{Binding ShelfNumbers}"/>
             </DataGrid.Columns> 
         </DataGrid>
     </Grid>
