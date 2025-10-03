@@ -63,6 +63,10 @@
                 <view:RenterSelectionView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:MonthlyStatementViewModel}">
+                <view:MonthlyStatement/>
+            </DataTemplate>
+
         </ResourceDictionary>
 
     </Application.Resources>

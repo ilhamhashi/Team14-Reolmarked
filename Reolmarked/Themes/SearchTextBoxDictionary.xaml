@@ -5,7 +5,8 @@
         <Setter Property="Width" Value="300"/>
         <Setter Property="FontFamily" Value="Segoe UI Light" />
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Padding" Value="6"/>
+        <Setter Property="Padding" Value="5 0 0 0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="BorderBrush" Value="#999999"/>
         <Setter Property="BorderThickness" Value="1.5"/>

@@ -6,69 +6,110 @@
         xmlns:local="clr-namespace:Reolmarked"
         xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
         mc:Ignorable="d"
-        Height="800" Width="1300"
-        Background="Transparent">
+        Height="600" Width="910"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
 
-    <Border Background="#E6E6E6"
-            CornerRadius="8">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Indre Grid i kolonne 0 -->
+    <Grid>
+        <Border Background="#E6E6E6"
+                CornerRadius="7">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="75"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition/>
+                    <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
 
-                <!-- TITLE -->
-                <TextBlock Text="Reolmarked"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Foreground="Black"
-                               FontWeight="Black"
-                               FontSize="24"
-                               FontFamily="Segoe UI Semibold"/>
-
-                <!-- MENU -->
-                <StackPanel Grid.Row="1">
-                    <RadioButton Content="Registrer Salg"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     IsChecked="True"
-                                     Command="{Binding SalesViewCommand}"/>
-
-                    <RadioButton Content="Udlej reol"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     Command="{Binding CreateRentalViewCommand}"/>
-
-                    <RadioButton Content="Administrer udlejning"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     Command="{Binding RentalsViewCommand}"/>
-
-                    <RadioButton Content="Administrer lejere"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     Command="{Binding RentersViewCommand}"/>
-
-                    <RadioButton Content="Månedsopgørelser"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     Command="{Binding MonthlyStatementViewCommand}"/>
-
-                    <RadioButton Content="Prismærker"
-                                     Style="{StaticResource MenuButtonTheme}"
-                                     Command="{Binding PriceLabelsViewCommand}"/>
+                <!-- Luk, Maximere, minimere vindue -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding MinimizeCommand}" Content="🗕" 
+                            ToolTip="Minimer vindue" VerticalAlignment="Center"
+                            Background="Transparent" BorderThickness="0"
+                            Width="25" Foreground="#1A1A1A" FontSize="15" Margin="5 -11 5 0"/>
+                    <Button Command="{Binding MaximizeCommand}" Content="🗖" 
+                            ToolTip="Maksimer vindue" VerticalAlignment="Center"
+                            Background="Transparent" BorderThickness="0"
+                            Width="25" Foreground="#1A1A1A" FontSize="15" Margin="7 0 7 3"/>
+                    <Button Command="{Binding CloseCommand}" Content="⨉" 
+                            ToolTip="Luk app" VerticalAlignment="Center"
+                            Background="Transparent" BorderThickness="0"
+                            Width="25" Foreground="#1A1A1A" FontSize="15" Margin="5 0 5 0"/>
                 </StackPanel>
-            </Grid> 
 
-            <ContentControl Grid.Column="1"
-                            Margin="10"
-                            Content="{Binding CurrentMainWindowView}"/>
-        </Grid>
-    </Border>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Indre Grid i kolonne 0 -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- TITLE -->
+                        <TextBlock Grid.Column="0" Grid.Row="0"
+                                   Text="ReolMarked"
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Left"
+                                   Foreground="Black"
+                                   FontWeight="Black"
+                                   FontSize="24"
+                                   FontFamily="Segoe UI Semibold"
+                                   Margin="30,10,0,0"/>
+
+                        <!-- MENU -->
+                        <StackPanel Grid.Column="0" Grid.Row="1">
+                            <RadioButton Content="Registrer Salg"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         IsChecked="True"
+                                         Command="{Binding SalesViewCommand}"/>
+
+                            <RadioButton Content="Udlej reol"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         Command="{Binding CreateRentalViewCommand}"/>
+
+                            <RadioButton Content="Administrer udlejning"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         Command="{Binding RentalsViewCommand}"/>
+
+                            <RadioButton Content="Administrer lejere"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         Command="{Binding RentersViewCommand}"/>
+
+                            <RadioButton Content="Månedsopgørelser"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         Command="{Binding MonthlyStatementViewCommand}"/>
+
+                            <RadioButton Content="Prismærker"
+                                         Style="{StaticResource MenuButtonTheme}"
+                                         Command="{Binding PriceLabelsViewCommand}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Column="1"
+                            BorderBrush="#D5D4D0"
+                            BorderThickness="1 0 0 0"/>
+
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            BorderBrush="#D5D4D0"
+                            BorderThickness="1 0 0 0"/>
+
+                    <ContentControl Grid.Column="1"
+                                    Margin="0"
+                                    Content="{Binding CurrentView}"/>
+
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </Window>
