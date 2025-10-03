@@ -14,7 +14,6 @@ namespace Reolmarked.MVVM.ViewModel
         public RelayCommand MonthlyStatementViewCommand { get; set; }
         public RelayCommand RentersViewCommand { get; set; }
         public RelayCommand RentalsViewCommand { get; set; }
-        public RelayCommand RentersViewCommand { get; set; }
         public RelayCommand SalesViewCommand { get; set; }
         public RelayCommand PriceLabelsViewCommand { get; set; }
         public CreateRentalViewModel CreateRentalVM { get; set; }
@@ -67,36 +66,36 @@ namespace Reolmarked.MVVM.ViewModel
             SalesVM = new SalesViewModel();
             PriceLabelsVM = new PriceLabelsViewModel();
 
-            CurrentMainWindowView = SalesVM;
+            CurrentView = SalesVM;
 
             CreateRentalViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = CreateRentalVM;
+                CurrentView = CreateRentalVM;
             });
 
             MonthlyStatementViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = MonthlyStatementVM;
+                CurrentView = MonthlyStatementVM;
             });
 
             RentalsViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = ManageRentalsVM;
+                CurrentView = ManageRentalsVM;
             });
 
             RentersViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = RentersVM;
+                CurrentView = RentersVM;
             });
 
             SalesViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = SalesVM;
+                CurrentView = SalesVM;
             });
 
             PriceLabelsViewCommand = new RelayCommand(o =>
             {
-                CurrentMainWindowView = PriceLabelsVM;
+                CurrentView = PriceLabelsVM;
             });
         }
     }
