@@ -10,385 +10,66 @@
              d:DesignHeight="900" d:DesignWidth="1000"
              Background="#f4f6f8">
 
-
     <UserControl.DataContext>
         <vm:CreateRentalViewModel/>
     </UserControl.DataContext>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 Grid.ColumnSpan="2">
 
-            <!-- ItemsPanelTemplate -->
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+        <GroupBox Header="Opret udlejning">
+            <StackPanel>
+                <local:RenterSelectionView/>
 
-            <!-- ItemContainerStyle -->
-            <ListBox.ItemContainerStyle>
-                <Style>
-                    <Setter Property="Grid.Column"
-                    Value="{Binding ColumnIndex}" />
-                    <Setter Property="Grid.Row"
-                    Value="{Binding RowIndex}" />
-                </Style>
-            </ListBox.ItemContainerStyle>
+                <StackPanel Orientation="Horizontal" Grid.Row="2">
+                    <Label Content="Valgt reol: "
+                       Margin="0,0,10,0"/>
+                    <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
 
-            <!-- ItemTemplate -->
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding ShelfId}"
-                               Background="AliceBlue"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                <StackPanel Orientation="Horizontal" Grid.Row="3">
+                    <TextBlock Text="Tilføj flere reoler"
+                       Margin=" 0,0,20,0"/>
+                    <CheckBox  Style="{StaticResource SwitchCheckBoxStyle}"
+                       IsChecked="False"
+                       Command="{Binding IsAddingMoreShelvesCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <Button Grid.Row="4" 
+                Content="Bekræft valg"
+                Command="{Binding SaveShelfSelectionCommand, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,10,0,0"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Vælg Reol">
+            <local:ShelfSelectionView/>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Reoludlejninger">
+            <local:NewRentalSummaryView/>
+        </GroupBox>
+
+
+        <!-- <ContentControl Margin="10"
+                        Content="{Binding CurrentCreateRentalView}"/>
+
+        <StackPanel x:Name="stckPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Button Content="Annuller"
+                    Command="{Binding TerminateRentalCreationCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10"/>
+
+            <Button Content="Videre"
+                    Command="{Binding ContinueCreatingRentalCommand, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10"/>
+        </StackPanel> -->
         
-        
-        <StackPanel Grid.Column="2">
-            <Label Content="Vælg Kunde"/>
-            <!-- Dropdown til kunde -->
-            <ComboBox ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedRenter, UpdateSourceTrigger=PropertyChanged}" 
-                      Margin="5 0 0 0"
-                      Width="160">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} {1}, {2}">
-                                    <Binding Path="FirstName"/>
-                                    <Binding Path="LastName"/>
-                                    <Binding Path="PersonId"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Label Content="Kan ikke finde kunde? Opret ny"/>
-            <Label Content="Valgt reol: "/>
-            <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Create Rental"
-                    Command="{Binding AddRentalCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
-        </StackPanel>
-
     </Grid>
-       
-
-    <!-- UserControl.Resources>
-
-            <Style TargetType="Button">
-
-                <Setter Property="Background" Value="#a2bcd9"/>
-
-                <Setter Property="Foreground" Value="#070808"/>
-
-                <Setter Property="FontSize" Value="12"/>
-
-            </Style>
-
-
-
-            <Style TargetType="TextBox" x:Key="SearchTextBoxStyle">
-
-                <Setter Property="Height" Value="50"/>
-
-                <Setter Property="FontSize" Value="14"/>
-
-                <Setter Property="Background" Value="White"/>
-
-                <Setter Property="Padding" Value="40,0,10,0"/>
-
-                <Setter Property="BorderBrush" Value="#4488FF"/>
-
-                <Setter Property="BorderThickness" Value="2"/>
-
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-                <Setter Property="Foreground" Value="Black"/>
-
-                <Setter Property="Template">
-
-                    <Setter.Value>
-
-                        <ControlTemplate TargetType="TextBox">
-
-                            <Grid>
-
-                                <Border Background="{TemplateBinding Background}" 
-
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-
-                                    BorderThickness="{TemplateBinding BorderThickness}" 
-
-                                    CornerRadius="4" />
-
-                                <ScrollViewer Margin="0" 
-
-                                          x:Name="PART_ContentHost" 
-
-                                          VerticalAlignment="Center"/>
-
-                                <Image Source="https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png" 
-
-                                   Width="20" Height="20" 
-
-                                   VerticalAlignment="Center" 
-
-                                   HorizontalAlignment="Right" 
-
-                                   Margin="10,0,0,0" 
-
-                                   IsHitTestVisible="False"/>
-
-                            </Grid>
-
-                        </ControlTemplate>
-
-                    </Setter.Value>
-
-                </Setter>
-
-            </Style>
-
-        </UserControl.Resources>
-
-
-
-        <Grid Margin="20">
-
-            <Grid.RowDefinitions>
-
-                <RowDefinition Height="Auto"/>
-
-                <RowDefinition Height="Auto"/>
-
-            </Grid.RowDefinitions>
-
-
-
-            <Grid.ColumnDefinitions>
-
-                <ColumnDefinition Width="Auto"/>
-
-                <ColumnDefinition/>
-
-                <ColumnDefinition Width="250"/>
-
-            </Grid.ColumnDefinitions>
-
-
-
-            <GroupBox Grid.Row="0" Grid.Column="1" Margin="0,0,30,0">
-
-                <StackPanel Width="300" HorizontalAlignment="Left" Margin="0,0,0,0">
-
-                    <TextBlock Text="Opret ny lejeaftale"  
-
-                           FontSize="16"  
-
-                           Foreground="LightBlue" 
-
-                           FontWeight="Bold" 
-
-                           Margin="0,0,0,10"/>
-
-                    <TextBox Text="Fornavn" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Efternavn" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Vejnavn" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Vejnummer" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Postnummer" Margin="0 10 0 0"/>
-
-                    <TextBox Text="By" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Telefonnummer" Margin="0 10 0 0"/>
-
-                    <TextBox Text="Email" Margin="0 10 0 0"/>
-
-                </StackPanel>
-
-            </GroupBox>
-
-
-
-            <Grid Grid.Row="0" Grid.Column="2" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top">
-
-                <TextBox x:Name="SearchTextBox" 
-
-                     Style="{StaticResource SearchTextBoxStyle}" 
-
-                     Width="250" 
-
-                     Margin="0"/>
-
-            </Grid>
-
-
-
-            <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="0,20,0,0">
-
-                <Grid.ColumnDefinitions>
-
-                    <ColumnDefinition Width="*"/>
-
-                    <ColumnDefinition Width="*"/>
-
-                </Grid.ColumnDefinitions>
-
-
-
-                <Button Name="UpdateBtn" Content="Opret lejere" 
-
-                    Grid.Column="0" 
-
-                    Height="25" Width="110" 
-
-                    HorizontalAlignment="Left" 
-
-                    Background="Green" 
-
-                    Command="{Binding Path=TerminateRentalCommand}">
-
-                    <Button.Resources>
-
-                        <Style TargetType="{x:Type Border}">
-
-                            <Setter Property="CornerRadius" Value="10"/>
-
-                        </Style>
-
-                    </Button.Resources>
-
-                </Button>
-
-
-
-                <Button Name="CancelBtn" Content="Næste" 
-
-                    Grid.Column="1" 
-
-                    Height="25" Width="110" 
-
-                    HorizontalAlignment="Center" 
-
-                    Background="White" 
-
-                    Command="{Binding Path=SaveCommand}">
-
-                    <Button.Resources>
-
-                        <Style TargetType="{x:Type Border}">
-
-                            <Setter Property="CornerRadius" Value="10"/>
-
-                        </Style>
-
-                    </Button.Resources>
-
-                </Button>
-
-            </Grid>
-
-
-
-            <Border Background="White" 
-
-                Width="280" Height="80" 
-
-                HorizontalAlignment="Left" 
-
-                VerticalAlignment="Center" 
-
-                Padding="10" 
-
-                Margin="70,60,0,0" 
-
-                Grid.RowSpan="2" Grid.ColumnSpan="3">
-
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-
-                    <Image Source="https://wallpapers.com/images/high/black-check-mark-green-background-qwbw1mxehl0sekj6-2.png" 
-
-                       Width="20" Height="20" 
-
-                       VerticalAlignment="Center" 
-
-                       Margin="0,0,10,0" 
-
-                       IsHitTestVisible="False"/>
-
-                    <TextBlock VerticalAlignment="Center" 
-
-                           FontWeight="Normal" 
-
-                           FontSize="14" 
-
-                           Foreground="Black" 
-
-                           TextAlignment="Left" 
-
-                           TextWrapping="Wrap" 
-
-                           MaxWidth="240"> 
-
-                    <Run Text="[Fornavn] [Efternavn] oprettet!" /> 
-
-                    <LineBreak/> 
-
-                    <Run Text="Kundeoprettelsen er lykkedes!" />
-
-                    </TextBlock>
-
-                </StackPanel>
-
-            </Border>
-
-        </Grid -->
-
-    </UserControl> 
+</UserControl> 

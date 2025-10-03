@@ -13,24 +13,54 @@ namespace Reolmarked.MVVM.ViewModel
 {
     public class CreateRentalViewModel : ViewModelBase
     {
+        
         private readonly IRepository<RentalAgreement> rentalRepository = new RentalAgreementRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
-        private readonly IRepository<Shelf> shelfRepository = new ShelfRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Shelf_Rental> shelfRentalRepository = new Shelf_RentalRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<PaymentMethod> paymentMethodRepository = new PaymentMethodRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IRepository<Payment> paymentRepository = new PaymentRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
 
         public ObservableCollection<RentalAgreement>? Rentals { get; set; }
-        public ObservableCollection<Shelf>? Shelves { get; set; }
         public ObservableCollection<Shelf_Rental>? ShelfRentals { get; set; }  
         public ObservableCollection<PaymentMethod>? PaymentMethods { get; set; }
         public ObservableCollection<Payment>? Payments { get; set; }
         
-        public static ICollectionView? RentalsCollectionView { get; set; }
-        public static ICollectionView? ShelvesCollectionView { get; set; }
-        public static ICollectionView? ShelfRentalsCollectionView { get; set; }
-        public static ICollectionView? PaymentMethodsCollectionView { get; set; }
-        public static ICollectionView? PaymentsCollectionView { get; set; }
         public ICollectionView? RentersCollectionView { get; set; }
+        public ICollectionView? ShelvesCollectionView { get; set; }
+        public ICollectionView? PaymentMethodsCollectionView { get; set; }
+
+        public static ICollectionView? RentalsCollectionView { get; set; }
+        public static ICollectionView? ShelfRentalsCollectionView { get; set; }
+        public static ICollectionView? PaymentsCollectionView { get; set; }
+
+        public RenterSelectionViewModel RenterSelectionVM { get; set; }
+        public ShelfSelectionViewModel ShelfSelectionVM { get; set; }
+        public NewRentalSummaryViewModel SummaryVM { get; set; }
+        public PaymentViewModel PaymentVM { get; set; }
+
+        private Renter? selectedRenter;
+        public Renter? SelectedRenter
+        {
+            get { return selectedRenter; }
+            set { 
+                selectedRenter = value; 
+                OnPropertyChanged(nameof(RenterShelvesFilter));
+                ShelfRentalsCollectionView.Refresh();
+            }
+        }
+
+        private Shelf selectedShelf;
+        public Shelf SelectedShelf
+        {
+            get { return selectedShelf; }
+            set { selectedShelf = value; OnPropertyChanged(); }
+        }
+
+        private Shelf_Rental selectedShelfRental;
+        public Shelf_Rental SelectedShelfRental
+        {
+            get { return selectedShelfRental; }
+            set { selectedShelfRental = value; OnPropertyChanged(); }
+        }
 
 
         private int agreementId;
@@ -61,20 +91,6 @@ namespace Reolmarked.MVVM.ViewModel
             set { agreementStatus = value; OnPropertyChanged(); }
         }
 
-        private Renter selectedRenter;
-        public Renter SelectedRenter
-        {
-            get { return selectedRenter; }
-            set { selectedRenter = value; OnPropertyChanged(); }
-        }
-
-        private Shelf selectedShelf;
-        public Shelf SelectedShelf
-        {
-            get { return selectedShelf; }
-            set { selectedShelf = value; OnPropertyChanged(); }
-        }
-
         private SalesPerson currentUser;
         public SalesPerson CurrentUser
         {
@@ -82,11 +98,11 @@ namespace Reolmarked.MVVM.ViewModel
             set { currentUser = value; OnPropertyChanged(); }
         }
 
-        private bool addMoreShelves;
-        public bool AddMoreShelves
+        private bool isAddingMoreShelves;
+        public bool IsAddingMoreShelves
         {
-            get { return addMoreShelves; }
-            set { addMoreShelves = value; OnPropertyChanged(); }
+            get { return isAddingMoreShelves; }
+            set { isAddingMoreShelves = value; OnPropertyChanged(); }
         }
 
         private RentalAgreement selectedRental;
@@ -121,28 +137,65 @@ namespace Reolmarked.MVVM.ViewModel
         public double CashChange
         {
             get { return cashChange; }
-            set { cashChange = value; }
+            set { cashChange = value; OnPropertyChanged(); }
         }
 
-
-        public ICommand AddRentalCommand { get; }
-        private bool CanAddRental() => true;
-        public CreateRentalViewModel()
+        private object _currentCreateRentalView;
+        public object CurrentCreateRentalView
         {
+            get { return _currentCreateRentalView; }
+            set { _currentCreateRentalView = value; OnPropertyChanged(); }
+        }
+
+        public ICommand ContinueCreatingRentalCommand { get; }
+        
+        public ICommand AddRentalCommand { get; }        
+        public ICommand ResetFieldsCommand { get; }
+        public ICommand PayforRentalCommand { get; }
+
+        private bool CanAddRental() => true; 
+        private bool canContinueFromRenterSelectionVM => true;
+        private bool canContinueFromShelfSelectionVM => SelectedShelf != null;
+        //private bool canContinueFromSummaryVM => HasConfirmedTC == true;
+
+        public CreateRentalViewModel()
+        {            
             Rentals = new ObservableCollection<RentalAgreement>(rentalRepository.GetAll());
             RentalsCollectionView = CollectionViewSource.GetDefaultView(Rentals);
-            RentersCollectionView = CollectionViewSource.GetDefaultView(RentersViewModel.RentersCollectionView);
-            Shelves = new ObservableCollection<Shelf>(shelfRepository.GetAll());
-            ShelvesCollectionView = CollectionViewSource.GetDefaultView(Shelves);
             ShelfRentals = new ObservableCollection<Shelf_Rental>(shelfRentalRepository.GetAll());
             ShelfRentalsCollectionView = CollectionViewSource.GetDefaultView(ShelfRentals);
             Payments = new ObservableCollection<Payment>(paymentRepository.GetAll());
             PaymentsCollectionView = CollectionViewSource.GetDefaultView(Payments);
             PaymentMethods = new ObservableCollection<PaymentMethod>(paymentMethodRepository.GetAll());
             PaymentMethodsCollectionView = CollectionViewSource.GetDefaultView(PaymentMethods);
-
+            RentersCollectionView = CollectionViewSource.GetDefaultView(RentersViewModel.RentersCollectionView);
             AddRentalCommand = new RelayCommand(_ => AddRental(), _ => CanAddRental());
+            ShelvesCollectionView = CollectionViewSource.GetDefaultView(ManageShelvesViewModel.ShelvesCollectionView);
+            ShelfRentalsCollectionView.Filter = RenterShelvesFilter;
+
+            ContinueCreatingRentalCommand = new RelayCommand(_ => Continue(), _ => true);
+            RenterSelectionVM = new RenterSelectionViewModel();
+            ShelfSelectionVM = new ShelfSelectionViewModel();
+            SummaryVM = new NewRentalSummaryViewModel();
+            PaymentVM = new PaymentViewModel();
+            CurrentCreateRentalView = RenterSelectionVM;
+
+            //RentersViewCommand = new RelayCommand(o =>
+            //{
+            //    CurrentCreateRentalView = RentersVM;
+            //});
+
+            //ShelfSelectionViewCommand = new RelayCommand(o =>
+            //{
+            //    CurrentCreateRentalView = ShelfSelectionVM;
+            //});
+
+            //ConfirmCustomerAndShelfViewCommand = new RelayCommand(o =>
+            //{
+            //    CurrentCreateRentalView = ConfirmCustomerAndShelfVM;
+            //});
         }
+        
         private void AddRental()
         {
             MessageBoxResult result = MessageBox.Show($"Bekræft oprettelse af lejeaftale", "Er du enig?", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -154,24 +207,25 @@ namespace Reolmarked.MVVM.ViewModel
                 // Tilføj til database via repository
                 rentalRepository.Add(rental);
                 rental.AgreementId = rentalRepository.GetLastInsertedId();
+                SelectedRental = rental;
                 // Tilføj til observablecollection til UI-view
-                Rentals.Add(rental);
+                Rentals.Add(SelectedRental);
                 //vis bekræftelse
-                MessageBox.Show($"Lejeaftale oprettet! Lejeaftalenr.: {rental.AgreementId} er oprettet!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
-                Shelf_Rental shelfRental = new Shelf_Rental(SelectedShelf.ShelfId, rental.AgreementId, DateTime.Now, true, selectedShelf.Price, 0, 0);
+                MessageBox.Show($"Lejeaftale oprettet! Lejeaftalenr.: {SelectedRental.AgreementId} er oprettet!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+                Shelf_Rental shelfRental = new Shelf_Rental(SelectedShelf.ShelfId, SelectedRental.AgreementId, DateTime.Now, true, selectedShelf.Price, 0, 0);
                 shelfRentalRepository.Add(shelfRental);
                 ShelfRentals.Add(shelfRental);
 
-                while (addMoreShelves)
+                while (isAddingMoreShelves)
                 {
                     SelectedShelf = null;
-                    Shelf_Rental newshelfRental = new Shelf_Rental(SelectedShelf.ShelfId, rental.AgreementId, DateTime.Now, true, selectedShelf.Price, 0, 0);
+                    Shelf_Rental newshelfRental = new Shelf_Rental(SelectedShelf.ShelfId, SelectedRental.AgreementId, DateTime.Now, true, selectedShelf.Price, 0, 0);
                     shelfRentalRepository.Add(newshelfRental);
                     ShelfRentals.Add(newshelfRental);
                 }
-
                 SelectedShelf = null;
                 SelectedRenter = null;
+
             }
             else
             {
@@ -179,35 +233,41 @@ namespace Reolmarked.MVVM.ViewModel
             }
         }
 
-        private void PayForRental(RentalAgreement rental, PaymentMethod paymentMethod)
+        private void PayForRental()
         {
-            if (rental.Status == RentalAgreementStatus.Cancelled || rental.Status == RentalAgreementStatus.InActive)
+            if (SelectedRental.Status == RentalAgreementStatus.Cancelled || selectedRental.Status == RentalAgreementStatus.InActive)
             {
                 MessageBox.Show($"Lejeaftalen er opsagt eller ikke aktiv. Opret en ny for betaling!", "Mislykkedes", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             else
             {
-                List<Shelf_Rental> rentalShelves = shelfRentalRepository.GetAll().Where(s => s.AgreementId == rental.AgreementId).ToList();
+                List<Shelf_Rental> rentalShelves = shelfRentalRepository.GetAll().Where(s => s.AgreementId == selectedRental.AgreementId).ToList();
                 PaymentAmount = CalculatePaymentAmount(rentalShelves);
 
-                if (selectedPaymentMethod.Name == "Kontant")
+                // Beregner byttepenge ved kontantbetaling
+                if (SelectedPaymentMethod.Name == "Kontant")
                 {
                     CashChange = CalculateCashChange(CashReceived, PaymentAmount);
                 }
-                // Opret payment-objekt til lejeaftalen
-                Payment payment = new Payment(DateTime.Now, PaymentAmount, SelectedPaymentMethod.PaymentMethodId, rental.AgreementId);
+
+                // Opretter payment-objekt
+                Payment payment = new Payment(DateTime.Now, PaymentAmount, SelectedPaymentMethod.PaymentMethodId, selectedRental.AgreementId);
                 paymentRepository.Add(payment);
                 Payments.Add(payment);
-                //vis bekræftelse
-                MessageBox.Show($"Betaling for lejeaftalenr. {rental.AgreementId} er lykkedes!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // if payment is succesfull
-                rental.Status = RentalAgreementStatus.Active;
-                rentalRepository.Update(rental);
+                // Vis bekræftelse
+                MessageBox.Show($"Betaling for lejeaftalenr. {selectedRental.AgreementId} er lykkedes!", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Opdaterer lejeaftalestatus efter betaling
+                selectedRental.Status = RentalAgreementStatus.Active;
+                rentalRepository.Update(selectedRental);
             }
+
+            // Nulstiller felter
             PaymentAmount = 0;
             CashChange = 0;
+            CashReceived = 0;
         }
 
         private double CalculateDiscountPerShelf(int shelfCount)
@@ -226,7 +286,6 @@ namespace Reolmarked.MVVM.ViewModel
         {
             double paymentAmount = 0;
             int shelfCount = rentalShelves.Count();
-
             foreach (var shelfrental in rentalShelves)
             {
                 paymentAmount += shelfrental.Price - CalculateDiscountPerShelf(shelfCount);
@@ -239,5 +298,35 @@ namespace Reolmarked.MVVM.ViewModel
         {
             return cashReceived - paymentAmount;
         }
+
+        private void Continue()
+        {
+            if (CurrentCreateRentalView == RenterSelectionVM && canContinueFromRenterSelectionVM)
+            {
+                CurrentCreateRentalView = ShelfSelectionVM;
+            }
+            else if (CurrentCreateRentalView == ShelfSelectionVM && canContinueFromShelfSelectionVM)
+            {
+                CurrentCreateRentalView = SummaryVM;
+            }
+            else if (CurrentCreateRentalView == SummaryVM )
+            {
+                CurrentCreateRentalView = PaymentVM;
+            }
+            else
+            {
+                CurrentCreateRentalView = RenterSelectionVM;
+            }
+        }
+
+        private bool RenterShelvesFilter(object obj)
+        {
+            if (obj is Shelf_Rental shelfrentals)
+            {
+                return shelfrentals.AgreementId.Equals(selectedRental.AgreementId);
+            }
+            return false;
+        }
+
     }
 }

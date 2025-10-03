@@ -1,6 +1,4 @@
-﻿using Reolmarked.MVVM.View.controls;
-using Reolmarked.MVVM.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +16,11 @@ using System.Windows.Shapes;
 namespace Reolmarked.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for CreateRentalView.xaml
+    /// Interaction logic for RenterSelectionView.xaml
     /// </summary>
-    public partial class CreateRentalView : UserControl
+    public partial class RenterSelectionView : UserControl
     {
-        public CreateRentalView()
+        public RenterSelectionView()
         {
             InitializeComponent();
         }

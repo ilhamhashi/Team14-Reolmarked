@@ -79,13 +79,13 @@ namespace Reolmarked.MVVM.ViewModel
             set { city = value; OnPropertyChanged(); }
         }
 
-        private Renter selectedRenter;
-        public Renter SelectedRenter
+        private Renter? selectedRenter;
+        public Renter? SelectedRenter
         {
             get { return selectedRenter; }
             set { selectedRenter = value; OnPropertyChanged(); }
         }
-
+        
         public ICommand AddRenterCommand { get; }
         public ICommand UpdateRenterCommand { get; }
         public ICommand RemoveRenterCommand { get; }
@@ -94,6 +94,10 @@ namespace Reolmarked.MVVM.ViewModel
         {
             Renters = new ObservableCollection<Renter>(renterRepository.GetAll());
             RentersCollectionView =  CollectionViewSource.GetDefaultView(Renters);
+
+            AddRenterCommand = new RelayCommand(_ => AddRenter(), _ => CanAddRenter());
+            UpdateRenterCommand = new RelayCommand(_ => UpdateRenter(), _ => CanUpdateRenter());
+            RemoveRenterCommand = new RelayCommand(_ => RemoveRenter(), _ => CanRemoveRenter());
         }
 
         private bool CanAddRenter() => !string.IsNullOrWhiteSpace(FirstName)
@@ -105,12 +109,13 @@ namespace Reolmarked.MVVM.ViewModel
                             && !string.IsNullOrWhiteSpace(ZipCode)
                             && !string.IsNullOrWhiteSpace(City);
         private bool CanUpdateRenter() => SelectedRenter != null;
-
+        private bool CanRemoveRenter() => SelectedRenter != null;
         private void AddRenter()
         {
             //opret objekt og tilføj til repository og observablecollection
             Renter renter = new Renter(FirstName, LastName, Email, Phone, StreetName, StreetNumber, ZipCode, City, DateTime.Now);
             renterRepository.Add(renter);
+            renter.PersonId = renterRepository.GetLastInsertedId();
             Renters.Add(renter);
 
             //vis bekræftelse
@@ -122,6 +127,7 @@ namespace Reolmarked.MVVM.ViewModel
             Phone = string.Empty;
             Email = string.Empty;
             StreetName = string.Empty;
+            StreetNumber = string.Empty;
             ZipCode = string.Empty;
             City = string.Empty;
         }
@@ -134,6 +140,12 @@ namespace Reolmarked.MVVM.ViewModel
             MessageBox.Show($"Ændringerne er gemt", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
             //nulstil felter
             SelectedRenter = null;
+        }
+
+        private void RemoveRenter()
+        {
+            renterRepository.Delete(SelectedRenter.PersonId);
+            Renters?.Remove(SelectedRenter);
         }
 
 
