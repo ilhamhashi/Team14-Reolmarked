@@ -45,7 +45,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             return shelfrentals;
         }
 
-        public Shelf_Rental GetById(int shelfid)
+        public Shelf_Rental GetByShelfId(int shelfid)
         {
             Shelf_Rental shelfrental = null;
             
@@ -77,7 +77,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
             return shelfrental;
         }
-        public Shelf_Rental GetByAgremmentId(int agreementid)
+        public Shelf_Rental GetById(int agreementid)
         {
             Shelf_Rental shelfrental = null;
             

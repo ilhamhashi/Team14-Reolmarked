@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Reolmarked.MVVM.View.ShelfSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Reolmarked.MVVM.View"
+             xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="1" 
+                 ItemsSource="{Binding ShelvesCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 SelectedItem="{Binding SelectedShelf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 BorderThickness="0"
+                 Margin="5" >
+
+            <!-- ItemsPanelTemplate -->
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <!-- ItemContainerStyle -->
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column"
+                    Value="{Binding ColumnIndex, UpdateSourceTrigger=PropertyChanged}" />
+                    <Setter Property="Grid.Row"
+                    Value="{Binding RowIndex, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <!-- ItemTemplate -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ShelfId, UpdateSourceTrigger=PropertyChanged}"
+                               Background="Green"
+                               Foreground="White"
+                               Width="30"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

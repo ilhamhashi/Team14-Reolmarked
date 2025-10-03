@@ -26,7 +26,7 @@
             <DataTemplate DataType="{x:Type vm:CreateRentalViewModel}">
                 <view:CreateRentalView/>
             </DataTemplate>
-            
+
             <DataTemplate DataType="{x:Type vm:RentersViewModel}">
                 <view:RentersView/>
             </DataTemplate>
@@ -45,6 +45,22 @@
 
             <DataTemplate DataType="{x:Type vm:PriceLabelsViewModel}">
                 <view:PriceLabelsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ShelfSelectionViewModel}">
+                <view:ShelfSelectionView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:NewRentalSummaryViewModel}">
+                <view:NewRentalSummaryView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:PaymentViewModel}">
+                <view:PaymentView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:RenterSelectionViewModel}">
+                <view:RenterSelectionView/>
             </DataTemplate>
 
         </ResourceDictionary>

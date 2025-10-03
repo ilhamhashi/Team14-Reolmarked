@@ -1,4 +1,5 @@
 ﻿using Reolmarked.MVVM.View.controls;
+using Reolmarked.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

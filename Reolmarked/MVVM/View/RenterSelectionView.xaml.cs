@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Reolmarked.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for PurchaseOverview.xaml
+    /// Interaction logic for RenterSelectionView.xaml
     /// </summary>
-    public partial class PurchaseOverview : UserControl
+    public partial class RenterSelectionView : UserControl
     {
-        public PurchaseOverview()
+        public RenterSelectionView()
         {
             InitializeComponent();
         }
