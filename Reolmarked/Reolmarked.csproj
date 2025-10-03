@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3485.44" />
+    <PackageReference Include="PDFsharp-MigraDoc" Version="6.2.2" />
   </ItemGroup>
 
   <ItemGroup>
