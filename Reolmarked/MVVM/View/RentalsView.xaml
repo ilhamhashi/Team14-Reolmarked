@@ -11,27 +11,20 @@
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
 
         <ListView ItemsSource="{Binding RentalsCollectionView}" 
                   SelectedItem="{Binding SelectedRental}"
                   Background="White" 
-                  BorderThickness="0"
-                  HorizontalContentAlignment="Stretch">
+                  BorderThickness="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Aftalenr."
                                     DisplayMemberBinding="{Binding AgreementId}" />
                     <GridViewColumn Header="Kunde"
                                     DisplayMemberBinding="{Binding RenterId}" />
-                    <GridViewColumn Header="Reoler"
-                                    DisplayMemberBinding="{Binding ShelfId}" />
-                    <GridViewColumn Header="StartDato"
-                                    DisplayMemberBinding="{Binding StartDate}" />
-                    <GridViewColumn Header="SlutDato"
-                                    DisplayMemberBinding="{Binding EndDate}" />
+                    <GridViewColumn Header="Status"
+                                    DisplayMemberBinding="{Binding Status}" />
                 </GridView>
             </ListView.View>
         </ListView>

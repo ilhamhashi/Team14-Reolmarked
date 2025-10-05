@@ -6,11 +6,11 @@ namespace Reolmarked.MVVM.Model.Repositories
 {
     public class ShelfRentalRepository : IRepository<ShelfRental>
     {
-        private readonly string _connectionString;
+        private readonly string connectionString;
 
         public ShelfRentalRepository(string connectionString)
         {
-            _connectionString = connectionString;
+            this.connectionString = connectionString;
         }
 
         public IEnumerable<ShelfRental> GetAll()
@@ -19,7 +19,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
             string query = "SELECT * FROM SHELFRENTAL";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
@@ -50,7 +50,7 @@ namespace Reolmarked.MVVM.Model.Repositories
             
             string query = "SELECT * FROM SHELFRENTAL WHERE AgreementId = @AgreementId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@AgreementId", agreementid);
@@ -79,7 +79,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         {
             string query = "INSERT INTO SHELFRENTAL (ShelfId, AgreementId, StartDate, IsActive, Price, Discount) VALUES (@ShelfId, @AgreementId, @StartDate, @IsActive, @Price, @Discount)";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
@@ -97,7 +97,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         {
             string query = "SELECT CAST(IDENT_CURRENT('SHELFRENTAL') AS INT)";
             Int32 newId;
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
@@ -110,7 +110,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         {
             string query = "UPDATE ShelfRental SET ShelfId = @ShelfId, AgreementId = @AgreementId, StartDate = @StartDate, EndDate = @EndDate, IsActive = @IsActive, Price = @Price, Discount = @Discount, WHERE ShelfID = @ShelfId, AgreementId = @AgreementId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
@@ -128,7 +128,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         {
             string query = "DELETE FROM ShelfRental WHERE ShelfId = @ShelfId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ShelfId", shelfid);

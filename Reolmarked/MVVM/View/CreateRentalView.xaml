@@ -26,11 +26,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Opret udlejning">
+        <GroupBox Header="Opret ny lejekontrakt">
             <StackPanel>
+                <!-- Valg af lejer -->
                 <local:RenterSelectionView/>
-
-
+                
                 <StackPanel Orientation="Horizontal" Grid.Row="2">
                     <Label Content="Valgt reol: "
                        Margin="0,0,10,0"/>

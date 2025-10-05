@@ -27,7 +27,7 @@
                 <view:CreateRentalView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:RentersViewModel}">
+            <DataTemplate DataType="{x:Type vm:PersonsViewModel}">
                 <view:RentersView/>
             </DataTemplate>
 

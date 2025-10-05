@@ -6,15 +6,18 @@
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              xmlns:controls="clr-namespace:Reolmarked.MVVM.View.controls"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel" 
-             mc:Ignorable="d" 
-             Background="#f4f6f8">
+             mc:Ignorable="d">
 
     <UserControl.DataContext>
-        <vm:RentersViewModel/>
+        <vm:PersonsViewModel/>
     </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -22,81 +25,79 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1"
-                    Margin="10">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="Søg"/>
-                <TextBox Text="{Binding SelectedRenter.FirstName, UpdateSourceTrigger=PropertyChanged}"
+        <!-- Søgefelt -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <Label Content="Søg"/>
+            <TextBox Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent"
-                         BorderThickness="1"
-                         Width="250">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="7"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-            </StackPanel>
+                         BorderThickness="1">
+                <TextBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="7"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+        </StackPanel>
 
-            <!-- Liste over lejere -->
-            <ListBox ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        <!-- Liste over lejere -->
+        <ListBox Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="10" 
+                 ItemsSource="{Binding RentersCollectionView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  SelectedItem="{Binding SelectedRenter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}, {1} {2}, {3}, {4}, {5}">
-                                        <Binding Path="PersonId"/>
-                                        <Binding Path="FirstName"/>
-                                        <Binding Path="LastName"/>
-                                        <Binding Path="Phone"/>
-                                        <Binding Path="Email"/>
-                                        <Binding Path="City"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}: {1} {2}, {3}, {4}, {5}">
+                                    <Binding Path="PersonId"/>
+                                    <Binding Path="FirstName"/>
+                                    <Binding Path="LastName"/>
+                                    <Binding Path="Phone"/>
+                                    <Binding Path="Email"/>
+                                    <Binding Path="Address"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
-            <StackPanel Orientation="Horizontal"
-                        Margin="0,15,0,0"
-                        HorizontalAlignment="Center">
-
-                <Button Content="Opdater valgt lejer"
+        <!-- Opdater og slet knapper -->
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="10"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Opdater valgt lejer"
                         Height="25" Width="110"
                         Margin="0,0,10,0"
                         Background="Gray"
                         Command="{Binding UpdateRenterCommand}">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                
-                <Button Content="Slet valgt lejer"
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Content="Slet valgt lejer"
                         Height="25" Width="110"
                         Margin="10,0,0,0"
                         Background="Gray"
                         Command="{Binding RemoveRenterCommand}">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>                
-            </StackPanel>
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
 
-        <StackPanel Margin="10" >
+        <!-- Tilføj ny lejer -->
+        <StackPanel Margin="10" Grid.RowSpan="2">
             <TextBlock Text="Tilføj ny lejer"
                        FontSize="14" 
                        Foreground="LightBlue" 
                        FontWeight="Bold" />
-            
+
             <Label Content="Fornavn"/>
             <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -106,21 +107,11 @@
             <Label Content="Email"/>
             <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Content="Telefon"/>
+            <Label Content="Telefon (eks. +45 12345678)"/>
             <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Content="Gadenavn"/>
-            <TextBox Text="{Binding StreetName, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Label Content="Gadenummer"/>
-            <TextBox Text="{Binding StreetNumber, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Label Content="Postnummer"/>
-            <TextBox Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Label Content="By"/>
-            <TextBox Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
-
+            <Label Content="Adresse (eks. vejnavn 01, 2100 Kbh)"/>
+            <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Button Content="Gem ny lejer"
                         Height="25" Width="110"
@@ -133,8 +124,30 @@
                 </Button.Resources>
             </Button>
         </StackPanel>
-        
-    </Grid>
 
+        <!-- Opdater Renter felter -->
+        <StackPanel Margin="10" Grid.Row="2" Grid.RowSpan="2">
+            <TextBlock Text="Opdater lejer"
+                       FontSize="14" 
+                       Foreground="LightBlue" 
+                       FontWeight="Bold" />
+
+            <Label Content="Fornavn"/>
+            <TextBox Text="{Binding SelectedRenter.FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Efternavn"/>
+            <TextBox Text="{Binding SelectedRenter.LastName, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Email"/>
+            <TextBox Text="{Binding SelectedRenter.Email, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Telefon (eks. +45 12345678)"/>
+            <TextBox Text="{Binding SelectedRenter.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Adresse (eks. vejnavn 01, 2100 Kbh)"/>
+            <TextBox Text="{Binding SelectedRenter.Address, UpdateSourceTrigger=PropertyChanged}"/>
+            
+        </StackPanel>
+    </Grid>
 </UserControl>
 

@@ -16,7 +16,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Employee> GetAll()
         {
             var employees = new List<Employee>();
-            string query = "SELECT * FROM EMPLOYEE";
+            string query = "SELECT * FROM PERSON INNER JOIN EMPLOYEE ON PERSON.PersonId=EMPLOYEE.EmployeeId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
