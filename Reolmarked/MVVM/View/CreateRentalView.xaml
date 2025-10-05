@@ -30,12 +30,27 @@
             <StackPanel>
                 <local:RenterSelectionView/>
 
+                
                 <StackPanel Orientation="Horizontal" Grid.Row="2">
                     <Label Content="Valgt reol: "
                        Margin="0,0,10,0"/>
                     <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
+                
+                <local:NewRentalSummaryView/>
 
+
+
+            </StackPanel>
+        </GroupBox>
+        
+        <!-- 
+        <GroupBox Grid.Column="1" Header="Vælg Reol">
+            <local:ShelfSelectionView/>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Reoludlejninger">
+            <local:NewRentalSummaryView/>
+        </GroupBox>
                 <StackPanel Orientation="Horizontal" Grid.Row="3">
                     <TextBlock Text="Tilføj flere reoler"
                        Margin=" 0,0,20,0"/>
@@ -48,17 +63,8 @@
                 Content="Bekræft valg"
                 Command="{Binding SaveShelfSelectionCommand, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,10,0,0"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Grid.Column="1" Header="Vælg Reol">
-            <local:ShelfSelectionView/>
-        </GroupBox>
-        <GroupBox Grid.Row="1" Header="Reoludlejninger">
-            <local:NewRentalSummaryView/>
-        </GroupBox>
 
-
-        <!-- <ContentControl Margin="10"
+<ContentControl Margin="10"
                         Content="{Binding CurrentCreateRentalView}"/>
 
         <StackPanel x:Name="stckPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >

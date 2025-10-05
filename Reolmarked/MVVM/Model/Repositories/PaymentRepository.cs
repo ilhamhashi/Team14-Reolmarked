@@ -16,7 +16,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Payment> GetAll()
         {
             var payments = new List<Payment>();
-            string query = "SELECT * FROM Payment";
+            string query = "SELECT * FROM PAYMENT";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -32,8 +32,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
                             (double)reader["Amount"],
-                            (int?)reader["PaymentMethodId"],
-                            (int?)reader["AgreementId"]
+                            (int)reader["PaymentMethodId"],
+                            Convert.IsDBNull(reader["AgreementId"]) ? null : (int?)reader["AgreementId"],
+                            Convert.IsDBNull(reader["SaleId"]) ? null : (int?)reader["SaleId"]
                         ));
                     }
                 }
@@ -45,7 +46,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         {
             Payment payment = null;
 
-            string query = "SELECT * FROM Payment WHERE PaymentId = @PaymentId";
+            string query = "SELECT * FROM PAYMENT WHERE PaymentId = @PaymentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -62,8 +63,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["PaymentId"],
                             (DateTime)reader["PaymentDate"],
                             (double)reader["Amount"],
-                            (int?)reader["PaymentMethodId"],
-                            (int?)reader["AgreementId"]
+                            (int)reader["PaymentMethodId"],
+                            Convert.IsDBNull(reader["AgreementId"]) ? null : (int?)reader["AgreementId"],
+                            Convert.IsDBNull(reader["SaleId"]) ? null : (int?)reader["SaleId"]
                         );
                     }
                 }
@@ -73,7 +75,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Payment entity)
         {
-            string query = "INSERT INTO Payment (PaymentId, PaymentDate, Amount, PaymentMethodId, AgreementId) VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethodId, @AgreementId)";
+            string query = "INSERT INTO PAYMENT (PaymentId, PaymentDate, Amount, PaymentMethodId, AgreementId, SaleId) VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethodId, @AgreementId, @SaleId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -83,6 +85,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@Amount", entity.Amount);
                 command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@SaleId", entity.SaleId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -90,7 +93,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('Payment') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('PAYMENT') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -103,7 +106,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Payment entity)
         {
-            string query = "UPDATE Payment SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethodId = @PaymentMethodId, AgreementId = @AgreementId";
+            string query = "UPDATE PAYMENT SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethodId = @PaymentMethodId, AgreementId = @AgreementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -113,6 +116,8 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@Amount", entity.Amount);
                 command.Parameters.AddWithValue("@PaymentMethodId", entity.PaymentMethodId);
                 command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
+                command.Parameters.AddWithValue("@SaleId", entity.SaleId);
+
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -120,7 +125,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Payment WHERE PaymentId = @PaymentId";
+            string query = "DELETE FROM PAYMENT WHERE PaymentId = @PaymentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

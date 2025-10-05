@@ -52,13 +52,6 @@ namespace Reolmarked.MVVM.ViewModel
             set { discount = value; OnPropertyChanged(); }
         }
 
-        private double discountPctg;
-        public double DiscountPctg
-        {
-            get { return discountPctg; }
-            set { discountPctg = value; OnPropertyChanged(); }
-        }
-
         private DateTime saleDateTime;
 		public DateTime SaleDateTime
         {
@@ -66,11 +59,11 @@ namespace Reolmarked.MVVM.ViewModel
 			set { saleDateTime = value; OnPropertyChanged(); }
 		}
 
-		private double grandTotal;
-		public double GrandTotal
+		private double total;
+		public double Total
 		{
-			get { return grandTotal; }
-			set { grandTotal = value; OnPropertyChanged(); }
+			get { return total; }
+			set { total = value; OnPropertyChanged(); }
 		}
 
 		private bool isPaid;
@@ -80,11 +73,11 @@ namespace Reolmarked.MVVM.ViewModel
             set { isPaid = value; OnPropertyChanged(); }
         }
 
-        private SalesPerson salesPerson;
-        public SalesPerson SalesPerson
+        private Employee employee;
+        public Employee Employee
         {
-            get { return salesPerson; }
-            set { salesPerson = value; OnPropertyChanged(); }
+            get { return employee; }
+            set { employee = value; OnPropertyChanged(); }
         }
 
         private ItemLine selectedItemLine;
@@ -115,7 +108,7 @@ namespace Reolmarked.MVVM.ViewModel
         private void AddItemLine()
         {
             // Opret itemLine-objekt
-            ItemLine itemline = new ItemLine(ItemId, SaleId, ItemLinePrice, ItemLineQuantity, Discount, DiscountPctg);
+            ItemLine itemline = new ItemLine(ItemId, SaleId, ItemLineQuantity, ItemLinePrice, Discount);
             // Tilføj til database via repository
             itemLineRepository.Add(itemline);
             // Tilføj til observablecollection til UI-view

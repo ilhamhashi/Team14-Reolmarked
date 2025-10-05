@@ -52,31 +52,11 @@ namespace Reolmarked.MVVM.ViewModel
             set { email = value; OnPropertyChanged(); }
         }
 
-        private string streetName;
-        public string StreetName
+        private string address;
+        public string Address
         {
-            get { return streetName; }
-            set { streetName = value; OnPropertyChanged(); }
-        }
-        private string streetNumber;
-        public string StreetNumber
-        {
-            get { return streetNumber; }
-            set { streetNumber = value; OnPropertyChanged(); }
-        }
-
-        private string zipCode;
-        public string ZipCode
-        {
-            get { return zipCode; }
-            set { zipCode = value; OnPropertyChanged(); }
-        }
-
-        private string city;
-        public string City
-        {
-            get { return city; }
-            set { city = value; OnPropertyChanged(); }
+            get { return address; }
+            set { address = value; OnPropertyChanged(); }
         }
 
         private Renter? selectedRenter;
@@ -104,32 +84,26 @@ namespace Reolmarked.MVVM.ViewModel
                             && !string.IsNullOrWhiteSpace(LastName)
                             && !string.IsNullOrWhiteSpace(Phone)
                             && !string.IsNullOrWhiteSpace(Email)
-                            && !string.IsNullOrWhiteSpace(StreetName)
-                            && !string.IsNullOrWhiteSpace(StreetNumber)
-                            && !string.IsNullOrWhiteSpace(ZipCode)
-                            && !string.IsNullOrWhiteSpace(City);
+                            && !string.IsNullOrWhiteSpace(Address);
         private bool CanUpdateRenter() => SelectedRenter != null;
         private bool CanRemoveRenter() => SelectedRenter != null;
         private void AddRenter()
         {
             //opret objekt og tilføj til repository og observablecollection
-            Renter renter = new Renter(FirstName, LastName, Email, Phone, StreetName, StreetNumber, ZipCode, City, DateTime.Now);
+            Renter renter = new Renter(FirstName, LastName, Email, Phone, Address, DateTime.Now);
             renterRepository.Add(renter);
             renter.PersonId = renterRepository.GetLastInsertedId();
             Renters.Add(renter);
 
             //vis bekræftelse
-            MessageBox.Show($"{FirstName} {LastName} oprettet.", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"{renter.GetFullName()} er oprettet.", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
 
             //nulstil felter
             FirstName = string.Empty;
             LastName = string.Empty;
             Phone = string.Empty;
             Email = string.Empty;
-            StreetName = string.Empty;
-            StreetNumber = string.Empty;
-            ZipCode = string.Empty;
-            City = string.Empty;
+            Address = string.Empty;
         }
 
         private void UpdateRenter()
