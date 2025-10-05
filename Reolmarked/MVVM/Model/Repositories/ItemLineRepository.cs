@@ -15,7 +15,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<ItemLine> GetAll()
         {
             var itemLines = new List<ItemLine>();
-            string query = "SELECT * FROM ItemLine";
+            string query = "SELECT * FROM ITEMLINE";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -30,10 +30,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["ItemId"],
                             (int)reader["SaleId"],
-                            (double)reader["Price"],
                             (int)reader["Quantity"],
-                            (double)reader["Discount"],
-                            (double)reader["DiscountPctg"]
+                            (double)reader["Price"],                            
+                            (double)reader["Discount"]
                         ));
                     }
                 }
@@ -44,7 +43,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public ItemLine GetById(int id)
         {
             ItemLine itemLine = null;
-            string query = "SELECT * FROM ItemLine WHERE ItemId = @ItemId";
+            string query = "SELECT * FROM ITEMLINE WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -60,10 +59,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                         (
                             (int)reader["ItemId"],
                             (int)reader["SaleId"],
-                            (double)reader["Price"],
                             (int)reader["Quantity"],
-                            (double)reader["Discount"],
-                            (double)reader["DiscountPctg"]
+                            (double)reader["Price"],
+                            (double)reader["Discount"]
                         );
                     }
                 }
@@ -73,7 +71,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(ItemLine entity)
         {
-            string query = "INSERT INTO ItemLine (ItemId, SaleId, Price, Quantity, Discount, DiscountPctg) VALUES (@ItemId, @SaleId, @Price, @Quantity, @Discount, @DiscountPctg)";
+            string query = "INSERT INTO ITEMLINE (ItemId, SaleId, Price, Quantity, Discount) VALUES (@ItemId, @SaleId, @Price, @Quantity, @Discount)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -83,15 +81,26 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@Price", entity.Price);
                 command.Parameters.AddWithValue("@Quantity", entity.Quantity);
                 command.Parameters.AddWithValue("@Discount", entity.Discount);
-                command.Parameters.AddWithValue("@DiscountPctg", entity.DiscountPctg);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('ITEMLINE') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
         public void Update(ItemLine entity)
         {
-            string query = "UPDATE ItemLine SET ItemId = @ItemId, SaleId = @SaleId, Price = @Price, Quantity = @Quantity, Discount = @Discount, DiscountPctg = @DiscountPctg WHERE ItemId = @ItemId, SaleId = @SaleId";
+            string query = "UPDATE ITEMLINE SET ItemId = @ItemId, SaleId = @SaleId, Price = @Price, Quantity = @Quantity, Discount = @Discount WHERE ItemId = @ItemId, SaleId = @SaleId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -101,7 +110,6 @@ namespace Reolmarked.MVVM.Model.Repositories
                 command.Parameters.AddWithValue("@Price", entity.Price);
                 command.Parameters.AddWithValue("@Quantity", entity.Quantity);
                 command.Parameters.AddWithValue("@Discount", entity.Discount);
-                command.Parameters.AddWithValue("@DiscountPctg", entity.DiscountPctg);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -109,7 +117,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM ItemLine WHERE ItemId = @ItemId, SaleId = @SaleId";
+            string query = "DELETE FROM ITEMLINE WHERE ItemId = @ItemId, SaleId = @SaleId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

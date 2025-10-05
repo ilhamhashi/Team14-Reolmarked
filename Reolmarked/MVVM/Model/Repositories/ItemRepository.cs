@@ -14,7 +14,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Item> GetAll()
         {
             var items = new List<Item>();
-            string query = "SELECT * FROM Item";
+            string query = "SELECT * FROM ITEM";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -28,9 +28,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                         items.Add(new Item
                         (
                             (int)reader["ItemId"],
-                            (int)reader["ShelfId"],
-                            (double)reader["Price"], 
-                            (string)reader["BarcodeImagePath"]
+                            (string)reader["BarcodeImagePath"],
+                            (double)reader["Price"],
+                            (int)reader["ShelfId"]
                         ));
                     }
                 }
@@ -41,7 +41,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Item GetById(int id)
         {
             Item item = null;
-            string query = "SELECT * FROM Item WHERE ItemId = @ItemId";
+            string query = "SELECT * FROM ITEM WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -56,9 +56,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                         item = new Item
                         (
                             (int)reader["ItemId"],
-                            (int)reader["ShelfId"],
+                            (string)reader["BarcodeImagePath"],
                             (double)reader["Price"],
-                            (string)reader["BarcodeImagePath"]
+                            (int)reader["ShelfId"]
                         );
                     }
                 }
@@ -68,29 +68,43 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Item entity)
         {
-            string query = "INSERT INTO Item (ShelfId, Price, BarcodeImagePath) VALUES (@ShelfId, @Price, @BarcodeImagePath)";
+            string query = "INSERT INTO ITEM (BarcodeImagePath, Price, ShelfId) VALUES (@BarcodeImagePath, @Price, @ShelfId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
-                command.Parameters.AddWithValue("@Price", entity.Price);
                 command.Parameters.AddWithValue("@BarcodeImagePath", entity.BarcodeImage);
+                command.Parameters.AddWithValue("@Price", entity.Price); 
+                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);           
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('ITEM') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
+
         public void Update(Item entity)
         {
-            string query = "UPDATE Item SET ShelfId = @ShelfId, Price = @Price, BarcodeImagePath = @BarcodeImagePath WHERE ItemId = @ItemId";
+            string query = "UPDATE ITEM SET ShelfId = @ShelfId, Price = @Price, BarcodeImagePath = @BarcodeImagePath WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
-                command.Parameters.AddWithValue("@Price", entity.Price);
+                command.Parameters.AddWithValue("@ItemId", entity.ItemId);
                 command.Parameters.AddWithValue("@BarcodeImagePath", entity.BarcodeImage);
+                command.Parameters.AddWithValue("@Price", entity.Price);
+                command.Parameters.AddWithValue("@ShelfId", entity.ShelfId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -98,7 +112,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Item WHERE ItemId = @ItemId";
+            string query = "DELETE FROM ITEM WHERE ItemId = @ItemId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

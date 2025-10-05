@@ -5,8 +5,98 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#f4f6f8">
+
+    <Grid Margin="16">
+        <Grid.Resources>
+            <Style TargetType="GroupBox">
+                <Setter Property="Margin" Value="0,12,0,0"/>
+                <Setter Property="Padding" Value="12"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Width" Value="220"/>
+                <Setter Property="Margin" Value="0,4,0,12"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="140"/>
+                <Setter Property="Height" Value="34"/>
+                <Setter Property="Margin" Value="0,8,8,0"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Generer klistermærke"
+             FontSize="18" FontWeight="SemiBold" />
+
+        <!-- Venstre: formular + knapper -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,12,16,0">
+            <GroupBox Header="Vareoplysninger">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Vare-ID:"/>
+                    <TextBox x:Name="TxtItemId" Grid.Row="0" Grid.Column="1" Text="123" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Pris:"/>
+                    <TextBox x:Name="TxtPrice" Grid.Row="1" Grid.Column="1" Text="49,95" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Antal labels:"/>
+                    <TextBox x:Name="TxtQuantity" Grid.Row="2" Grid.Column="1" Text="1" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Handlinger">
+                <WrapPanel>
+                    <Button x:Name="BtnFetch"    Content="Hent vare" />
+                    <Button x:Name="BtnGenerate" Content="Generér stregkode" />
+                    <Button x:Name="BtnPrint"    Content="Print label" />
+                </WrapPanel>
+            </GroupBox>
+
+
+        </StackPanel>
+
+        <!-- Højre: preview -->
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Forhåndsvisning (label)">
+            <Border Margin="8" Background="White" Padding="12"
+            BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                   x:Name="LblPricePreview"
+                   Text="Pris: 49,95 kr."
+                   FontSize="24" FontWeight="Bold"/>
+
+                    <Border Grid.Row="1" Margin="0,8,0,8" Padding="8"
+                BorderBrush="#EEE" BorderThickness="1" Background="#FFF">
+                        <Image x:Name="ImgBarcodePreview" Stretch="Uniform"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </GroupBox>
     </Grid>
+
 </UserControl>

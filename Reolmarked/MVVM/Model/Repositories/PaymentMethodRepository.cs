@@ -15,7 +15,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<PaymentMethod> GetAll()
         {
             var PaymentMethods = new List<PaymentMethod>();
-            string query = "SELECT * FROM PaymentMethod";
+            string query = "SELECT * FROM PAYMENTMETHOD";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -40,7 +40,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public PaymentMethod GetById(int id)
         {
             PaymentMethod PaymentMethod = null;
-            string query = "SELECT * FROM PaymentMethod WHERE PaymentMethodId = @PaymentMethodId";
+            string query = "SELECT * FROM PAYMENTMETHOD WHERE PaymentMethodId = @PaymentMethodId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -65,7 +65,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(PaymentMethod entity)
         {
-            string query = "INSERT INTO PaymentMethod (Name) VALUES (@Name)";
+            string query = "INSERT INTO PAYMENTMETHOD (Name) VALUES (@Name)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -76,9 +76,21 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
         }
 
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('PAYMENTMETHOD') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
         public void Update(PaymentMethod entity)
         {
-            string query = "UPDATE PaymentMethod SET PaymentMethodId = @PaymentMethodId, Name = @Name";
+            string query = "UPDATE PAYMENTMETHOD SET PaymentMethodId = @PaymentMethodId, Name = @Name";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -92,7 +104,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM PaymentMethod WHERE PaymentMethodId = @PaymentMethodId";
+            string query = "DELETE FROM PAYMENTMETHOD WHERE PaymentMethodId = @PaymentMethodId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

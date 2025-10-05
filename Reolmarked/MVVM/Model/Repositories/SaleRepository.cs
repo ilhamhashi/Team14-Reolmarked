@@ -15,7 +15,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Sale> GetAll()
         {
             var sales = new List<Sale>();
-            string query = "SELECT * FROM Sale";
+            string query = "SELECT * FROM SALE";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -29,10 +29,10 @@ namespace Reolmarked.MVVM.Model.Repositories
                         sales.Add(new Sale
                         (
                             (int)reader["SaleId"],
-                            (DateTime)reader["SaleDateTime"],
-                            (double)reader["SaleGrandTotal"],
-                            (bool)reader["IsSalePaid"],
-                            (int)reader["SalesPersonId"]
+                            (DateTime)reader["Date"],
+                            (double)reader["Total"],
+                            (bool)reader["IsPaid"],
+                            (int)reader["EmployeeId"]
                         ));
                     }
                 }
@@ -43,7 +43,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Sale GetById(int id)
         {
             Sale sale = null;
-            string query = "SELECT * FROM Sale WHERE SaleId = @SaleId";
+            string query = "SELECT * FROM SALE WHERE SaleId = @SaleId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -58,10 +58,10 @@ namespace Reolmarked.MVVM.Model.Repositories
                         sale = new Sale
                         (
                             (int)reader["SaleId"],
-                            (DateTime)reader["SaleDateTime"],
-                            (double)reader["SaleGrandTotal"],
-                            (bool)reader["IsSalePaid"],
-                            (int)reader["SalesPersonId"]
+                            (DateTime)reader["Date"],
+                            (double)reader["Total"],
+                            (bool)reader["IsPaid"],
+                            (int)reader["EmployeeId"]
                         );
                     }
                 }
@@ -71,32 +71,45 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Sale entity)
         {
-            string query = "INSERT INTO Sale (SaleId, SaleDateTime, SaleGrandTotal, IsSalePaid, SalesPersonId) VALUES (@SaleId, @SaleDateTime, @SaleGrandTotal, @IsSalePaid, @SalesPersonId)";
+            string query = "INSERT INTO SALE (SaleId, Date, Total, IsPaid, EmployeeId) VALUES (@SaleId, @Date, @Total, @IsPaid, @EmployeeId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@SaleId", entity.SaleId);
-                command.Parameters.AddWithValue("@SaleDateTime", entity.DateTime);
-                command.Parameters.AddWithValue("@SaleGrandTotal", entity.GrandTotal);
-                command.Parameters.AddWithValue("@IsSalePaid", entity.IsPaid);
-                command.Parameters.AddWithValue("@SalesPersonId", entity.SalesPersonId);
+                command.Parameters.AddWithValue("@Date", entity.Date);
+                command.Parameters.AddWithValue("@Total", entity.Total);
+                command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
+                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
+
+        public int GetLastInsertedId()
+        {
+            string query = "SELECT CAST(IDENT_CURRENT('SALE') AS INT)";
+            Int32 newId;
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                newId = (Int32)command.ExecuteScalar();
+            }
+            return (int)newId;
+        }
         public void Update(Sale entity)
         {
-            string query = "UPDATE Sale SET SaleId = @SaleId, SaleDateTime = @SaleDateTime, SaleGrandTotal = @SaleGrandTotal, IsSalePaid = @IsSalePaid, SalesPersonId = @SalesPersonId WHERE SaleId = @SaleId";
+            string query = "UPDATE SALE SET SaleId = @SaleId, Date = @Date, Total = @Total, IsPaid = @IsPaid, EmployeeId = @EmployeeId WHERE SaleId = @SaleId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@SaleId", entity.SaleId);
-                command.Parameters.AddWithValue("@SaleDateTime", entity.DateTime);
-                command.Parameters.AddWithValue("@SaleGrandTotal", entity.GrandTotal);
-                command.Parameters.AddWithValue("@IsSalePaid", entity.IsPaid);
-                command.Parameters.AddWithValue("@SalesPersonId", entity.SalesPersonId);
+                command.Parameters.AddWithValue("@Date", entity.Date);
+                command.Parameters.AddWithValue("@Total", entity.Total);
+                command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
+                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -104,7 +117,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Sale WHERE SaleId = @SaleId";
+            string query = "DELETE FROM SALE WHERE SaleId = @SaleId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

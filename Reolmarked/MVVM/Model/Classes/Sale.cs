@@ -5,36 +5,32 @@ namespace Reolmarked.MVVM.Model.Classes
     public class Sale : IInvoiceable
     {
         public int SaleId { get; set; }
-        public DateTime DateTime { get; set; }
-        public double GrandTotal { get; set; }
+        public DateTime Date { get; set; }
+        public double Total { get; set; }
         public bool IsPaid { get; set; }
-        public int SalesPersonId { get; set; }
+        public int EmployeeId { get; set; }
 
-        public Sale(int saleId, DateTime dateTime, double grandTotal, bool isPaid, int salesPersonId)
+        public Sale(int saleId, DateTime date, double total, bool isPaid, int employeeId)
         {
             SaleId = saleId;
-            DateTime = dateTime;
-            GrandTotal = grandTotal;
+            Date = date;
+            Total = total;
             IsPaid = isPaid;
-            SalesPersonId = salesPersonId;
+            EmployeeId = employeeId;
         }
 
-        public Sale(DateTime dateTime, double grandTotal, bool isPaid, int salesPersonId)
+        public Sale(DateTime date, double total, bool isPaid, int employeeId)
         {
-            DateTime = dateTime;
-            GrandTotal = grandTotal;
+            Date = date;
+            Total = total;
             IsPaid = isPaid;
-            SalesPersonId = salesPersonId;
+            EmployeeId = employeeId;
         }
 
-        public bool RegisterPaymentForSale()
+        public double RemainingBalance(double amountReceived)
         {
-            throw new NotImplementedException();
+            return Total - amountReceived;
         }
 
-        public void PrintInvoice()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
