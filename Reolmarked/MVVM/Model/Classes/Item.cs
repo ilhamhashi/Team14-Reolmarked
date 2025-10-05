@@ -5,23 +5,23 @@ namespace Reolmarked.MVVM.Model.Classes
     public class Item : ISellable
     {
         public int ItemId { get; set; }
-        public int ShelfId { get; set; }
-        public double Price { get; set; }
         public string BarcodeImage { get; set; }
+        public double Price { get; set; }
+        public int ShelfId { get; set; }
 
-        public Item(int itemId, int shelfId, double price, string barcodeImage)
+        public Item(int itemId, string barcodeImage, double price, int shelfId)
         {
             ItemId = itemId;
-            ShelfId = shelfId;
-            Price = price;
             BarcodeImage = barcodeImage;
+            Price = price;
+            ShelfId = shelfId;
         }
 
-        public Item(int shelfId, double price, string barcodeImage)
+        public Item(string barcodeImage, double price, int shelfId)
         {
-            ShelfId = shelfId;
-            Price = price;
             BarcodeImage = barcodeImage;
+            Price = price;
+            ShelfId = shelfId;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Reolmarked.MVVM.Model.Classes
 {
-    public enum RentalAgreementStatus
+    public enum AgreementStatus
     {
         [Description("Oprettet - afventer betaling")]
         CreatedAwaitingPayment,
@@ -10,51 +10,30 @@ namespace Reolmarked.MVVM.Model.Classes
         Active, 
         [Description("Opsagt")]
         Cancelled,
-        [Description("Afsluttet")]
+        [Description("Inaktiv")]
         InActive
     }
 
     public class RentalAgreement
     {
         public int AgreementId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public RentalAgreementStatus Status { get; set; }
+        public AgreementStatus Status { get; set; }
         public int? RenterId { get; set; }
-        public int? SalesPersonId { get; set; }
+        public int? EmployeeId { get; set; }
 
-        public RentalAgreement(int agreementId, DateTime startDate, DateTime? endDate, RentalAgreementStatus status, int renterId, int salesPersonId)
+        public RentalAgreement(int agreementId, AgreementStatus status, int? renterId, int? employeeId)
         {
             AgreementId = agreementId;
-            StartDate = startDate;
-            EndDate = endDate;
             Status = status;
             RenterId = renterId;
-            SalesPersonId = salesPersonId;
+            EmployeeId = employeeId;
         }
 
-        public RentalAgreement(DateTime startDate, DateTime? endDate, RentalAgreementStatus status, int renterId, int salesPersonId)
+        public RentalAgreement(AgreementStatus status, int? renterId, int? employeeId)
         {
-            StartDate = startDate;
-            EndDate = endDate;
             Status = status;
             RenterId = renterId;
-            SalesPersonId = salesPersonId;
-        }
-
-        public RentalAgreement(DateTime startDate, RentalAgreementStatus status, int renterId, int salesPersonId)
-        {
-            StartDate = startDate;
-            Status = status;
-            RenterId = renterId;
-            SalesPersonId = salesPersonId;
-        }
-
-        public RentalAgreement(DateTime startDate, RentalAgreementStatus status, int? renterId)
-        {
-            StartDate = startDate;
-            Status = status;
-            RenterId = renterId;
+            EmployeeId = employeeId;
         }
     }
 }

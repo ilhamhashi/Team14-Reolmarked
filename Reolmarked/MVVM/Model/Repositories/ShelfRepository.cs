@@ -1,7 +1,6 @@
 ﻿using Reolmarked.MVVM.Model.Classes;
 using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Interfaces;
-using System.ComponentModel;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
@@ -17,7 +16,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Shelf> GetAll()
         {
             var shelves = new List<Shelf>();
-            string query = "SELECT * FROM Shelf";
+            string query = "SELECT * FROM SHELF";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -33,9 +32,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["ShelfId"],
                             (int)reader["ColumnIndex"],
                             (int)reader["RowIndex"],
-                            (ShelfArrangement)Enum.Parse(typeof(ShelfArrangement),(string)reader["ShelfArrangement"]),
-                            (ShelfStatus)Enum.Parse(typeof(ShelfStatus), (string)reader["ShelfStatus"]),
-                            (double)reader["ShelfPrice"]
+                            (ShelfArrangement)Enum.Parse(typeof(ShelfArrangement),(string)reader["Arrangement"]),
+                            (ShelfStatus)Enum.Parse(typeof(ShelfStatus), (string)reader["Status"]),
+                            (double)reader["Price"]
                         ));
                     }
                 }
@@ -46,7 +45,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Shelf GetById(int id)
         {
             Shelf shelf = null;
-            string query = "SELECT * FROM Shelf WHERE ShelfId = @ShelfId";
+            string query = "SELECT * FROM SHELF WHERE ShelfId = @ShelfId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -63,9 +62,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["ShelfId"],
                             (int)reader["ColumnIndex"],
                             (int)reader["RowIndex"],
-                            (ShelfArrangement)Enum.Parse(typeof(ShelfArrangement), (string)reader["ShelfArrangement"]),
-                            (ShelfStatus)Enum.Parse(typeof(ShelfStatus), (string)reader["ShelfStatus"]),
-                            (double)reader["ShelfPrice"]
+                            (ShelfArrangement)Enum.Parse(typeof(ShelfArrangement), (string)reader["Arrangement"]),
+                            (ShelfStatus)Enum.Parse(typeof(ShelfStatus), (string)reader["Status"]),
+                            (double)reader["Price"]
                         );
                     }
                 }
@@ -75,7 +74,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Shelf entity)
         {
-            string query = "INSERT INTO Shelf (ShelfId, ColumnIndex, RowIndex, ShelfArrangement, ShelfStatus, ShelfPrice) VALUES (@ShelfId, @ColumnIndex, @RowIndex, @Arrangement, @Status, @Price)";
+            string query = "INSERT INTO SHELF (ShelfId, ColumnIndex, RowIndex, Arrangement, Status, Price) VALUES (@ShelfId, @ColumnIndex, @RowIndex, @Arrangement, @Status, @Price)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -93,7 +92,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('Shelf') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('SHELF') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -106,7 +105,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Shelf entity)
         {
-            string query = "UPDATE Shelf SET ColumnIndex = @ColumnIndex, RowIndex = @RowIndex, ShelfArrangement = @Arrangement, ShelfStatus = @Status, ShelfPrice = @Price WHERE ShelfId = @ShelfId";
+            string query = "UPDATE SHELF SET ColumnIndex = @ColumnIndex, RowIndex = @RowIndex, Arrangement = @Arrangement, Status = @Status, Price = @Price WHERE ShelfId = @ShelfId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -124,7 +123,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Shelf WHERE ShelfId = @ShelfId";
+            string query = "DELETE FROM SHELF WHERE ShelfId = @ShelfId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

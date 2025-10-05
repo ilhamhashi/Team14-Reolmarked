@@ -2,11 +2,9 @@
 {
     public interface IInvoiceable
     {
-        DateTime DateTime { get; set; }
-        double GrandTotal { get; set; }
+        DateTime Date { get; set; }
         bool IsPaid { get; set; }
-        int SalesPersonId { get; set; }
 
-        void PrintInvoice();
+        double RemainingBalance(double amountReceived);
     }
 }

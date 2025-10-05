@@ -13,22 +13,22 @@ namespace Reolmarked.MVVM.ViewModel
 {
     public class MonthlyStatementViewModel : ViewModelBase
     {
-        private readonly IRepository<Invoice> invoiceRepository = new InvoiceRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
+        private readonly IRepository<RentalStatement> statementRepository = new StatementRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
         private readonly IMonthlyStatementOverviewRepository monthlyStatementOverviewRepository = new MonthlyStatementOverviewRepository(MainWindowViewModel.Config.GetConnectionString("DefaultConnection"));
-        public ObservableCollection<Invoice>? Invoices { get; set; }
+        public ObservableCollection<RentalStatement>? Statements { get; set; }
         public ObservableCollection<MonthlyStatementItem> MonthlyStatementItems { get; set; }
-        public static ICollectionView? InvoicesCollectionView { get; set; }
+        public static ICollectionView? StatementsCollectionView { get; set; }
         public static ICollectionView? MonthlyStatementItemsCollectionView { get; set; }
         public ICollectionView? RentalAgreementsCollectionView { get; set; }
         public ICollectionView? RentersCollectionView { get; set; }
         public ICollectionView? ShelfRentalsCollectionView { get; set; }
         public ICollectionView? SalesCollectionView { get; set; }
 
-        private int invoiceId;
-        public int InvoiceId
+        private int statementId;
+        public int StatementId
         {
-            get { return invoiceId; }
-            set { invoiceId = value; OnPropertyChanged(); }
+            get { return statementId; }
+            set { statementId = value; OnPropertyChanged(); }
         }
 
         private double totalValueSold;
@@ -38,32 +38,32 @@ namespace Reolmarked.MVVM.ViewModel
             set { totalValueSold = value; OnPropertyChanged(); }
         }
 
-        private double deductibles;
-        public double Deductibles
+        private double prepaidRent;
+        public double PrepaidRent
         {
-            get { return deductibles; }
-            set { deductibles = value; OnPropertyChanged(); }
+            get { return prepaidRent; }
+            set { prepaidRent = value; OnPropertyChanged(); }
         }
 
-        private double grandTotal;
-        public double GrandTotal
+        private double total;
+        public double Total
         {
-            get { return grandTotal; }
-            set { grandTotal = value; OnPropertyChanged(); }
+            get { return total; }
+            set { total = value; OnPropertyChanged(); }
         }
 
-        private bool isInvoicePaid;
-        public bool IsInvoicePaid
+        private bool isPaid;
+        public bool IsPaid
         {
-            get { return isInvoicePaid; }
-            set { isInvoicePaid = value; OnPropertyChanged(); }
+            get { return isPaid; }
+            set { isPaid = value; OnPropertyChanged(); }
         }
 
-        private int salesPersonId;
-        public int SalesPersonId
+        private int employeeId;
+        public int EmployeeId
         {
-            get { return salesPersonId; }
-            set { salesPersonId = value; OnPropertyChanged(); }
+            get { return employeeId; }
+            set { employeeId = value; OnPropertyChanged(); }
         }
 
         private int agreementId;
@@ -73,11 +73,11 @@ namespace Reolmarked.MVVM.ViewModel
             set { agreementId = value; OnPropertyChanged(); }
         }
 
-        private Invoice selectedInvoice;
-        public Invoice SelectedInvoice
+        private RentalStatement selectedStatement;
+        public RentalStatement SelectedStatement
         {
-            get { return selectedInvoice; }
-            set { selectedInvoice = value; OnPropertyChanged(); }
+            get { return selectedStatement; }
+            set { selectedStatement = value; OnPropertyChanged(); }
         }
 
         private RentalAgreement selectedRental;
@@ -106,58 +106,58 @@ namespace Reolmarked.MVVM.ViewModel
             set { selectedRenter = value; OnPropertyChanged(); }
         }
 
-        public ICommand AddInvoiceCommand { get; }
-        public ICommand UpdateInvoiceCommand { get; }
-        public ICommand RemoveInvoiceCommand { get; }
+        public ICommand AddStatementCommand { get; }
+        public ICommand UpdateStatementCommand { get; }
+        public ICommand RemoveStatementCommand { get; }
         public ICommand ShowMonthlyStatementCommand { get; }
 
-        private bool CanAddInvoice() => true;
-        private bool CanUpdateInvoice() => true;
-        private bool CanRemoveInvoice() => true;
+        private bool CanAddStatement() => true;
+        private bool CanUpdateStatement() => true;
+        private bool CanRemoveStatement() => true;
         private bool CanShowMonthlyStatement() => SelectedRenter != null;
 
         public MonthlyStatementViewModel()
         {
-            Invoices = new ObservableCollection<Invoice>(invoiceRepository.GetAll());
-            InvoicesCollectionView = CollectionViewSource.GetDefaultView(Invoices);
+            Statements = new ObservableCollection<RentalStatement>(statementRepository.GetAll());
+            StatementsCollectionView = CollectionViewSource.GetDefaultView(Statements);
             MonthlyStatementItems = new ObservableCollection<MonthlyStatementItem>();
             MonthlyStatementItemsCollectionView = CollectionViewSource.GetDefaultView(MonthlyStatementItems);
             MonthlyStatementItemsCollectionView.Filter = FilterRenter;
 
             LoadOverview();
 
-            AddInvoiceCommand = new RelayCommand(_ => AddInvoice(), _ => CanAddInvoice());
-            UpdateInvoiceCommand = new RelayCommand(_ => UpdateInvoice(), _ => CanUpdateInvoice());
-            RemoveInvoiceCommand = new RelayCommand(_ => RemoveInvoice(), _ => CanRemoveInvoice());
+            AddStatementCommand = new RelayCommand(_ => AddStatement(), _ => CanAddStatement());
+            UpdateStatementCommand = new RelayCommand(_ => UpdateStatement(), _ => CanUpdateStatement());
+            RemoveStatementCommand = new RelayCommand(_ => RemoveStatement(), _ => CanRemoveStatement());
             ShowMonthlyStatementCommand = new RelayCommand(_ => ShowStatement(), _ => CanShowMonthlyStatement());
         }
 
-        private void AddInvoice()
+        private void AddStatement()
         {
             // Opret invoice-objekt
-            Invoice invoice = new Invoice(DateTime.Now, TotalValueSold, Deductibles, GrandTotal, IsInvoicePaid, SalesPersonId, SelectedRental.AgreementId);
+            RentalStatement statement = new RentalStatement(DateTime.Now, TotalValueSold, PrepaidRent, Total, IsPaid, SelectedRental.AgreementId);
             // Tilføj til database via repository
-            invoiceRepository.Add(invoice);
+            statementRepository.Add(statement);
             // Tilføj til observablecollection til UI-view
-            Invoices?.Add(invoice);
+            Statements?.Add(statement);
             //vis bekræftelse
             MessageBox.Show($"Faktura oprettet", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void UpdateInvoice()
+        private void UpdateStatement()
         {
             //opdater invoice i repository
-            invoiceRepository.Update(SelectedInvoice);
+            statementRepository.Update(SelectedStatement);
             //vis bekræftelse 
             MessageBox.Show($"Ændringerne er gemt", "Udført", MessageBoxButton.OK, MessageBoxImage.Information);
             //nulstil felter
-            SelectedInvoice = null;
+            SelectedStatement = null;
         }
 
-        private void RemoveInvoice()
+        private void RemoveStatement()
         {
-            invoiceRepository.Delete(SelectedInvoice.InvoiceId);
-            Invoices?.Remove(SelectedInvoice);
+            statementRepository.Delete(SelectedStatement.StatementId);
+            Statements?.Remove(SelectedStatement);
         }
 
         // Metode til at loade statement items i oversigten

@@ -6,31 +6,22 @@ namespace Reolmarked.MVVM.Model.Classes
     {
         public int ItemId { get; set; }
         public int SaleId { get; set; }
-        public double Price { get; set; }
         public int Quantity { get; set; }
+        public double Price { get; set; }
         public double Discount {  get; set; } = 0;
-        public double DiscountPctg { get; set; } = 0;
 
-        public ItemLine(int itemId, int saleId, double price, int quantity, double discount, double discountPctg)
+        public ItemLine(int itemId, int saleId, int quantity, double price, double discount)
         {
             ItemId = itemId;
             SaleId = saleId;
-            Price = price;
             Quantity = quantity;
+            Price = price;
             Discount = discount;
-            DiscountPctg = discountPctg;
         }
 
-        public void ReduceSellingPrice()
+        public void ReducePrice()
         {
-            if (Discount == 0 && DiscountPctg != 0)
-            {
-                Price -= Price * DiscountPctg;
-            }
-            else
-            {
-                Price -= Discount;
-            }
+            Price -= Discount;
         }
     }
 }

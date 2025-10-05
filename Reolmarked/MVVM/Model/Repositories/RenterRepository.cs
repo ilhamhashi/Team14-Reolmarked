@@ -1,11 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Reolmarked.MVVM.Model.Classes;
 using Reolmarked.MVVM.Model.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
@@ -21,7 +16,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public IEnumerable<Renter> GetAll()
         {
             var renters = new List<Renter>();
-            string query = "SELECT * FROM Renter";
+            string query = "SELECT * FROM PERSON INNER JOIN RENTER ON PERSON.PersonId=Renter.RenterID;";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -37,12 +32,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["RenterId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
-                            (string)reader["Email"],
                             (string)reader["Phone"],
-                            (string)reader["StreetName"],
-                            (string)reader["StreetNumber"],
-                            (string)reader["ZipCode"],
-                            (string)reader["City"],
+                            (string)reader["Email"],                            
+                            (string)reader["Address"],
                             (DateTime)reader["CreationDate"]
                          ));
                     }
@@ -54,7 +46,7 @@ namespace Reolmarked.MVVM.Model.Repositories
         public Renter GetById(int id)
         {
             Renter renter = null;
-            string query = "SELECT * FROM Renter WHERE RenterId = @RenterId";
+            string query = "SELECT FROM PERSON INNER JOIN RENTER ON PERSON.PersonId=Renter.RenterID WHERE RenterId = @RenterId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -71,12 +63,9 @@ namespace Reolmarked.MVVM.Model.Repositories
                             (int)reader["RenterId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
-                            (string)reader["Email"],
                             (string)reader["Phone"],
-                            (string)reader["StreetName"],
-                            (string)reader["StreetNumber"],
-                            (string)reader["ZipCode"],
-                            (string)reader["City"],
+                            (string)reader["Email"],
+                            (string)reader["Address"],
                             (DateTime)reader["CreationDate"]
                         );
                     }
@@ -87,19 +76,13 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Add(Renter entity)
         {
-            string query = "INSERT INTO Renter (FirstName, LastName, CreationDate, StreetName, StreetNumber, ZipCode, City, Phone, Email) " +
-                           "VALUES (@FirstName, @LastName, @CreationDate, @StreetName, @StreetNumber, @ZipCode, @City, @Phone, @Email)";
+            string query = "INSERT INTO RENTER (RenterId, Address, Phone, Email) VALUES (@RenterId, @Address, @Phone, @Email)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
-                command.Parameters.AddWithValue("@LastName", entity.LastName);
-                command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
-                command.Parameters.AddWithValue("@StreetName", entity.StreetName);
-                command.Parameters.AddWithValue("@StreetNumber", entity.StreetNumber);
-                command.Parameters.AddWithValue("@ZipCode", entity.ZipCode);
-                command.Parameters.AddWithValue("@City", entity.City);
+                command.Parameters.AddWithValue("@RenterId", entity.PersonId);
+                command.Parameters.AddWithValue("@Address", entity.Address);
                 command.Parameters.AddWithValue("@Phone", entity.Phone);
                 command.Parameters.AddWithValue("@Email", entity.Email);
                 connection.Open();
@@ -109,7 +92,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('Renter') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('RENTER') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -122,20 +105,13 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Update(Renter entity)
         {
-            string query = "UPDATE Renter SET FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, StreetName = @StreetName, StreetNumber = @StrretNumber," +
-                "ZipCode = @Zipcode, City = @City, Phone = @Phone, Email = @Email WHERE RenterId = @RenterId";
+            string query = "UPDATE RENTER SET Phone = @Phone, Email = @Email, Address = @Address WHERE RenterId = @RenterId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@RenterId", entity.PersonId);
-                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
-                command.Parameters.AddWithValue("@LastName", entity.LastName);
-                command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
-                command.Parameters.AddWithValue("@StreetName", entity.StreetName);
-                command.Parameters.AddWithValue("@StreetNumber", entity.StreetNumber);
-                command.Parameters.AddWithValue("@ZipCode", entity.ZipCode);
-                command.Parameters.AddWithValue("@City", entity.City);
+                command.Parameters.AddWithValue("@Address", entity.Address);
                 command.Parameters.AddWithValue("@Phone", entity.Phone);
                 command.Parameters.AddWithValue("@Email", entity.Email);
                 connection.Open();
@@ -145,7 +121,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM Renter WHERE RenterId = @RenterId";
+            string query = "DELETE FROM RENTER WHERE RenterId = @RenterId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
