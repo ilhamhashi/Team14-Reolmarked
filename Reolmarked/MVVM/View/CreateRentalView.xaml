@@ -30,20 +30,21 @@
             <StackPanel>
                 <local:RenterSelectionView/>
 
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Row="2">
                     <Label Content="Valgt reol: "
                        Margin="0,0,10,0"/>
                     <Label Content="{Binding SelectedShelf.ShelfId, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
-                
+
                 <local:NewRentalSummaryView/>
-
-
-
             </StackPanel>
         </GroupBox>
-        
+
+        <GroupBox Grid.Column="1" Header="Vælg Reol">
+            <local:ShelfSelectionView/>
+        </GroupBox>
+
         <!-- 
         <GroupBox Grid.Column="1" Header="Vælg Reol">
             <local:ShelfSelectionView/>
