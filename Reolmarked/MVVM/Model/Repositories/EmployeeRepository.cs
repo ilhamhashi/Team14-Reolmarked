@@ -4,19 +4,19 @@ using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    internal class SalesPersonRepository : IRepository<SalesPerson>
+    internal class EmployeeRepository : IRepository<Employee>
     {
         private readonly string _connectionString;
 
-        public SalesPersonRepository(string connectionString)
+        public EmployeeRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public IEnumerable<SalesPerson> GetAll()
+        public IEnumerable<Employee> GetAll()
         {
-            var salesPersons = new List<SalesPerson>();
-            string query = "SELECT * FROM SalesPerson";
+            var employees = new List<Employee>();
+            string query = "SELECT * FROM EMPLOYEE";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -27,59 +27,57 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        salesPersons.Add(new SalesPerson
+                        employees.Add(new Employee
                         (
-                            (int)reader["SalesPersonId"],
+                            (int)reader["EmployeeId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
-                            (Role)reader["Role"]
+                            (Role)Enum.Parse(typeof(Role), (string)reader["Role"])
                          ));
                     }
                 }
             }
-            return salesPersons;
+            return employees;
         }
 
-        public SalesPerson GetById(int id)
+        public Employee GetById(int id)
         {
-            SalesPerson salesPerson = null;
-            string query = "SELECT * FROM SalesPerson WHERE SalesPersonId = @SalesPersonId";
+            Employee employee = null;
+            string query = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE = @EMPLOYEEId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SalesPersonId", id);
+                command.Parameters.AddWithValue("@EmployeeId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        salesPerson = new SalesPerson
+                        employee = new Employee
                         (
-                            (int)reader["SalesPersonId"],
+                            (int)reader["EmployeeId"],
                             (string)reader["FirstName"],
                             (string)reader["LastName"],
                             (DateTime)reader["CreationDate"],
-                            (Role)reader["Role"]
+                            (Role)Enum.Parse(typeof(Role), (string)reader["Role"])
                         );
                     }
                 }
             }
-            return salesPerson;
+            return employee;
         }
 
-        public void Add(SalesPerson entity)
+        public void Add(Employee entity)
         {
-            string query = "INSERT INTO SalesPerson (FirstName, LastName, CreationDate, Role) VALUES (@FirstName, @LastName, @CreationDate, @Role)";
+            string query = "INSERT INTO EMPLOYEE (EmployeeId, Role) VALUES (@EmployeeId, @Role)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
-                command.Parameters.AddWithValue("@LastName", entity.LastName);
-                command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
+                command.Parameters.AddWithValue("@EmployeeId", entity.PersonId);
                 command.Parameters.AddWithValue("@Role", entity.Role);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -88,7 +86,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('SalesPerson') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('EMPLOYEE') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -99,17 +97,14 @@ namespace Reolmarked.MVVM.Model.Repositories
             return (int)newId;
         }
 
-        public void Update(SalesPerson entity)
+        public void Update(Employee entity)
         {
-            string query = "UPDATE SalesPerson SET SalesPersonId = @SalesPersonId, FirstName = @FirstName, LastName = @LastName, CreationDate = @CreationDate, Role = @Role WHERE SalesPersonId = @SalesPersonId";
+            string query = "UPDATE EMPLOYEE SET Role = @Role WHERE EmployeeId = @EmployeeId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SalesPersonId", entity.PersonId);
-                command.Parameters.AddWithValue("@FirstName", entity.FirstName);
-                command.Parameters.AddWithValue("@LastName", entity.LastName);
-                command.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
+                command.Parameters.AddWithValue("@EmployeeId", entity.PersonId);
                 command.Parameters.AddWithValue("@Role", entity.Role);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -118,12 +113,12 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM SalesPerson WHERE SalesPersonId = @SalesPersonId";
+            string query = "DELETE FROM EMPLOYEE WHERE EmployeeId = @EmployeeId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SalesPersonId", id);
+                command.Parameters.AddWithValue("@EmployeeId", id);
                 connection.Open();
                 command.ExecuteNonQuery();
             }

@@ -12,9 +12,9 @@
         Background="Transparent"
         AllowsTransparency="True">
 
-   <Window.DataContext>
+    <Window.DataContext>
         <vm:MainWindowViewModel/>
-   </Window.DataContext>
+    </Window.DataContext>
 
     <Grid>
         <Border Background="#E6E6E6"

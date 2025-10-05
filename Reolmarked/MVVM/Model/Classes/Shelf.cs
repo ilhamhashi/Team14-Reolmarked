@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Reolmarked.MVVM.Model.Interfaces;
+using System.ComponentModel;
 
 namespace Reolmarked.MVVM.Model.Classes
 {
@@ -18,7 +19,7 @@ namespace Reolmarked.MVVM.Model.Classes
         Available
     }
 
-    public class Shelf
+    public class Shelf : ISellable
     {
         public int ShelfId { get; set; }
         public int ColumnIndex { get; set; }

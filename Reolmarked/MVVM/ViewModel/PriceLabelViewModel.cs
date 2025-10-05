@@ -70,7 +70,7 @@ namespace Reolmarked.MVVM.ViewModel
         private void AddItem()
         {
             // Opret item-objekt
-            Item item = new Item(SelectedShelf.ShelfId, Price, BarcodeImage);
+            Item item = new Item(BarcodeImage, Price, SelectedShelf.ShelfId);
             // Tilføj til database via repository
             itemRepository.Add(item);
             // Tilføj til observablecollection til UI-view

@@ -4,18 +4,18 @@ using Reolmarked.MVVM.Model.Interfaces;
 
 namespace Reolmarked.MVVM.Model.Repositories
 {
-    public class SaleRepository : IRepository<Sale>
+    public class StatementRepository : IRepository<RentalStatement>
     {
         private readonly string _connectionString;
-        public SaleRepository(string connectionString)
+        public StatementRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public IEnumerable<Sale> GetAll()
+        public IEnumerable<RentalStatement> GetAll()
         {
-            var sales = new List<Sale>();
-            string query = "SELECT * FROM SALE";
+            var invoices = new List<RentalStatement>();
+            string query = "SELECT * FROM RENTALSTATEMENT";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -26,61 +26,67 @@ namespace Reolmarked.MVVM.Model.Repositories
                 {
                     while (reader.Read())
                     {
-                        sales.Add(new Sale
+                        invoices.Add(new RentalStatement
                         (
-                            (int)reader["SaleId"],
+                            (int)reader["StatementId"],
                             (DateTime)reader["Date"],
+                            (double)reader["TotalValueSold"],
+                            (double)reader["PrepaidRent"],
                             (double)reader["Total"],
                             (bool)reader["IsPaid"],
-                            (int)reader["EmployeeId"]
+                            (int)reader["AgreementId"]
                         ));
                     }
                 }
             }
-            return sales;
+            return invoices;
         }
 
-        public Sale GetById(int id)
+        public RentalStatement GetById(int id)
         {
-            Sale sale = null;
-            string query = "SELECT * FROM SALE WHERE SaleId = @SaleId";
+            RentalStatement invoice = null;
+            string query = "SELECT * FROM RENTALSTATEMENT WHERE StatementId = @StatementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SaleId", id);
+                command.Parameters.AddWithValue("@StatementId", id);
                 connection.Open();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        sale = new Sale
+                        invoice = new RentalStatement
                         (
-                            (int)reader["SaleId"],
+                            (int)reader["StatementId"],
                             (DateTime)reader["Date"],
+                            (double)reader["TotalValueSold"],
+                            (double)reader["PrepaidRent"],
                             (double)reader["Total"],
                             (bool)reader["IsPaid"],
-                            (int)reader["EmployeeId"]
+                            (int)reader["AgreementId"]
                         );
                     }
                 }
             }
-            return sale;
+            return invoice;
         }
 
-        public void Add(Sale entity)
+        public void Add(RentalStatement entity)
         {
-            string query = "INSERT INTO SALE (SaleId, Date, Total, IsPaid, EmployeeId) VALUES (@SaleId, @Date, @Total, @IsPaid, @EmployeeId)";
+            string query = "INSERT INTO RENTALSTATEMENT (StatementId, Date, TotalValueSold, PrepaidRent, Total, IsPaid, AgreementId) VALUES (@StatementId, @Date, @TotalValueSold, @PrepaidRent, @Total, @IsPaid, @AgreementId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SaleId", entity.SaleId);
+                command.Parameters.AddWithValue("@StatementId", entity.StatementId);
                 command.Parameters.AddWithValue("@Date", entity.Date);
+                command.Parameters.AddWithValue("@TotalValueSold", entity.TotalValueSold);
+                command.Parameters.AddWithValue("@PrepaidRent", entity.PrepaidRent);
                 command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
-                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
+                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -88,7 +94,7 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public int GetLastInsertedId()
         {
-            string query = "SELECT CAST(IDENT_CURRENT('SALE') AS INT)";
+            string query = "SELECT CAST(IDENT_CURRENT('RENTALSTATEMENT') AS INT)";
             Int32 newId;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -98,18 +104,21 @@ namespace Reolmarked.MVVM.Model.Repositories
             }
             return (int)newId;
         }
-        public void Update(Sale entity)
+
+        public void Update(RentalStatement entity)
         {
-            string query = "UPDATE SALE SET SaleId = @SaleId, Date = @Date, Total = @Total, IsPaid = @IsPaid, EmployeeId = @EmployeeId WHERE SaleId = @SaleId";
+            string query = "UPDATE RENTALSTATEMENT SET StatementId = @StatementId, Date = @Date, TotalValueSold = @TotalValueSold, PrepaidRent = @PrepaidRent, Total = @Total, IsPaid = @IsPaid, AgreementId = @AgreementId WHERE StatementId = @StatementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SaleId", entity.SaleId);
+                command.Parameters.AddWithValue("@StatementId", entity.StatementId);
                 command.Parameters.AddWithValue("@Date", entity.Date);
+                command.Parameters.AddWithValue("@TotalValueSold", entity.TotalValueSold);
+                command.Parameters.AddWithValue("@PrepaidRent", entity.PrepaidRent);
                 command.Parameters.AddWithValue("@Total", entity.Total);
                 command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
-                command.Parameters.AddWithValue("@EmployeeId", entity.EmployeeId);
+                command.Parameters.AddWithValue("@AgreementId", entity.AgreementId);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -117,15 +126,15 @@ namespace Reolmarked.MVVM.Model.Repositories
 
         public void Delete(int id)
         {
-            string query = "DELETE FROM SALE WHERE SaleId = @SaleId";
+            string query = "DELETE FROM RENTALSTATEMENT WHERE StatementId = @StatementId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@SaleId", id);
+                command.Parameters.AddWithValue("@StatementId", id);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-        }
+        } 
     }
 }

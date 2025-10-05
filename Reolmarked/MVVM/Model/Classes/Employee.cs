@@ -9,16 +9,17 @@ namespace Reolmarked.MVVM.Model.Classes
         [Description("Ejer")]
         Owner
     }
-    public class SalesPerson : Person
+
+    public class Employee : Person
     {
         public Role Role { get; set; }
 
-        public SalesPerson(int personId, string firstName, string lastName, DateTime creationDate, Role role) : base(personId, firstName, lastName, creationDate)
+        public Employee(int personId, string firstName, string lastName, DateTime creationDate, Role role) : base(personId, firstName, lastName, creationDate)
         {
             Role = role;
         }
 
-        public SalesPerson(string firstName, string lastName, DateTime creationDate, Role role) : base(firstName, lastName, creationDate)
+        public Employee(string firstName, string lastName, DateTime creationDate, Role role) : base(firstName, lastName, creationDate)
         {
             Role = role;
         }

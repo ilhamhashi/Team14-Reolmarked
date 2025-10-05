@@ -33,7 +33,7 @@ namespace Reolmarked.MVVM.Model.Repositories
                 STRING_AGG(CONVERT(varchar, sr.ShelfId), ', ') WITHIN GROUP (ORDER BY sr.ShelfId) AS ShelfNumbers
             FROM RentalAgreement ra
             INNER JOIN Renter r ON ra.RenterId = r.RenterId
-            LEFT JOIN Shelf_RentalAgreement sr ON ra.AgreementId = sr.AgreementId
+            LEFT JOIN ShelfRental sr ON ra.AgreementId = sr.AgreementId
             GROUP BY 
                 ra.AgreementId, r.FirstName, r.LastName, r.Phone, r.Email, ra.Status, sr.Price
         ";

@@ -65,9 +65,9 @@
 
             <GroupBox Header="Handlinger">
                 <WrapPanel>
-                    <Button x:Name="BtnFetch"    Content="Hent vare"         />
+                    <Button x:Name="BtnFetch"    Content="Hent vare" />
                     <Button x:Name="BtnGenerate" Content="Generér stregkode" />
-                    <Button x:Name="BtnPrint"    Content="Print label"       />
+                    <Button x:Name="BtnPrint"    Content="Print label" />
                 </WrapPanel>
             </GroupBox>
 
