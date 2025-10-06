@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Reolmarked.MVVM.View"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
-             xmlns:controls="clr-namespace:Reolmarked.MVVM.View.controls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000"
              Background="#f4f6f8">

@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:Reolmarked"
              xmlns:vm="clr-namespace:Reolmarked.MVVM.ViewModel"
              xmlns:view="clr-namespace:Reolmarked.MVVM.View"   
-             xmlns:controls="clr-namespace:Reolmarked.MVVM.View.controls"   
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
