@@ -1,0 +1,14 @@
+﻿sequenceDiagram
+participant Employee
+participant UI
+participant CreateRentalViewModel
+participant ShelfRental
+participant ShelfRentalRepository
+
+    Employee->>UI: Select (RentalAgreement)
+    Employee->>UI: Select (Shelf)
+    Employee->>UI: Click [Add Shelf to RentalAgreement]
+    UI ->> CreateRentalViewModel: AddShelfToRentalCommand
+    CreateRentalViewModel ->> ShelfRental: AddShelfRental(shelfId, agreementId, startDate, discount)
+    CreateRentalViewModel ->> ShelfRentalRepository: Add(ShelfRental)
+    ShelfRentalRepository -->> UI: "Shelf has been added to agreement"

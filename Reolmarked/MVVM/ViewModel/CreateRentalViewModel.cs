@@ -178,6 +178,7 @@ namespace Reolmarked.MVVM.ViewModel
                 ShelfRental shelfRental = new ShelfRental(SelectedShelf.ShelfId, SelectedRental.AgreementId, DateTime.Now, true, SelectedShelf.Price, Discount);
                 shelfRentalRepository.Add(shelfRental);
                 ShelfRentals.Add(shelfRental);
+                UpdateShelfRentalPrice(shelfRental.AgreementId);
             }
             else
             {
