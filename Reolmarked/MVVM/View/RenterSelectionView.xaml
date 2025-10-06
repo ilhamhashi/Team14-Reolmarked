@@ -38,17 +38,26 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-
+            
             <TextBlock>
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="{}Adresse: {0} {1}, {2} {3}">
-                        <Binding Path="SelectedRenter.StreetName"/>
-                        <Binding Path="SelectedRenter.StreetNumber"/>
-                        <Binding Path="SelectedRenter.ZipCode"/>
-                        <Binding Path="SelectedRenter.City"/>
+                    <MultiBinding StringFormat="{}Adresse: {0}">
+                        <Binding Path="SelectedRenter.Address"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
+
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}Lejekontraktnr.: {0}">
+                        <Binding Path="SelectedRenter.Address"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <Button Grid.Row="4" Content="Gem ny lejekontrakt"
+                        Command="{Binding AddRentalCommand, UpdateSourceTrigger=PropertyChanged}"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

@@ -19,7 +19,7 @@ namespace Reolmarked.MVVM.ViewModel
         public CreateRentalViewModel CreateRentalVM { get; set; }
         public MonthlyStatementViewModel MonthlyStatementVM { get; set; }
         public ManageRentalsViewModel ManageRentalsVM { get; set; }
-        public RentersViewModel RentersVM { get; set; }
+        public PersonsViewModel RentersVM { get; set; }
         public SalesViewModel SalesVM { get; set; }
         public PriceLabelsViewModel PriceLabelsVM { get; set; }
         public ManageShelvesViewModel ManageShelvesVM { get; set; }
@@ -58,7 +58,7 @@ namespace Reolmarked.MVVM.ViewModel
             });
 
             // Initial view
-            RentersVM = new RentersViewModel();
+            RentersVM = new PersonsViewModel();
             CreateRentalVM = new CreateRentalViewModel();
             MonthlyStatementVM = new MonthlyStatementViewModel();
             ManageShelvesVM = new ManageShelvesViewModel();

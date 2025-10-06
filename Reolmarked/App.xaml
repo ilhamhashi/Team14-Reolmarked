@@ -13,30 +13,22 @@
                 <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
                 <ResourceDictionary Source="Themes/ButtonDictionary.xaml"/>
                 <ResourceDictionary Source="Themes/TextBoxDictionary.xaml"/>
-                <!-- <ResourceDictionary Source="Themes/GlobalDictionary.xaml"/> -->
                 <ResourceDictionary Source="Themes/ShelfButtonDictionary.xaml"/>
                 <ResourceDictionary Source="Themes/SearchTextBoxDictionary.xaml"/>
                 <ResourceDictionary Source="Themes/DataGridDictionary.xaml"/>             
             </ResourceDictionary.MergedDictionaries>
-            
-            <DataTemplate DataType="{x:Type vm:ManageShelvesViewModel}">
-                <controls:ShelfOverview/>
-            </DataTemplate>
+           
             
             <DataTemplate DataType="{x:Type vm:CreateRentalViewModel}">
                 <view:CreateRentalView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:RentersViewModel}">
+            <DataTemplate DataType="{x:Type vm:PersonsViewModel}">
                 <view:RentersView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:SalesViewModel}">
                 <view:SalesView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:ManageRentalsViewModel}">
-                <view:RentalsView/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:MonthlyStatementViewModel}">
